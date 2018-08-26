@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
             cout << m << " ";
         cout << endl;
     }
-    cout << "Ball: (" << start[0] << ", " << start[1] << ")" << endl;
-    cout << "Hole: (" << dest[0] << ", " << dest[1] << ")" <<endl;
+    cout << "Ball: (" << ball[0] << ", " << ball[1] << ")" << endl;
+    cout << "Hole: (" << hole[0] << ", " << hole[1] << ")" <<endl;
     cout << "Lexicographically smallest path: " << result << endl;
 }
