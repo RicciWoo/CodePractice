@@ -18,25 +18,20 @@ public:
         //     return 0;
         queue<string> curr, next;
         curr.push(beginWord);
-        unordered_set<string> visited;
-        visited.insert(beginWord);
         int distance = 1;
-        while (!curr.empty()) {
+        while (!curr.empty() && !wordSet.empty()) {
             distance++;
             while (!curr.empty()) {
                 string node = curr.front();
                 curr.pop();
                 vector<string> wordsWithinDistance = 
                     _getWordsWithinDistance(wordSet, node);
-                for (string word : wordsWithinDistance) {
-                    if (word == endWord)
-                        return distance;
-                    if (find(visited.begin(), visited.end(), 
-                             word) == visited.end()) {
-                        next.push(word);
-                        visited.insert(word);
-                    }
-                }
+                if (find(wordsWithinDistance.begin(), 
+                         wordsWithinDistance.end(), 
+                         endWord) != wordsWithinDistance.end())
+                    return distance;
+                for (string word : wordsWithinDistance)
+                    next.push(word);
             }
             swap(curr, next);
         }
@@ -54,8 +49,10 @@ private:
                     continue;
                 word[i] = c;
                 if (find(wordSet.begin(), wordSet.end(), 
-                         word) != wordSet.end())
+                         word) != wordSet.end()) {
                     results.push_back(word);
+                    wordSet.erase(word);
+                }
             }
             word[i] = oriChar;
         }
