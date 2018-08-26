@@ -11,9 +11,9 @@ class Solution {
 public:
     int ladderLength(string beginWord, string endWord, 
                      vector<string>& wordList) {
-        if (find(wordList.begin(), wordList.end(), 
-                 endWord) == wordList.end())
-            return 0;
+        // if (find(wordList.begin(), wordList.end(), 
+        //          endWord) == wordList.end())
+        //     return 0;
         unordered_set<string> wordSet(wordList.begin(), 
                                       wordList.end());
         queue<string> curr, next;
@@ -77,6 +77,6 @@ int main(int argc, char **argv) {
     for (string word : wordList) {
         cout << "\"" << word << "\", ";
     }
-    cout << endl;
+    cout << "]" << endl;
     cout << "shortest transformation: " << result << endl;
 }
