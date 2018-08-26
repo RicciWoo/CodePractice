@@ -63,5 +63,13 @@ int main(int argc, char **argv) {
     int result;
     Solution *solution = new Solution;
     result = solution->shortestDistance(maze, start, dest);
-    cout << result << endl;
+    cout << "Maze: " << endl;
+    for (vector<int> maz : maze) {
+        for (int m : maz)
+            cout << m << " ";
+        cout << endl;
+    }
+    cout << "Start: (" << start[0] << ", " << start[1] << ")" << endl;
+    cout << "Destination: (" << dest[0] << ", " << dest[1] << ")" <<endl;
+    cout << "Shortest distance: " << result << endl;
 }
