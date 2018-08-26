@@ -1,0 +1,1 @@
+g++ -std=c++11 Word_Search.cpp -o Word_Search.exe

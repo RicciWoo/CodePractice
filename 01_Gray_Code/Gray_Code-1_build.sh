@@ -1,0 +1,1 @@
+g++ -std=c++11 Gray_Code-1.cpp -o Gray_Code-1.exe

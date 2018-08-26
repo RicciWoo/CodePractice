@@ -1,0 +1,1 @@
+g++ -std=c++11 Depth.cpp -o Depth.exe

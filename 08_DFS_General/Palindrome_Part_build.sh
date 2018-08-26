@@ -1,0 +1,1 @@
+g++ Palindrome_Part.cpp -o Palindrome_Part.exe

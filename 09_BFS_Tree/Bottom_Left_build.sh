@@ -1,0 +1,1 @@
+g++ -std=c++11 Bottom_Left.cpp -o Bottom_Left.exe

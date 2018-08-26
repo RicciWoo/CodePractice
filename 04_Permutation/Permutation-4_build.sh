@@ -1,0 +1,1 @@
+g++ -std=c++11 Permutation-4.cpp -o Permutation-4.exe

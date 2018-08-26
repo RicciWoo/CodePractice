@@ -1,0 +1,1 @@
+g++ -std=c++11 Zigzag_Traversal-2.cpp -o Zigzag_Traversal-2.exe

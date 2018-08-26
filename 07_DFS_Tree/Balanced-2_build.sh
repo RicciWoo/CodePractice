@@ -1,0 +1,1 @@
+g++ -std=c++11 Balanced-2.cpp -o Balanced-2.exe

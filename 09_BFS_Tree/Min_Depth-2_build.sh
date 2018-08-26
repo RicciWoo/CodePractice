@@ -1,0 +1,1 @@
+g++ -std=c++11 Min_Depth-2.cpp -o Min_Depth-2.exe

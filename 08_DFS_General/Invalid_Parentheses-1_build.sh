@@ -1,0 +1,1 @@
+g++ Invalid_Parentheses-1.cpp -o Invalid_Parentheses-1.exe

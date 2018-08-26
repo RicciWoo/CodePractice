@@ -1,0 +1,1 @@
+g++ -std=c++11 Maze-3.cpp -o Maze-3.exe

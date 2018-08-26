@@ -1,0 +1,1 @@
+g++ -std=c++11 Combination-6.cpp -o Combination-6.exe

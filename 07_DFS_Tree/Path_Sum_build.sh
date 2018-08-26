@@ -1,0 +1,1 @@
+g++ -std=c++11 Path_Sum.cpp -o Path_Sum.exe
