@@ -11,9 +11,9 @@ class Solution {
 public:
     int ladderLength(string beginWord, string endWord, 
                      vector<string>& wordList) {
-        if (find(wordList.begin(), wordList.end(), 
-                 endWord) == wordList.end())
-            return 0;
+        // if (find(wordList.begin(), wordList.end(), 
+        //          endWord) == wordList.end())
+        //     return 0;
         unordered_set<string> wordSet(wordList.begin(), 
                                       wordList.end());
         queue<string> curr, next;
@@ -66,7 +66,7 @@ private:
 int main(int argc, char **argv) {
     string beginWord = "hit";
     string endWord = "cog";
-    vector<string> wordList{"hot", "dot", "dog", "lot", "log", "cog"};
+    vector<string> wordList{"hot", "dot", "dog", "lot", "log"};
 
     int result;
     Solution *solution = new Solution;
