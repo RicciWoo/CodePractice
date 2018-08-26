@@ -68,11 +68,19 @@ int main(int argc, char **argv) {
                              {0, 0, 0, 0, 0},
                              {0, 1, 0, 0, 1},
                              {0, 1, 0, 0, 0}};
-    vector<int> start{4, 3};
-    vector<int> dest{0, 1};
+    vector<int> ball{4, 3};
+    vector<int> hole{0, 1};
 
     string result;
     Solution *solution = new Solution;
-    result = solution->findShortestWay(maze, start, dest);
-    cout << "The path is: " << result << endl;
+    result = solution->findShortestWay(maze, ball, hole);
+    cout << "Maze: " << endl;
+    for (vector<int> maz : maze) {
+        for (int m : maz)
+            cout << m << " ";
+        cout << endl;
+    }
+    cout << "Ball: (" << start[0] << ", " << start[1] << ")" << endl;
+    cout << "Hole: (" << dest[0] << ", " << dest[1] << ")" <<endl;
+    cout << "Lexicographically smallest path: " << result << endl;
 }
