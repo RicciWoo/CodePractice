@@ -302,11 +302,11 @@ class Solution {
 public:
     int ladderLength(string beginWord, string endWord, 
                      vector<string>& wordList) {
-        if (find(wordList.begin(), wordList.end(), 
-                 endWord) == wordList.end())
-            return 0;
         unordered_set<string> wordSet(wordList.begin(), 
                                       wordList.end());
+        // if (find(wordSet.begin(), wordSet.end(), 
+        //          endWord) == wordSet.end())
+        //     return 0;
         queue<string> curr, next;
         curr.push(beginWord);
         unordered_set<string> visited;
@@ -359,32 +359,29 @@ class Solution {
 public:
     int ladderLength(string beginWord, string endWord, 
                      vector<string>& wordList) {
-        if (find(wordList.begin(), wordList.end(), 
-                 endWord) == wordList.end())
-            return 0;
         unordered_set<string> wordSet(wordList.begin(), 
                                       wordList.end());
+        if (find(wordSet.begin(), wordSet.end(), 
+                 endWord) == wordSet.end())
+            return 0;
         queue<string> curr, next;
         curr.push(beginWord);
-        unordered_set<string> visited;
-        visited.insert(beginWord);
+        // unordered_set<string> visited;
+        // visited.insert(beginWord);
         int distance = 1;
-        while (!curr.empty()) {
+        while (!curr.empty() && !wordSet.empty()) {
             distance++;
             while (!curr.empty()) {
                 string node = curr.front();
                 curr.pop();
                 vector<string> wordsWithinDistance = 
                     _getWordsWithinDistance(wordSet, node);
-                for (string word : wordsWithinDistance) {
-                    if (word == endWord)
-                        return distance;
-                    if (find(visited.begin(), visited.end(), 
-                             word) == visited.end()) {
-                        next.push(word);
-                        visited.insert(word);
-                    }
-                }
+                if (find(wordsWithinDistance.begin(), 
+                         wordsWithinDistance.end(), 
+                         endWord) != wordsWithinDistance.end())
+                    return distance;
+                for (string word : wordsWithinDistance)
+                    next.push(word);
             }
             swap(curr, next);
         }
@@ -402,14 +399,62 @@ private:
                     continue;
                 word[i] = c;
                 if (find(wordSet.begin(), wordSet.end(), 
-                         word) != wordSet.end())
+                         word) != wordSet.end()) {
                     results.push_back(word);
+                    wordSet.erase(word);
+                }
             }
             word[i] = oriChar;
         }
         return results;
     }
 };
+
+// Word Ladder-3, BFS, 20180827
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, 
+                     vector<string>& wordList) {
+        unordered_set<string> wordSet(wordList.begin(), 
+                                      wordList.end());
+        // if (!wordSet.count(endWord)) return 0;
+        queue<pair<string, int>> q;
+        q.push(make_pair(beginWord, 1));
+        while (!q.empty()) {
+            string s = q.front().first;
+            int len = q.front().second;
+            q.pop();
+            if (s == endWord) return len;
+            vector<string> wordsInDist = 
+                _getWordsInDist(s, wordSet);
+            for (string word : wordsInDist)
+                q.push(make_pair(word, len + 1));
+        }
+        return 0;
+    }
+    
+private:
+    vector<string> _getWordsInDist(
+        string s, unordered_set<string>& wordSet) {
+        vector<string> results;
+        for (int i = 0; i < s.size(); i++) {
+            char cOri = s[i];
+            for (int c = 'a'; c <= 'z'; c++) {
+                if (c == cOri) continue;
+                s[i] = c;
+                if (wordSet.count(s)) {
+                    results.push_back(s);
+                    wordSet.erase(s);
+                }
+            }
+            s[i] = cOri;
+        }
+        return results;
+    }
+};
+
+
+
 
 
 
