@@ -13,24 +13,22 @@ public:
                      vector<string>& wordList) {
         unordered_set<string> wordSet(wordList.begin(), 
                                       wordList.end());
-        // if (find(wordSet.begin(), wordSet.end(), 
-        //          endWord) == wordSet.end())
-        //     return 0;
+        // if (!wordSet.count(endWord)) return 0;
         queue<string> curr, next;
         curr.push(beginWord);
         int distance = 1;
         while (!curr.empty() && !wordSet.empty()) {
             distance++;
             while (!curr.empty()) {
-                string node = curr.front();
+                string str = curr.front();
                 curr.pop();
-                vector<string> wordsWithinDistance = 
-                    _getWordsWithinDistance(wordSet, node);
-                if (find(wordsWithinDistance.begin(), 
-                         wordsWithinDistance.end(), 
-                         endWord) != wordsWithinDistance.end())
+                vector<string> wordsInDist = 
+                    _getWordsInDist(wordSet, str);
+                if (find(wordsInDist.begin(), 
+                         wordsInDist.end(), 
+                         endWord) != wordsInDist.end())
                     return distance;
-                for (string word : wordsWithinDistance)
+                for (string word : wordsInDist)
                     next.push(word);
             }
             swap(curr, next);
@@ -39,14 +37,13 @@ public:
     }
     
 private:
-    vector<string> _getWordsWithinDistance(
+    vector<string> _getWordsInDist(
         unordered_set<string> &wordSet, string word) {
         vector<string> results;
         for (int i = 0; i < word.size(); i++) {
             char oriChar = word[i];
             for (char c = 'a'; c <= 'z'; c++) {
-                if (c == oriChar)
-                    continue;
+                if (c == oriChar) continue;
                 word[i] = c;
                 if (find(wordSet.begin(), wordSet.end(), 
                          word) != wordSet.end()) {
