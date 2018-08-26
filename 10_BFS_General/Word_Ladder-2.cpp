@@ -17,7 +17,7 @@ public:
         queue<string> curr, next;
         curr.push(beginWord);
         int distance = 1;
-        while (!curr.empty() && !wordSet.empty()) {
+        while (!curr.empty()) {
             distance++;
             while (!curr.empty()) {
                 string str = curr.front();
