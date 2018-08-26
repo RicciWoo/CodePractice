@@ -1,1 +1,1 @@
-g++ -std=c++11 Word_Ladder-1.cpp -o Word_Ladder-1.exe
+g++ -std=c++11 Word_Ladder-2.cpp -o Word_Ladder-2.exe
