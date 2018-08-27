@@ -50,6 +50,16 @@ public:
             for (auto it = next.begin(); it != next.end(); it++)
                 curr.push(*it);
         }
+
+        cout << "preList: " << endl;
+        for (auto it = preList.begin(); it != preList.end(); it++) {
+            cout << "{\"" << it->first << "\", [";
+            for(string step : it->second) {
+                cout << "\"" << step << "\", ";
+            }
+            cout << "]}," << endl;
+        }
+
         return results;
     }
     
