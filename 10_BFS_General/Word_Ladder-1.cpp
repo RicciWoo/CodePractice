@@ -10,12 +10,10 @@ using namespace std;
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, 
-                     vector<string>& wordList) {
+                     vector<string> &wordList) {
         unordered_set<string> wordSet(wordList.begin(), 
                                       wordList.end());
-        // if (find(wordSet.begin(), wordSet.end(), 
-        //          endWord) == wordSet.end())
-        //     return 0;
+        // if (!wordSet.count(endWord)) return 0;
         queue<string> curr, next;
         curr.push(beginWord);
         unordered_set<string> visited;
@@ -24,15 +22,13 @@ public:
         while (!curr.empty()) {
             distance++;
             while (!curr.empty()) {
-                string node = curr.front();
+                string str = curr.front();
                 curr.pop();
-                vector<string> wordsWithinDistance = 
-                    _getWordsWithinDistance(wordSet, node);
-                for (string word : wordsWithinDistance) {
-                    if (word == endWord)
-                        return distance;
-                    if (find(visited.begin(), visited.end(), 
-                             word) == visited.end()) {
+                vector<string> wordsInDist = 
+                    _getWordsInDist(wordSet, str);
+                for (string word : wordsInDist) {
+                    if (word == endWord) return distance;
+                    if (!visited.count(word)) {
                         next.push(word);
                         visited.insert(word);
                     }
@@ -44,20 +40,18 @@ public:
     }
     
 private:
-    vector<string> _getWordsWithinDistance(
+    vector<string> _getWordsInDist(
         unordered_set<string> &wordSet, string word) {
         vector<string> results;
         for (int i = 0; i < word.size(); i++) {
-            char oriChar = word[i];
+            char cOri = word[i];
             for (char c = 'a'; c <= 'z'; c++) {
-                if (c == oriChar)
-                    continue;
+                if (c == cOri) continue;
                 word[i] = c;
-                if (find(wordSet.begin(), wordSet.end(), 
-                         word) != wordSet.end())
+                if (wordSet.count(word))
                     results.push_back(word);
             }
-            word[i] = oriChar;
+            word[i] = cOri;
         }
         return results;
     }

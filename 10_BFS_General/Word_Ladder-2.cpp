@@ -22,11 +22,9 @@ public:
             while (!curr.empty()) {
                 string str = curr.front();
                 curr.pop();
-                vector<string> wordsInDist = 
+                unordered_set<string> wordsInDist = 
                     _getWordsInDist(wordSet, str);
-                if (find(wordsInDist.begin(), 
-                         wordsInDist.end(), 
-                         endWord) != wordsInDist.end())
+                if (wordsInDist.count(endWord))
                     return distance;
                 for (string word : wordsInDist)
                     next.push(word);
@@ -37,21 +35,20 @@ public:
     }
     
 private:
-    vector<string> _getWordsInDist(
+    unordered_set<string> _getWordsInDist(
         unordered_set<string> &wordSet, string word) {
-        vector<string> results;
+        unordered_set<string> results;
         for (int i = 0; i < word.size(); i++) {
-            char oriChar = word[i];
+            char cOri = word[i];
             for (char c = 'a'; c <= 'z'; c++) {
-                if (c == oriChar) continue;
+                if (c == cOri) continue;
                 word[i] = c;
-                if (find(wordSet.begin(), wordSet.end(), 
-                         word) != wordSet.end()) {
-                    results.push_back(word);
+                if (wordSet.count(word)) {
+                    results.insert(word);
                     wordSet.erase(word);
                 }
             }
-            word[i] = oriChar;
+            word[i] = cOri;
         }
         return results;
     }

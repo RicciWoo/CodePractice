@@ -13,37 +13,37 @@ public:
                      vector<string>& wordList) {
         unordered_set<string> wordSet(wordList.begin(), 
                                       wordList.end());
-        // if (!wordSet.count(endWord)) return 0;
-        queue<pair<string, int>> q;
-        q.push(make_pair(beginWord, 1));
-        while (!q.empty()) {
-            string s = q.front().first;
-            int len = q.front().second;
-            q.pop();
-            if (s == endWord) return len;
-            vector<string> wordsInDist = 
-                _getWordsInDist(s, wordSet);
+        queue<pair<string, int>> curr;
+        curr.push(make_pair(beginWord, 1));
+        while (!curr.empty()) {
+            string str = curr.front().first;
+            int dist = curr.front().second;
+            curr.pop();
+            unordered_set<string> wordsInDist = 
+                _getWordsInDist(wordSet, str);
+            if (wordsInDist.count(endWord))
+                return dist + 1;
             for (string word : wordsInDist)
-                q.push(make_pair(word, len + 1));
+                curr.push(make_pair(word, dist + 1));
         }
         return 0;
     }
     
 private:
-    vector<string> _getWordsInDist(
-        string s, unordered_set<string>& wordSet) {
-        vector<string> results;
-        for (int i = 0; i < s.size(); i++) {
-            char cOri = s[i];
-            for (int c = 'a'; c <= 'z'; c++) {
+    unordered_set<string> _getWordsInDist(
+        unordered_set<string> &wordSet, string word) {
+        unordered_set<string> results;
+        for (int i = 0; i < word.size(); i++) {
+            char cOri = word[i];
+            for (char c = 'a'; c <= 'z'; c++) {
                 if (c == cOri) continue;
-                s[i] = c;
-                if (wordSet.count(s)) {
-                    results.push_back(s);
-                    wordSet.erase(s);
+                word[i] = c;
+                if (wordSet.count(word)) {
+                    results.insert(word);
+                    wordSet.erase(word);
                 }
             }
-            s[i] = cOri;
+            word[i] = cOri;
         }
         return results;
     }
@@ -52,7 +52,7 @@ private:
 int main(int argc, char **argv) {
     string beginWord = "hit";
     string endWord = "cog";
-    vector<string> wordList{"hot", "dot", "dog", "lot", "log"};
+    vector<string> wordList{"hot", "dot", "dog", "lot", "log", "cog"};
 
     int result;
     Solution *solution = new Solution;
