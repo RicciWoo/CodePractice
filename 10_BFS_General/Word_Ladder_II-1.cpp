@@ -36,7 +36,6 @@ public:
                     if (!visited.count(word)) {
                         _updatePreList(word, str, preList);
                         next.insert(word);
-                        // visited.insert(word);
                     }
                 }
             }
@@ -46,11 +45,9 @@ public:
                 _getPaths(results, preList, temp, endWord);
                 break;
             }
-            // swap(curr, next);
             for (auto it = next.begin(); it != next.end(); it++)
                 curr.push(*it);
         }
-
         return results;
     }
     
