@@ -101,6 +101,7 @@ private:
         for (string pre : preList[end]) {
             curPath.push_back(end);
             _getPaths(paths, preList, curPath, pre);
+            curPath.pop_back();
         }
     }
 };
