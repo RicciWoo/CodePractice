@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
     for (vector<string> path : results) {
         cout << "[ ";
         for(string step : path) {
-            cout << "\"" << step << "\", "
+            cout << "\"" << step << "\", ";
         }
         cout << "]" << endl;
     }
