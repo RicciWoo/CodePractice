@@ -100,9 +100,9 @@ int main(int argc, char **argv) {
     string endWord = "cog";
     vector<string> wordList{"hot", "dot", "dog", "lot", "log", "cog"};
 
-    vector<vecto<string>> results;
+    vector<vector<string>> results;
     Solution *solution = new Solution;
-    results = solution->ladderLength(beginWord, endWord, wordList);
+    results = solution->findLadders(beginWord, endWord, wordList);
     cout << "beginWord = " << beginWord << endl;
     cout << "endWord = " << endWord << endl;
     cout << "wordList = [";
