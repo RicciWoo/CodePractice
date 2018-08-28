@@ -529,9 +529,7 @@ private:
 // Surrounded region-1, BFS
 class Solution {
 public:
-    void solve(vector<vector<char>>& board) {
-        if (board.size() == 0 || board[0].size() == 0)
-            return;
+    void solve(vector<vector<char>> &board) {
         if (board.size() <= 2 || board[0].size() <= 2)
             return;
         for (int i = 0; i < board.size(); i++) {
@@ -550,12 +548,12 @@ public:
 private:
     void _search(vector<vector<char>> &board, int x, int y) {
         if (board[x][y] != 'O') return;
-        queue<int> q;
+        board[x][y] = '+';
         int m = board.size(), n = board[0].size();
+        queue<int> q;
+        q.push(x * n + y);
         vector<int> dx{-1, 0, 1, 0};
         vector<int> dy{0, 1, 0, -1};
-        q.push(x * n + y);
-        board[x][y] = '+';
         while (!q.empty()) {
             int temp = q.front();
             q.pop();
@@ -574,9 +572,7 @@ private:
 // Surrounded region-2, DFS
 class Solution {
 public:
-    void solve(vector<vector<char>>& board) {
-        if (board.size() == 0 || board[0].size() == 0)
-            return;
+    void solve(vector<vector<char>> &board) {
         if (board.size() <= 2 || board[0].size() <= 2)
             return;
         for (int i = 0; i < board.size(); i++) {
@@ -593,26 +589,63 @@ public:
     }
     
 private:
-    void _search(vector<vector<char>> &board, int i, int j) {
-        if (board[i][j] != 'O') return;
-        board[i][j] = '+';
-        if (i > 1)
-            _search(board, i - 1, j);
-        if (i < board.size() - 2)
-            _search(board, i + 1, j);
-        if (j > 1)
-            _search(board, i, j - 1);
-        if (j < board[0].size() - 2)
-            _search(board, i, j + 1);
+    void _search(vector<vector<char>> &board, int x, int y) {
+        if (board[x][y] != 'O') return;
+        board[x][y] = '+';
+        if (x > 1)
+            _search(board, x - 1, y);
+        if (x < board.size() - 2)
+            _search(board, x + 1, y);
+        if (y > 1)
+            _search(board, x, y - 1);
+        if (y < board[0].size() - 2)
+            _search(board, x, y + 1);
     }
 };
 
-
-
-
-
-
-
-
-
-
+// Remove Invalid Parentheses, BFS
+class Solution {
+public:
+    vector<string> removeInvalidParentheses(string s) {
+        vector<string> results;
+        queue<string> q;
+        q.push(s);
+        unordered_set<string> checked;
+        bool found = false;
+        int max = 0;
+        while (!q.empty()) {
+            string t = q.front();
+            q.pop();
+            if (_isValid(t)) {
+                found = true;
+                if (t.size() >= max) {
+                    max = t.size();
+                    results.push_back(t);
+                }
+            }
+            if (found) continue;
+            for (int i = 0; i < t.size(); i++) {
+                string sub = t.substr(0, i) + 
+                    t.substr(i + 1, t.size() - i - 1);
+                if (!checked.count(sub)) {
+                    q.push(sub);
+                    checked.insert(sub);
+                }
+            }
+        }
+        return results;
+    }
+    
+private:
+    bool _isValid(string s) {
+        int count = 0;
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] == '(') count++;
+            else if (s[i] == ')') {
+                if (count == 0) return false;
+                else count--;
+            }
+        }
+        return count == 0;
+    }
+};
