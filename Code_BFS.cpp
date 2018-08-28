@@ -526,9 +526,86 @@ private:
     }
 };
 
+// Surrounded region-1, BFS
+class Solution {
+public:
+    void solve(vector<vector<char>>& board) {
+        if (board.size() == 0 || board[0].size() == 0)
+            return;
+        if (board.size() <= 2 || board[0].size() <= 2)
+            return;
+        for (int i = 0; i < board.size(); i++) {
+            _search(board, i, 0);
+            _search(board, i, board[0].size() - 1);
+        }
+        for (int j = 0; j < board[0].size(); j++) {
+            _search(board, 0, j);
+            _search(board, board.size() - 1, j);
+        }
+        for (int i = 0; i < board.size(); i++)
+            for (int j = 0; j < board[0].size(); j++)
+                board[i][j] = board[i][j] == '+' ? 'O' : 'X';
+    }
+    
+private:
+    void _search(vector<vector<char>> &board, int x, int y) {
+        if (board[x][y] != 'O') return;
+        queue<int> q;
+        int m = board.size(), n = board[0].size();
+        vector<int> dx{-1, 0, 1, 0};
+        vector<int> dy{0, 1, 0, -1};
+        q.push(x * n + y);
+        board[x][y] = '+';
+        while (!q.empty()) {
+            int temp = q.front();
+            q.pop();
+            for (int i = 0; i < 4; i++) {
+                int nx = temp / n + dx[i], ny = temp % n + dy[i];
+                if (nx >= 0 && nx < m && ny >= 0 && ny < n && 
+                    board[nx][ny] == 'O') {
+                    board[nx][ny] = '+';
+                    q.push(nx * n + ny);
+                }
+            }
+        }
+    }
+};
 
-
-
+// Surrounded region-2, DFS
+class Solution {
+public:
+    void solve(vector<vector<char>>& board) {
+        if (board.size() == 0 || board[0].size() == 0)
+            return;
+        if (board.size() <= 2 || board[0].size() <= 2)
+            return;
+        for (int i = 0; i < board.size(); i++) {
+            _search(board, i, 0);
+            _search(board, i, board[0].size() - 1);
+        }
+        for (int j = 0; j < board[0].size(); j++) {
+            _search(board, 0, j);
+            _search(board, board.size() - 1, j);
+        }
+        for (int i = 0; i < board.size(); i++)
+            for (int j = 0; j < board[0].size(); j++)
+                board[i][j] = board[i][j] == '+' ? 'O' : 'X';
+    }
+    
+private:
+    void _search(vector<vector<char>> &board, int i, int j) {
+        if (board[i][j] != 'O') return;
+        board[i][j] = '+';
+        if (i > 1)
+            _search(board, i - 1, j);
+        if (i < board.size() - 2)
+            _search(board, i + 1, j);
+        if (j > 1)
+            _search(board, i, j - 1);
+        if (j < board[0].size() - 2)
+            _search(board, i, j + 1);
+    }
+};
 
 
 
