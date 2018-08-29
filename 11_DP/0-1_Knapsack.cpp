@@ -5,7 +5,7 @@ using namespace std;
 // 0-1 Knapsack II, Recursion, 20180816
 class Solution {
 public:
-    bool knapsack(int capacity, vector<int> &weights, vector<int> &values) {
+    int knapsack(int capacity, vector<int> &weights, vector<int> &values) {
         int length = weights.size();
         if (capacity == 0 || length == 0) return 0;
         vector<vector<int>> w(length + 1, vector<int>(capacity + 1, 0));
