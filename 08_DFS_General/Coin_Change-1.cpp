@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
 
     coins.clear();
     coins.push_back(2);
-    int amount = 3;
+    amount = 3;
 
     result = solution->coinChange(coins, amount);
     cout << "coins: ";
