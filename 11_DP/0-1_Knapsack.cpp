@@ -19,15 +19,6 @@ public:
                                   w[i - 1][j - weights[index]] + values[index]);
             }
         }
-
-        cout << "w array: " << endl;
-        for (int i = 0; i <= length; i++) {
-            for (int j = 0; j <= capacity; j++) {
-                cout << w[i][j] << ", ";
-            }
-            cout << endl;
-        }
-
         return w[length][capacity];
     }
 };
