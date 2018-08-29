@@ -94,7 +94,7 @@ public:
     }
 };
 
-// 0-1 Knapsack, Dynamic Programming, 20180829
+// 0-1 Knapsack-1, Dynamic Programming, 20180829
 class Solution {
 public:
     int knapsack(int capacity, vector<int> &weights, vector<int> &values) {

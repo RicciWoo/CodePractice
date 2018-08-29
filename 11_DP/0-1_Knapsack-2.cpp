@@ -9,15 +9,20 @@ public:
         int length = weights.size();
         if (capacity == 0 || length == 0) return 0;
         // vector<vector<int>> w(length + 1, vector<int>(capacity + 1, 0));
-        vector<int> w(capacity + 1, 0);
+        vector<int> preLine(capacity + 1, 0);
+        vector<int> curLine(capacity + 1, 0);
         for (int i = 1; i <= length; i++) {
             int index = i - 1;
             for (int j = 1; j <= capacity; j++) {
-                if (weights[index] <= j)
-                    w[j] = max(w[j], w[j - weights[index]] + values[index]);
+                if (weights[index] > j)
+                    curLine[j] = preLine[j];
+                else
+                    curLine[j] = max(preLine[j], 
+                            preLine[j - weights[index]] + values[index]);
             }
+            swap(curLine, preLine);
         }
-        return w[capacity];
+        return preLine[capacity];
     }
 };
 
