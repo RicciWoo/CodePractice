@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-// 0-1 Knapsack II, Recursion, 20180816
+// 0-1 Knapsack, Dynamic Programming, 20180829
 class Solution {
 public:
     int knapsack(int capacity, vector<int> &weights, vector<int> &values) {
