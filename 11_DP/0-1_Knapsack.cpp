@@ -1,0 +1,45 @@
+#include <vector>
+#include <iostream>
+using namespace std;
+
+// 0-1 Knapsack II, Recursion, 20180816
+class Solution {
+public:
+    bool knapsack(int capacity, vector<int> &weights, vector<int> &values) {
+        int length = weights.size();
+        if (capacity == 0 || length == 0) return 0;
+        vector<vector<int>> w(length + 1, vector<int>(capacity + 1, 0));
+        for (int i = 1; i <= length; i++) {
+            int index = i - 1;
+            for (int j = 1; j <= capacity; j++) {
+                if (weights[index] > j)
+                    w[i][j] = w[i - 1][j];
+                else
+                    w[i][j] = max(w[i - 1][j], 
+                                  w[i - 1][j - weights[index]] + values[index]);
+            }
+        }
+        return w[length][capacity];
+    }
+};
+
+int main(int argc, char **argv) {
+    int capacity = 7;
+    vector<int> weights{1, 3, 4, 5};
+    vector<int> values{3, 8, 4, 7};
+    int result;
+    Solution *solution = new Solution;
+    result = solution->knapsack(capacity, weights, values);
+    cout << "capacity: " << capacity << endl;
+    cout << "weights: [";
+    for (int w : weights) {
+        cout << w << ", ";
+    }
+    cout << ']' << endl;
+        cout << "values: [";
+    for (int v : values) {
+        cout << v << ", ";
+    }
+    cout << ']' << endl;
+    cout << "The most value allowed: " << result << endl;
+}
