@@ -25,11 +25,11 @@ private:
             return true;
         }
         if (cnt >= minCnt) return false;  // pruning
+        bool result = false;
         for (int i = index; i >= 0; i--)
-            if (_coinChange(coins, rest - coins[i], i, 
-                            cnt + 1, minCnt))
-                return true;
-        return false;
+            result = _coinChange(coins, rest - coins[i], i, 
+                                 cnt + 1, minCnt) || result;
+        return result;
     }
 };
 
