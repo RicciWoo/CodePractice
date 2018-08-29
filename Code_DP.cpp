@@ -94,7 +94,7 @@ public:
     }
 };
 
-// 0-1 Knapsack-1, Dynamic Programming, 20180829
+// 0-1 Knapsack-1, Dynamic Programming, use 2D array
 class Solution {
 public:
     int knapsack(int capacity, vector<int> &weights, vector<int> &values) {
@@ -115,10 +115,65 @@ public:
     }
 };
 
+// Coin Change-1, Dynamic Programming, use 2D array
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        // sort(coins.begin(), coins.end());
+        int length = coins.size();
+        vector<vector<int>> dp(length, vector<int>(amount + 1, 0));
+        for (int j = 0; j <= amount; j++)
+            if (j % coins[0] == 0) dp[0][j] = j / coins[0];
+            else dp[0][j] = -1;
+        for (int i = 1; i < length; i++) {
+            for (int j = 0; j <= amount; j++) {
+                if (coins[i] > j)
+                    dp[i][j] = dp[i - 1][j];
+                else {
+                    int temp = INT_MAX;
+                    for (int k = 0; k <= j / coins[i]; k++) {
+                        int remaining = j - coins[i] * k;
+                        if (dp[i - 1][remaining] != -1)
+                            temp = min(temp, dp[i - 1][remaining] + k);
+                    }
+                    dp[i][j] = temp == INT_MAX ? -1 : temp;
+                }
+            }
+        }
+        return dp[length - 1][amount];
+    }
+};
 
-
-
-
+// Coin Change-2, Dynamic Programming, use two 1D rows
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        // sort(coins.begin(), coins.end());
+        int length = coins.size();
+        vector<int> preRow(amount + 1, 0);
+        vector<int> curRow(amount + 1, 0);
+        for (int j = 0; j <= amount; j++)
+            if (j % coins[0] == 0) preRow[j] = j / coins[0];
+            else preRow[j] = -1;
+        for (int i = 1; i < length; i++) {
+            for (int j = 0; j <= amount; j++) {
+                if (coins[i] > j)
+                    curRow[j] = preRow[j];
+                else {
+                    int temp = INT_MAX;
+                    for (int k = 0; k <= j / coins[i]; k++) {
+                        int remaining = j - coins[i] * k;
+                        if (preRow[remaining] != -1)
+                            temp = min(temp, preRow[remaining] + k);
+                    }
+                    curRow[j] = temp == INT_MAX ? -1 : temp;
+                }
+            }
+            swap(curRow, preRow);
+        }
+        return preRow[amount];
+    }
+};
 
 
 
