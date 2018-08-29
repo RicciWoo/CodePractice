@@ -1,0 +1,1 @@
+g++ -std=c++11 Common_Seq.cpp -o Common_Seq.exe
