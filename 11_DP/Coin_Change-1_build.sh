@@ -1,0 +1,1 @@
+g++ -std=c++11 Coin_Change-1.cpp -o Coin_Change-1.exe
