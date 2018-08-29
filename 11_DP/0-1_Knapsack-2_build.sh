@@ -1,1 +1,1 @@
-g++ -std=c++11 0-1_Knapsack-1.cpp -o 0-1_Knapsack-1.exe
+g++ -std=c++11 0-1_Knapsack-2.cpp -o 0-1_Knapsack-2.exe
