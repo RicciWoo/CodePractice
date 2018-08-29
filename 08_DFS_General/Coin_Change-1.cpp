@@ -58,4 +58,19 @@ int main(int argc, char **argv) {
     cout << endl;
     cout << "amount: " << amount << endl;
     cout << "fewest number of coins: " << result << endl;
+
+    coins.clear();
+    coins.push_back(186);
+    coins.push_back(419);
+    coins.push_back(83);
+    coins.push_back(408);
+    amount = 6249;
+
+    result = solution->coinChange(coins, amount);
+    cout << "coins: ";
+    for (int c : coins)
+        cout << c << ", ";
+    cout << endl;
+    cout << "amount: " << amount << endl;
+    cout << "fewest number of coins: " << result << endl;
 }
