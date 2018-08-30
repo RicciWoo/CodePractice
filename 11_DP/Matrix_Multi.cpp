@@ -4,7 +4,7 @@
 #include <algorithm>
 using namespace std;
 
-// Longest Common Sequence, Dynamic Programming, 20180829
+// Matrix Multiplication, Dynamic Programming, 20180830
 class Solution {
 public:
     int matrixChain(vector<int> &p) {
