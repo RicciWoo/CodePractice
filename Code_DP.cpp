@@ -232,9 +232,9 @@ public:
         int n = p.size() - 1;
         vector<vector<int>> m(n, vector<int>(n, 0));
         // for (int i = 0; i < n; i++) m[i][i] = 0;
-        for (int r = 1; r < n; r++) {
-            for (int i = 0; i < n - r; i++) {
-                int j = i + r;
+        for (int r = 2; r <= n; r++) { // the length of matrix chain
+            for (int i = 0; i < n - r + 1; i++) {
+                int j = i + r - 1;
                 m[i][j] = INT_MAX;
                 for (int k = i; k < j; k++) {
                     int t = m[i][k] + m[k + 1][j] + p[i] * p[k + 1] * p[j + 1];
@@ -246,11 +246,54 @@ public:
     }
 };
 
+// Scramble String-1, Recursion
+class Solution {
+public:
+    bool isScramble(string s1, string s2) {
+        if (s1.size() != s2.size()) return false;
+        if (s1 == s2) return true;
+        string c1 = s1, c2 = s2;
+        sort(begin(c1), end(c1));
+        sort(begin(c2), end(c2));
+        if (c1 != c2) return false;
+        for (int i = 1; i < s1.size(); i++) {
+            if (isScramble(s1.substr(0, i), s2.substr(0, i)) && 
+                isScramble(s1.substr(i), s2.substr(i)))
+                return true;
+            if (isScramble(s1.substr(0, i), s2.substr(s2.size() - i)) && 
+                isScramble(s1.substr(i), s2.substr(0, s2.size() - i)))
+                return true;
+        }
+        return false;
+    }
+};
 
-
-
-
-
+// Scramble String-2, Dynamic Programming
+class Solution {
+public:
+    bool isScramble(string s1, string s2) {
+        if (s1.size() != s2.size()) return false;
+        if (s1 == s2) return true;
+        int n = s1.size();
+        vector<vector<vector<bool>>> dp(n, vector<vector<bool>>(
+                                n, vector<bool>(n + 1, false)));
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                dp[i][j][1] = s1[i] == s2[j];
+        for (int len = 2; len <= n; len++) {
+            for (int i = 0; i < n - len + 1; i++) {
+                for (int j = 0; j < n - len + 1; j++) {
+                    for (int k = 1; k < len; k++) {
+                        dp[i][j][len] = dp[i][j][len] || 
+                            (dp[i][j][k] && dp[i + k][j + k][len - k] || 
+                            dp[i][j + len - k][k] && dp[i + k][j][len - k]);
+                    }
+                }
+            }
+        }
+        return dp[0][0][n];
+    }
+};
 
 
 
