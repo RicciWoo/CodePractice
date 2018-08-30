@@ -26,7 +26,7 @@ public:
 };
 
 int main(int argc, char **argv) {
-    vector<int> p{100, 10, 100, 5}
+    vector<int> p{100, 10, 100, 5};
     Solution *solution = new Solution;
     int result = solution->matrixChain(p);
     cout << "sizes of matrix: ";
