@@ -175,8 +175,25 @@ public:
     }
 };
 
-// Longest Increasing Subsequence, Dynamic Programming
-
+// Longest Increasing Subsequence-1, Dynamic Programming
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        if (nums.size() == 0) return 0;
+        vector<int> lis(nums.size(), 0);
+        int maxLen = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            int localMax = 0;
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i] && lis[j] > localMax)
+                    localMax = lis[j];
+            }
+            lis[i] = localMax + 1;
+            maxLen = max(maxLen, lis[i]);
+        }
+        return maxLen;
+    }
+};
 
 // Longest Common Sequence, Dynamic Programming
 class Solution {

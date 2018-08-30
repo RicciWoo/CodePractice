@@ -11,9 +11,10 @@ public:
         int maxLen = 0;
         for (int i = 0; i < nums.size(); i++) {
             int localMax = 0;
-            for (int j = 0; j < i; j++)
+            for (int j = 0; j < i; j++) {
                 if (nums[j] < nums[i] && lis[j] > localMax)
                     localMax = lis[j];
+            }
             lis[i] = localMax + 1;
             maxLen = max(maxLen, lis[i]);
         }
