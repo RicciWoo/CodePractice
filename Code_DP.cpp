@@ -274,6 +274,10 @@ public:
     bool isScramble(string s1, string s2) {
         if (s1.size() != s2.size()) return false;
         if (s1 == s2) return true;
+        string c1 = s1, c2 = s2;
+        sort(begin(c1), end(c1));
+        sort(begin(c2), end(c2));
+        if (c1 != c2) return false;
         int n = s1.size();
         vector<vector<vector<bool>>> dp(n, vector<vector<bool>>(
                                 n, vector<bool>(n + 1, false)));
@@ -294,10 +298,3 @@ public:
         return dp[0][0][n];
     }
 };
-
-
-
-
-
-
-

@@ -1,0 +1,1 @@
+g++ -std=c++11 Trie_Tree.cpp -o Trie_Tree.exe

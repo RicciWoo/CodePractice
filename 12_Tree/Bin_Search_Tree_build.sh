@@ -1,0 +1,1 @@
+g++ -std=c++11 Bin_Search_Tree.cpp -o Bin_Search_Tree.exe
