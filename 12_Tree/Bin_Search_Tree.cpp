@@ -165,7 +165,7 @@ int main(int argc, char **argv) {
     Solution *solution = new Solution;
     findRes = solution->find(24, root);
     cout << "find element 24, result is: " << boolalpha << findRes << endl;
-    findRes = solution->find(24, root);
+    findRes = solution->find(42, root);
     cout << "find element 42, result is: " << boolalpha << findRes << endl;
 
     bool addRes = false;
