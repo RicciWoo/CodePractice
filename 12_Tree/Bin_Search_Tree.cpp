@@ -164,13 +164,13 @@ int main(int argc, char **argv) {
     bool findRes = false;
     Solution *solution = new Solution;
     findRes = solution->find(24, root);
-    cout << "find element 24, result is: " << findRes << endl;
+    cout << "find element 24, result is: " << boolalpha << findRes << endl;
     findRes = solution->find(24, root);
-    cout << "find element 42, result is: " << findRes << endl;
+    cout << "find element 42, result is: " << boolalpha << findRes << endl;
 
     bool addRes = false;
     addRes = solution->add(42, root);
-    cout << "add element 42, result is: " << addRes << endl;
+    cout << "add element 42, result is: " << boolalpha << addRes << endl;
     if (addRes) {
         inorder = inorderTraversal(root);
         cout << "inoder traversal of Tree: [";
@@ -180,7 +180,7 @@ int main(int argc, char **argv) {
 
     bool rmRes = false;
     rmRes = solution->remove(27, root);
-    cout << "remove element 27, result is: " << rmRes << endl;
+    cout << "remove element 27, result is: " << boolalpha << rmRes << endl;
     if (rmRes) {
         inorder = inorderTraversal(root);
         cout << "inoder traversal of Tree: [";
@@ -189,7 +189,7 @@ int main(int argc, char **argv) {
     }
 
     rmRes = solution->remove(30, root);
-    cout << "remove element 30, result is: " << rmRes << endl;
+    cout << "remove element 30, result is: " << boolalpha << rmRes << endl;
     if (rmRes) {
         inorder = inorderTraversal(root);
         cout << "inoder traversal of Tree: [";
