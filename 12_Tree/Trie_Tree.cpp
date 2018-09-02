@@ -8,8 +8,8 @@ struct TrieNode {
     bool isWord;
     char var;
     vector<TrieNode *> children;
-    TreeNode() {
-        children = new TrieNode[26];
+    TrieNode() {
+        children = vector<TrieNode *>(26, NULL);
         var = 0;
         isWord = false;
     }
@@ -17,7 +17,7 @@ struct TrieNode {
 
 class Trie {
 private:
-    TrieNode root;
+    TrieNode *root;
 
 public:
     Trie() {
@@ -26,13 +26,13 @@ public:
 
     // Insert a word into the trie.
     void insert(string word) {
-        if (word == NULL || word.size() == 0) return;
+        if (word.size() == 0) return;
         TrieNode *pNode = root;
         for (int i = 0; i < word.size(); i++) {
             char c = word[i];
             int index = c - 'a';
             if (pNode->children[index] == NULL) {
-                TrieNode newNode = new TrieNode();
+                TrieNode *newNode = new TrieNode();
                 pNode->children[index] = newNode;
             }
             pNode = pNode->children[index];
@@ -43,7 +43,7 @@ public:
     // Returns if the word is in the trie.
     bool search(string word) {
         TrieNode *pNode = root;
-        if (word == NULL || word.size() == 0) return true;
+        if (word.size() == 0) return true;
         for (int i = 0; i < word.size(); i++) {
             int index = word[i] - 'a';
             pNode = pNode->children[index];
@@ -52,10 +52,11 @@ public:
         return pNode->isWord;
     }
 
-    // Returns if there is any word in the trie that starts with the given prefix.
+    // Returns if there is any word in the trie 
+    // that starts with the given prefix.
     bool startsWith(string prefix) {
-        TrieNode pNode = root;
-        if (prefix == NULL || prefix.size() == 0) return true;
+        TrieNode *pNode = root;
+        if (prefix.size() == 0) return true;
         for (int i = 0; i < prefix.size(); i++) {
             int index = prefix[i] - 'a';
             pNode = pNode->children[index];
@@ -66,5 +67,23 @@ public:
 };
 
 int main(int argc, char **argv) {
+    Trie *trie = new Trie;
+    trie->insert("validate");
+    cout << "inserted word 'validate'." << endl;
+    trie->insert("binary");
+    cout << "inserted word 'binary'." << endl;
+    trie->insert("search");
+    cout << "inserted word 'search'." << endl;
+    trie->insert("tree");
+    cout << "inserted word 'tree'." << endl;
 
+    bool schRes = false;
+    schRes = trie->search("tree");
+    cout << "search for word 'tree': " << boolalpha << schRes << endl;
+    schRes = trie->search("trees");
+    cout << "search for word 'trees': " << boolalpha << schRes << endl;
+
+    bool stwRes = false;
+    stwRes = trie->startsWith("val");
+    cout << "starts with word 'val': " << boolalpha << stwRes << endl;
 }
