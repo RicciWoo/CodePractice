@@ -98,6 +98,56 @@ public:
     }
 };
 
+// Remove Duplicate Letters-1
+class Solution {
+public:
+    string removeDuplicateLetters(string s) {
+        if (s.size() == 0) return s;
+        vector<int> cnt(26, 0);
+        for (int i = 0; i < s.size(); i++)
+            cnt[s[i] - 'a']++;
+        int pos = 0;
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] < s[pos]) pos = i;
+            if (--cnt[s[i] - 'a'] == 0) break;
+        }
+        string sub = "";
+        for (int i = pos + 1; i < s.size(); i++)
+            if (s[i] != s[pos]) sub += s.substr(i, 1);
+        return s[pos] + removeDuplicateLetters(sub);
+    }
+};
+
+// Remove Duplicate Letters-2
+class Solution {
+public:
+    string removeDuplicateLetters(string s) {
+        vector<int> freqs(26, 0);
+        for (int i = 0; i < s.size(); i++)
+            freqs[s[i] - 'a']++;
+        vector<bool> visited(26, false);
+        stack<char> charSt;
+        for (int i = 0; i < s.size(); i++) {
+            freqs[s[i] - 'a']--;
+            if (visited[s[i] - 'a']) continue;
+            while (!charSt.empty() && s[i] < charSt.top() && 
+                   freqs[charSt.top() - 'a'] > 0) {
+                visited[charSt.top() - 'a'] = false;
+                charSt.pop();
+            }
+            charSt.push(s[i]);
+            visited[s[i] - 'a'] = true;
+        }
+        string result = "";
+        while (!charSt.empty()) {
+            result += charSt.top();
+            charSt.pop();
+        }
+        reverse(begin(result), end(result));
+        return result;
+    }
+};
+
 
 
 
