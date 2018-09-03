@@ -73,7 +73,30 @@ public:
     }
 };
 
-
+// Bad Hair Day, see Cows
+class Solution {
+public:
+    int seeCows(vector<int> &cow) {
+        int totalNum = 0;
+        stack<int> cowStack;
+        for (int i = 0; i < cow.size(); i++) {
+            if (cowStack.empty() || cow[i] < cowStack.top())
+                cowStack.push(cow[i]);
+            else {
+                while (!cowStack.empty() && cow[i] >= cowStack.top()) {
+                    cowStack.pop();
+                    totalNum += cowStack.size();
+                }
+                cowStack.push(cow[i]);
+            }
+        }
+        while (!cowStack.empty()) {
+            cowStack.pop();
+            totalNum += cowStack.size();
+        }
+        return totalNum;
+    }
+};
 
 
 
