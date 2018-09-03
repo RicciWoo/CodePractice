@@ -1,6 +1,7 @@
 #include <stack>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 // Remove Duplicate Letters-2
