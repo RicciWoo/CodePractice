@@ -98,7 +98,7 @@ public:
     }
 };
 
-// Remove Duplicate Letters-1
+// Remove Duplicate Letters-1, use recursion
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
@@ -118,7 +118,7 @@ public:
     }
 };
 
-// Remove Duplicate Letters-2
+// Remove Duplicate Letters-2, use stack
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
@@ -148,20 +148,30 @@ public:
     }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Largest Rectangle in Histogram, use stack
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int area = 0;
+        stack<int> hStack;
+        for (int i = 0; i < heights.size(); i++) {
+            if (hStack.empty() || heights[i] > heights[hStack.top()])
+                hStack.push(i);
+            else {
+                int start = hStack.top();
+                hStack.pop();
+                int width = hStack.empty() ? i : i - hStack.top() - 1;
+                area = max(area, heights[start] * width);
+                i--;
+            }
+        }
+        while (!hStack.empty()) {
+            int start = hStack.top();
+            hStack.pop();
+            int width = hStack.empty() ? heights.size() : 
+                        heights.size() - hStack.top() - 1;
+            area = max(area, heights[start] * width);
+        }
+        return area;
+    }
+};
