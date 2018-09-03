@@ -8,26 +8,26 @@ using namespace std;
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
-        vector<int> freqs(26, 0);
+        vector<int> cnt(26, 0);
         for (int i = 0; i < s.size(); i++)
-            freqs[s[i] - 'a']++;
+            cnt[s[i] - 'a']++;
+        stack<char> chStack;
         vector<bool> visited(26, false);
-        stack<char> charSt;
         for (int i = 0; i < s.size(); i++) {
-            freqs[s[i] - 'a']--;
+            cnt[s[i] - 'a']--;
             if (visited[s[i] - 'a']) continue;
-            while (!charSt.empty() && s[i] < charSt.top() && 
-                   freqs[charSt.top() - 'a'] > 0) {
-                visited[charSt.top() - 'a'] = false;
-                charSt.pop();
+            while (!chStack.empty() && s[i] < chStack.top() && 
+                   cnt[chStack.top() - 'a'] > 0) {
+                visited[chStack.top() - 'a'] = false;
+                chStack.pop();
             }
-            charSt.push(s[i]);
+            chStack.push(s[i]);
             visited[s[i] - 'a'] = true;
         }
         string result = "";
-        while (!charSt.empty()) {
-            result += charSt.top();
-            charSt.pop();
+        while (!chStack.empty()) {
+            result += chStack.top();
+            chStack.pop();
         }
         reverse(begin(result), end(result));
         return result;
