@@ -34,7 +34,7 @@ public:
 
 int main(int argc, char **argv) {
     vector<int> heights{2, 1, 5, 6, 2, 3};
-    string result;
+    int result;
     Solution *solution = new Solution;
     result = solution->largestRectangleArea(heights);
     cout << "heights: [";
