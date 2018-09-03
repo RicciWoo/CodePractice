@@ -1,0 +1,1 @@
+g++ -std=c++11 Larg_Rect_Hist.cpp -o Larg_Rect_Hist.exe
