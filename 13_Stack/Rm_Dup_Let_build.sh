@@ -1,1 +1,0 @@
-g++ -std=c++11 See_Cows.cpp -o See_Cows.exe
