@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-// Bad Hair Day
+// Bad Hair Day, see cows
 class Solution {
 public:
     int seeCows(vector<int> &cow) {
