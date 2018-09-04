@@ -29,47 +29,75 @@ public:
     }
 };
 
-// Max Stack with peekMax and popMax
+// Max Stack with peekMax() and popMax()
 class MaxStack {
-public:
-    /** initialize your data structure here. */
-    stack<int> element;
-    stack<int> maxVal;
+private:
+    stack<int> eleSt;
+    stack<int> maxSt;
     
+public:
     void push(int x) {
-        int curMax;
-        if (element.empty()) curMax = INT_MIN;
-        else curMax = maxVal.top();
+        int curMax = INT_MIN;
+        if (!maxSt.empty()) curMax = maxSt.top();
         curMax = max(curMax, x);
-        maxVal.push(curMax);
-        element.push(x);
+        eleSt.push(x);
+        maxSt.push(curMax);
     }
     
     int pop() {
-        maxVal.pop();
-        int result = element.top();
-        element.pop();
+        int result = eleSt.top();
+        eleSt.pop();
+        maxSt.pop();
         return result;
     }
     
     int top() {
-        return element.top();
+        return eleSt.top();
     }
     
     int peekMax() {
-        return maxVal.top();
+        return maxSt.top();
     }
     
     int popMax() {
-        stack<int> temp;
+        stack<int> temSt;
         int result = peekMax();
-        while (top() != result) temp.push(pop());
+        while (top() != result) temSt.push(pop());
         pop();
-        while (!temp.empty()) {
-            push(temp.top());
-            temp.pop();
+        while (!temSt.empty()) {
+            push(temSt.top());
+            temSt.pop();
         }
         return result;
+    }
+};
+
+// Min Stack with getMin()
+class MinStack {
+private:
+    stack<int> eleSt;
+    stack<int> minSt;
+    
+public:
+    void push(int x) {
+        int curMin = INT_MAX;
+        if (!minSt.empty()) curMin = minSt.top();
+        curMin = min(curMin, x);
+        eleSt.push(x);
+        minSt.push(curMin);
+    }
+    
+    void pop() {
+        eleSt.pop();
+        minSt.pop();
+    }
+    
+    int top() {
+        return eleSt.top();
+    }
+    
+    int getMin() {
+        return minSt.top();
     }
 };
 
@@ -173,5 +201,76 @@ public:
             area = max(area, heights[start] * width);
         }
         return area;
+    }
+};
+
+// Implement Stack using Queues
+class MyStack {
+public:
+    /** Initialize your data structure here. */
+    queue<int> q1, q2;
+    
+    /** Push element x onto stack. */
+    void push(int x) {
+        q2.push(x);
+        while (!q1.empty()) {
+            q2.push(q1.front());
+            q1.pop();
+        }
+        swap(q1, q2);
+    }
+    
+    /** Removes the element on top of the stack and returns that element. */
+    int pop() {
+        int result = q1.front();
+        q1.pop();
+        return result;
+    }
+    
+    /** Get the top element. */
+    int top() {
+        return q1.front();
+    }
+    
+    /** Returns whether the stack is empty. */
+    bool empty() {
+        return q1.empty();
+    }
+};
+
+// Implement Queue using Stacks
+class MyQueue {
+public:
+    /** Initialize your data structure here. */
+    stack<int> s1, s2;
+    
+    /** Push element x to the back of queue. */
+    void push(int x) {
+        while (!s1.empty()) {
+            s2.push(s1.top());
+            s1.pop();
+        }
+        s1.push(x);
+        while (!s2.empty()) {
+            s1.push(s2.top());
+            s2.pop();
+        }
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    int pop() {
+        int result = s1.top();
+        s1.pop();
+        return result;
+    }
+    
+    /** Get the front element. */
+    int peek() {
+        return s1.top();
+    }
+    
+    /** Returns whether the queue is empty. */
+    bool empty() {
+        return s1.empty();
     }
 };
