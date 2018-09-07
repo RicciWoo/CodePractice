@@ -37,26 +37,30 @@ int main(int argc, char **argv) {
     result = solution->wordPattern(pattern, str);
     cout << "pattern: \"" << pattern << "\"" << endl;
     cout << "strings: \"" << str << "\"" << endl;
-    cout << "strings follow the same pattern: " << result << endl << endl;
+    cout << "strings follow the same pattern: " << boolalpha << result;
+    cout << endl << endl;
 
     pattern = "abba";
     str = "dog cat cat fish";
     result = solution->wordPattern(pattern, str);
     cout << "pattern: \"" << pattern << "\"" << endl;
     cout << "strings: \"" << str << "\"" << endl;
-    cout << "strings follow the same pattern: " << result << endl << endl;
+    cout << "strings follow the same pattern: " << boolalpha << result;
+    cout << endl << endl;
 
     pattern = "aaaa";
     str = "dog cat cat dog";
     result = solution->wordPattern(pattern, str);
     cout << "pattern: \"" << pattern << "\"" << endl;
     cout << "strings: \"" << str << "\"" << endl;
-    cout << "strings follow the same pattern: " << result << endl << endl;
+    cout << "strings follow the same pattern: " << boolalpha << result;
+    cout << endl << endl;
 
     pattern = "abba";
     str = "dog dog dog dog";
     result = solution->wordPattern(pattern, str);
     cout << "pattern: \"" << pattern << "\"" << endl;
     cout << "strings: \"" << str << "\"" << endl;
-    cout << "strings follow the same pattern: " << result << endl;  
+    cout << "strings follow the same pattern: " << boolalpha << result;
+    cout << endl;
 }
