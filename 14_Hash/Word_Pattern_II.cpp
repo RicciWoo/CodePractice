@@ -46,35 +46,27 @@ private:
 };
 
 int main(int argc, char **argv) {
-    string pattern = "abba";
-    string str = "dog cat cat dog";
+    string pattern = "abab";
+    string str = "redblueredblue";
     bool result;
     Solution *solution = new Solution;
-    result = solution->wordPattern(pattern, str);
-    cout << "pattern: \"" << pattern << "\"" << endl;
-    cout << "strings: \"" << str << "\"" << endl;
-    cout << "strings follow the same pattern: " << boolalpha << result;
-    cout << endl << endl;
-
-    pattern = "abba";
-    str = "dog cat cat fish";
-    result = solution->wordPattern(pattern, str);
+    result = solution->wordPatternMatch(pattern, str);
     cout << "pattern: \"" << pattern << "\"" << endl;
     cout << "strings: \"" << str << "\"" << endl;
     cout << "strings follow the same pattern: " << boolalpha << result;
     cout << endl << endl;
 
     pattern = "aaaa";
-    str = "dog cat cat dog";
-    result = solution->wordPattern(pattern, str);
+    str = "asdasdasdasd";
+    result = solution->wordPatternMatch(pattern, str);
     cout << "pattern: \"" << pattern << "\"" << endl;
     cout << "strings: \"" << str << "\"" << endl;
     cout << "strings follow the same pattern: " << boolalpha << result;
     cout << endl << endl;
 
-    pattern = "abba";
-    str = "dog dog dog dog";
-    result = solution->wordPattern(pattern, str);
+    pattern = "aabb";
+    str = "xyzabcxyzabc";
+    result = solution->wordPatternMatch(pattern, str);
     cout << "pattern: \"" << pattern << "\"" << endl;
     cout << "strings: \"" << str << "\"" << endl;
     cout << "strings follow the same pattern: " << boolalpha << result;
