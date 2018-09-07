@@ -1,0 +1,1 @@
+g++ -std=c++11 Word_Pattern.cpp -o Word_Pattern.exe
