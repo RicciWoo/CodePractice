@@ -1,10 +1,8 @@
-#include <stack>
 #include <vector>
-#include <sstream>
-#include <iterator>
 #include <iostream>
 #include <algorithm>
 #include <unordered_map>
+#include <unordered_set>
 using namespace std;
 
 // Word Pattern II, use Hash Map
