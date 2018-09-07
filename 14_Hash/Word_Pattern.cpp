@@ -1,6 +1,7 @@
 #include <stack>
 #include <vector>
 #include <sstream>
+#include <iterator>
 #include <iostream>
 #include <algorithm>
 #include <unordered_map>
