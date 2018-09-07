@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <unordered_map>
 using namespace std;
 
 // Word Pattern, use Hash Map
