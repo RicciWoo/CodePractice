@@ -25,14 +25,14 @@ int main(int argc, char **argv) {
     vector<int> nums{0, 1};
     int result;
     Solution *solution = new Solution;
-    results = solution->findMaxLength(nums);
+    result = solution->findMaxLength(nums);
     cout << "numbers: [";
     for (int &n : nums) cout << n << ", ";
     cout << "]"<< endl;
     cout << "max length of contiguous array: " << result << endl;
 
     nums.push_back(0);
-    results = solution->findMaxLength(nums);
+    result = solution->findMaxLength(nums);
     cout << "numbers: [";
     for (int &n : nums) cout << n << ", ";
     cout << "]"<< endl;
