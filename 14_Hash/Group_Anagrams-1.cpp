@@ -28,7 +28,8 @@ public:
         //     sort(values.begin(), values.end());
         //     results.push_back(values);
         // }
-        for (const pair<string, vector<string>> &entry : hm) {
+        for (auto &entry : hm) {
+        //for (const pair<string, vector<string>> &entry : hm) {
             vector<string> values = entry.second;
             sort(values.begin(), values.end());
             results.push_back(values);
