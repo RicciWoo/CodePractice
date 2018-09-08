@@ -40,25 +40,12 @@ public:
 };
 
 int main(int argc, char **argv) {
-    string s = "abcabcbb";
-    int result;
+    string s = "ADOBECODEBANC";
+    string t = "ABC"
+    string result;
     Solution *solution = new Solution;
-    result = solution->lengthOfLongestSubstring(s);
-    cout << "string: \"" << s << "\"" << endl;
-    cout << "max length substring without repating: " << result << endl;
-
-    s = "bbbbb";
-    result = solution->lengthOfLongestSubstring(s);
-    cout << "string: \"" << s << "\"" << endl;
-    cout << "max length substring without repating: " << result << endl;
-
-    s = "pwwkew";
-    result = solution->lengthOfLongestSubstring(s);
-    cout << "string: \"" << s << "\"" << endl;
-    cout << "max length substring without repating: " << result << endl;
-
-    s = "abbcdefdgh";
-    result = solution->lengthOfLongestSubstring(s);
-    cout << "string: \"" << s << "\"" << endl;
-    cout << "max length substring without repating: " << result << endl;
+    result = solution->minWindow(s, t);
+    cout << "string s: \"" << s << "\"" << endl;
+    cout << "string t: \"" << t << "\"" << endl;
+    cout << "min window substring: \"" << result << "\"" << endl;
 }
