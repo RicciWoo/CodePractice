@@ -11,8 +11,7 @@ public:
         int result = 0;
         vector<int> cache(256, 0);
         for (int i = 0, j = 0; i < s.size(); i++) {
-            if (cache[s[i]] > 0)
-                j = max(j, cache[s[i]]);
+            if (cache[s[i]] > 0) j = max(j, cache[s[i]]);
             cache[s[i]] = i + 1;
             result = max(result, i - j + 1);
         }
