@@ -41,7 +41,7 @@ public:
 
 int main(int argc, char **argv) {
     string s = "ADOBECODEBANC";
-    string t = "ABC"
+    string t = "ABC";
     string result;
     Solution *solution = new Solution;
     result = solution->minWindow(s, t);
