@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
     vector<string> strs{"eat", "tea", "tan", "ate", "nat", "bat"};
     vector<vector<string>> results;
     Solution *solution = new Solution;
-    results = solution->groupAnagrams(pattern, str);
+    results = solution->groupAnagrams(strs);
     cout << "strings: ";
     for (string &str : strs) cout << "\"" << str << "\", ";
     cout << endl;
