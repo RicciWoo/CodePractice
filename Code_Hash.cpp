@@ -192,26 +192,25 @@ public:
         vector<int> text(256, 0);
         for (int i = 0; i < t.size(); i++)
             pattern[t[i]]++;
-        int start = 0, end = 0, minStart = 0, minEnd = 0;
+        int start = 0, end = 0, minStart = 0;
         int minLen = s.size() + 1;
         int count = t.size();
         bool isIncluded = false;
-        text[s[0]]++;
-        if (pattern[s[0]] >= 1) count--;
         while (true) {
             if (count == 0) {
                 isIncluded = true;
                 while (text[s[start]] > pattern[s[start]])
                     text[s[start++]]--;
-                if (minLen > end - start + 1) {
+                if (end - start < minLen) {
+                    minLen = end - start;
                     minStart = start;
-                    minEnd = end;
-                    minLen = end - start + 1;
                 }
             }
-            if (end < s.size() - 1) {
-                text[s[++end]]++;
-                if (pattern[s[end]] >= text[s[end]]) count--;
+            if (end < s.size()) {
+                text[s[end]]++;
+                if (text[s[end]] <= pattern[s[end]])
+                    count--;
+                end++;
             } else break;
         }
         if (isIncluded)
