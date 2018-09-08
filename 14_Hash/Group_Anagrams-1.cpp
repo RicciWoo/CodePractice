@@ -22,19 +22,17 @@ public:
                 hm[sorted] = temp;
             }
         }
-        for (auto it = hm.begin(); it != hm.end(); it++) {
         // for (unordered_map<string, vector<string>>::iterator it = 
         //      hm.begin(); it != hm.end(); it++) {
-            vector<string> values = it->second;
-            sort(values.begin(), values.end());
-            results.push_back(values);
-        }
-        // for (auto &entry : hm) {
-        // //for (const pair<string, vector<string>> &entry : hm) {
-        //     vector<string> values = entry.second;
+        //     vector<string> values = it->second;
         //     sort(values.begin(), values.end());
         //     results.push_back(values);
         // }
+        for (const pair<string, vector<string>> &entry : hm) {
+            vector<string> values = entry.second;
+            sort(values.begin(), values.end());
+            results.push_back(values);
+        }
         return results;
     }
 };
