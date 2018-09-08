@@ -1,0 +1,1 @@
+g++ -std=c++11 Group_Anagrams-1.cpp -o Group_Anagrams-1.exe
