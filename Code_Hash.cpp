@@ -170,6 +170,21 @@ public:
     }
 };
 
+// Longest_Substring Without Repeating Characters-3, use Hash Map
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int result = 0;
+        vector<int> cache(256, 0);
+        for (int i = 0, j = 0; i < s.size(); i++) {
+            j = max(j, cache[s[i]]);
+            cache[s[i]] = i + 1;
+            result = max(result, i - j + 1);
+        }
+        return result;
+    }
+};
+
 
 
 
