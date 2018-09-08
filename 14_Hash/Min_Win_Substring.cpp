@@ -47,5 +47,11 @@ int main(int argc, char **argv) {
     result = solution->minWindow(s, t);
     cout << "string s: \"" << s << "\"" << endl;
     cout << "string t: \"" << t << "\"" << endl;
+    cout << "min window substring: \"" << result << "\"" << endl << endl;
+
+    string t = "ABCC";
+    result = solution->minWindow(s, t);
+    cout << "string s: \"" << s << "\"" << endl;
+    cout << "string t: \"" << t << "\"" << endl;
     cout << "min window substring: \"" << result << "\"" << endl;
 }
