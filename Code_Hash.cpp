@@ -139,6 +139,38 @@ public:
     }
 };
 
+// Longest_Substring Without Repeating Characters-1, use Hash Map
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int result = 0;
+        unordered_map<char, int> hm;
+        for (int i = 0, j = 0; i < s.size(); i++) {
+            if (hm.count(s[i])) j = max(j, hm[s[i]]);
+            hm[s[i]] = i + 1;
+            result = max(result, i - j + 1);
+        }
+        return result;
+    }
+};
+
+// Longest_Substring Without Repeating Characters-2, use Hash Map
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int result = 0;
+        vector<int> cache(256, 0);
+        for (int i = 0, j = 0; i < s.size(); i++) {
+            if (cache[s[i]] > 0)
+                j = max(j, cache[s[i]]);
+            cache[s[i]] = i + 1;
+            result = max(result, i - j + 1);
+        }
+        return result;
+    }
+};
+
+
 
 
 
