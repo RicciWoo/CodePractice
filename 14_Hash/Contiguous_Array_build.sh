@@ -1,0 +1,1 @@
+g++ -std=c++11 Contiguous_Array.cpp -o Contiguous_Array.exe

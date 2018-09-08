@@ -98,7 +98,29 @@ public:
     }
 };
 
-
+// Group Anagrams-2, use Hash Map
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> hm;
+        vector<vector<string>> results;
+        for (string str : strs) {
+            string sorted(str);
+            sort(begin(sorted), end(sorted));
+            if (!hm.count(sorted)) {
+                vector<string> temp;
+                hm[sorted] = temp;
+            }
+            hm[sorted].push_back(str);
+        }
+        for (auto &entry : hm) {
+            vector<string> values = entry.second;
+            sort(values.begin(), values.end());
+            results.push_back(values);
+        }
+        return results;
+    }
+};
 
 
 
