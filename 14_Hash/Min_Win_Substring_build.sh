@@ -1,1 +1,1 @@
-g++ -std=c++11 Longest_Substring-3.cpp -o Longest_Substring-3.exe
+g++ -std=c++11 Min_Win_Substring.cpp -o Min_Win_Substring.exe
