@@ -1,0 +1,1 @@
+g++ -std=c++11 Merge_k_Sorted_List.cpp -o Merge_k_Sorted_List.exe
