@@ -15,7 +15,7 @@ public:
 
 class Solution {
 public:
-    vectir<int> topNumbers(vector<vector<int>> &nums) {
+    vector<int> topNumbers(vector<vector<int>> &nums) {
         int m = nums.size();
         int n = nums[0].size();
         priority_queue<int, vector<int>, myComp> minHeap;
