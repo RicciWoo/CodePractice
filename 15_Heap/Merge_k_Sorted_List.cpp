@@ -87,6 +87,7 @@ int main(int argc, char **argv) {
     }
     while (result) {
         cout << "->" << result->val;
+        result = result->next;
     }
     cout << endl;
 }
