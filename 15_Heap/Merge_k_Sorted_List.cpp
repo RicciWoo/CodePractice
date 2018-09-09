@@ -61,10 +61,6 @@ int main(int argc, char **argv) {
 
     vector<ListNode *> lists{l1, l2, l3};
 
-    ListNode *result;
-    Solution *solution = new Solution;
-    result = solution->mergeKLists(lists);
-
     cout << "Input:" << endl;
     cout << "[" << endl;
     for (ListNode *list : lists) {
@@ -79,6 +75,11 @@ int main(int argc, char **argv) {
         cout << "," << endl;
     }
     cout << "]" << endl;
+
+    ListNode *result;
+    Solution *solution = new Solution;
+    result = solution->mergeKLists(lists);
+
     cout << "Output: ";
     if (result) {
         cout << result->val;
