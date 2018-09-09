@@ -6,7 +6,7 @@
 using namespace std;
 
 // Kth Largest Element in an Array, use Heap
-class myComparator {
+class myComp {
 public:
     bool operator() (const int &a, const int &b) {
         return a > b;
@@ -16,8 +16,7 @@ public:
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
-        priority_queue<int, vector<int>, 
-                       myComparator> minHeap;
+        priority_queue<int, vector<int>, myComp> minHeap;
         for (int i = 0; i < k; i++)
             minHeap.push(nums[i]);
         for (int i = k; i < nums.size(); i++) {

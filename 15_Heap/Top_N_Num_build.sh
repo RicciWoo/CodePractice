@@ -1,0 +1,1 @@
+g++ -std=c++11 Top_N_Num.cpp -o Top_N_Num.exe
