@@ -31,3 +31,22 @@ public:
         return dummy->next;
     }
 };
+
+// Sliding Window Maximum, use Heap
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        if (nums.empty()) return nums;
+        vector<int> result(nums.size() - k + 1, 0);
+        deque<int> dq;
+        for (int i = 0; i < nums.size(); i++) {
+            if (!dq.empty() && dq.front() == i - k)
+                dq.pop_front();
+            while (!dq.empty() && nums[dq.back()] < nums[i])
+                dq.pop_back();
+            dq.push_back(i);
+            if (i >= k - 1) result[i - k + 1] = nums[dq.front()];
+        }
+        return result;
+    }
+};
