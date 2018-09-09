@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
 
     vector<int> result;
     Solution *solution = new Solution;
-    result = solution->maxSlidingWindow(lists);
+    result = solution->maxSlidingWindow(nums, k);
     cout << "numbers: [";
     for (int n : nums) cout << n << ", ";
     cout << "]" << endl;
