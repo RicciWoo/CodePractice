@@ -42,15 +42,15 @@ public:
 };
 
 int main(int argc, char **argv) {
-    Solution *solution = new Solution;
-    solution->addNum(1);
+    MedianFinder *medianFinder = new MedianFinder;
+    medianFinder->addNum(1);
     cout << "add number: 1" << endl;
-    solution->addNum(2);
+    medianFinder->addNum(2);
     cout << "add number: 2" << endl;
-    double result = solution->findMedian();
+    double result = medianFinder->findMedian();
     cout << "median so far: " << result << endl;
-    solution->addNum(3);
+    medianFinder->addNum(3);
     cout << "add number: 3" << endl;
-    result = solution->findMedian();
+    result = medianFinder->findMedian();
     cout << "median so far: " << result << endl;
 }
