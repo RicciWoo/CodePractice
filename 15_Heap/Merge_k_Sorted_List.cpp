@@ -15,7 +15,7 @@ struct ListNode {
  
 class myComparator {
 public:
-    int operator() (const ListNode *n1, const ListNode *n2) {
+    bool operator() (const ListNode *n1, const ListNode *n2) {
         return n1->val > n2->val;
     }
 };
@@ -23,20 +23,17 @@ public:
 class Solution {
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        if (lists.size() == 0) return NULL;
         priority_queue<ListNode *, vector<ListNode *>, 
                        myComparator> minHeap;
         for (int i = 0; i < lists.size(); i++)
-            if (lists[i] != NULL)
-                minHeap.push(lists[i]);
+            if (lists[i]) minHeap.push(lists[i]);
         ListNode *dummy = new ListNode(-1);
         ListNode *curr = dummy;
         while (!minHeap.empty()) {
             curr->next = minHeap.top();
             minHeap.pop();
             curr = curr->next;
-            if (curr->next != NULL)
-                minHeap.push(curr->next);
+            if (curr->next) minHeap.push(curr->next);
         }
         return dummy->next;
     }
