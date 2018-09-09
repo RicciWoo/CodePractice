@@ -43,8 +43,8 @@ int main(int argc, char **argv) {
     cout << "k: " << k << endl;
     cout << "result: " << result << endl << endl;
 
-    nums = {3, 2, 3, 1, 2, 4, 5, 5, 6;
-    int k = 4;
+    nums = {3, 2, 3, 1, 2, 4, 5, 5, 6};
+    k = 4;
     result = solution->findKthLargest(nums, k);
     cout << "numbers: [";
     for (int n : nums) cout << n << ", ";
