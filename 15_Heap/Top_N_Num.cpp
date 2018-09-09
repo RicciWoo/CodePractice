@@ -40,7 +40,11 @@ public:
                 }
             }
         }
-        vector<int> result(minHeap);
+        vector<int> result;
+        while (!minHeap.empty()) {
+            result.push_back(minHeap.top());
+            minHeap.pop();
+        }
         sort(result.begin(), result.end(), greater<int>());
         return result;
     }
