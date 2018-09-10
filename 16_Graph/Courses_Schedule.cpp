@@ -5,7 +5,7 @@
 #include <unordered_map>
 using namespace std;
 
-// Courese Schedule, use Topology Sort
+// Courses Schedule, use Topology Sort
 class Solution {
 public:
     bool canFinish(int numCourses, 

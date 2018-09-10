@@ -1,0 +1,1 @@
+g++ -std=c++11 Courses_Schedule.cpp -o Courses_Schedule.exe
