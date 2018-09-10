@@ -1,1 +1,0 @@
-g++ -std=c++11 Courese_Schedule-1.cpp -o Courese_Schedule-1.exe

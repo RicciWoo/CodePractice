@@ -1,6 +1,6 @@
 /******************** Graph ********************/
 
-// Course Schedule-1, use Topology Sort
+// Course Schedule, use Topology Sort
 class Solution {
 public:
     bool canFinish(int numCourses, 
