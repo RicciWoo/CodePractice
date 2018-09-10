@@ -34,7 +34,7 @@ public:
 };
 
 int main(int argc, char **argv) {
-    vector<vector<int>> prerequisites{{1, 0}};
+    vector<pair<int, int>> prerequisites{{1, 0}};
     int numCourses = 2;
 
     bool result;
