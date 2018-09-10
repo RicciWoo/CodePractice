@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
     for (pair<int, int> pre : prerequisites)
         cout << "[" << pre.first << ", " << pre.second << "], ";
     cout << "]" << endl;
-    cout << "can finish courses: " << boolalpha << result;
+    cout << "can finish courses: " << boolalpha << result << endl;
 
     prerequisites.push_back({0, 1});
     result = solution->canFinish(numCourses, prerequisites);
