@@ -42,11 +42,8 @@ int main(int argc, char **argv) {
     result = solution->canFinish(numCourses, prerequisites);
     cout << "number of courses: " << numCourses << endl;
     cout << "prerequisites: [";
-    for (vector<int> pre : prerequisites) {
-        cout << "[";
-        for (int p : pre) cout << p << ", ";
-        cout << "], ";
-    }
+    for (pair<int, int> pre : prerequisites)
+        cout << "[" << pre.first << ", " << pre.second << "], ";
     cout << "]" << endl;
     cout << "can finish courses: " << boolalpha << result;
 
@@ -54,11 +51,8 @@ int main(int argc, char **argv) {
     result = solution->canFinish(numCourses, prerequisites);
     cout << "number of courses: " << numCourses << endl;
     cout << "prerequisites: [";
-    for (vector<int> pre : prerequisites) {
-        cout << "[";
-        for (int p : pre) cout << p << ", ";
-        cout << "], ";
-    }
+    for (pair<int, int> pre : prerequisites)
+        cout << "[" << pre.first << ", " << pre.second << "], ";
     cout << "]" << endl;
     cout << "can finish courses: " << boolalpha << result;
 }
