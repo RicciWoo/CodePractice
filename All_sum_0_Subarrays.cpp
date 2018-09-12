@@ -26,9 +26,9 @@ vector<vector<int>> findSubArrays(vector<int> arr) {
         if (!hm.count(diff[i]))
             hm[diff[i]] = vector<int>{i};
         else {
-            hm[diff[i]].push_back(i);
             for (int j : hm[diff[i]])
-                if (i > j) results.push_back(vector<int>{j, i - 1});
+                results.push_back(vector<int>{j, i - 1});
+            hm[diff[i]].push_back(i);
         }
     }
     sort(results.begin(), results.end(), _myComp);
