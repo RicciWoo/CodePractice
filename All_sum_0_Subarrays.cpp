@@ -31,7 +31,7 @@ vector<vector<int>> findSubArrays(vector<int> arr) {
                 results.push_back(vector<int>{j, i - 1});
         }
     }
-    // sort(results.begin(), results.end(), _myComp);
+    sort(results.begin(), results.end(), _myComp);
     return results;
 }
 /******************************结束写代码******************************/
