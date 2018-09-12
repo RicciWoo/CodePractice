@@ -21,14 +21,14 @@ vector<vector<int>> findSubArrays(vector<int> arr) {
     vector<int> diff(arr.size() + 1, 0);
     unordered_map<int, vector<int>> hm;
     hm[0] = vector<int>{0};
-    for (int i = 1; i < arr.size(); i++) {
+    for (int i = 1; i <= arr.size(); i++) {
         diff[i] = diff[i - 1] + arr[i - 1];
         if (!hm.count(diff[i]))
             hm[diff[i]] = vector<int>{i};
         else {
             hm[diff[i]].push_back(i);
             for (int j : hm[diff[i]])
-                results.push_back(vector<int>{j, i - 1});
+                if (i > j) results.push_back(vector<int>{j, i - 1});
         }
     }
     sort(results.begin(), results.end(), _myComp);
