@@ -10,24 +10,6 @@ using namespace std;
 /*请完成下面这个函数，实现题目要求的功能
 当然，你也可以不按照下面这个模板来作答，完全按照自己的想法来 ^-^ 
 ******************************开始写代码******************************/
-void _combination(vector<int> &nums, int index, vector<int> &items, 
-                  int k, vector<vector<int>> &results) {
-    for (int i = index; i < nums.size(); i++) {
-        items.push_back(nums[i]);
-        _combination(nums, i + 1, items, k, results);
-        items.pop_back();
-    }
-    if (items.size() == k)
-        results.push_back(items);
-}
-
-vector<vector<int>> combination(vector<int> &nums, int k) {
-    vector<int> items;
-    vector<vector<int>> results;
-    _combination(nums, 0, items, k, results);
-    return results;
-}
-
 bool _myComp(const vector<int> &a, const vector<int> &b) {
     if (a[0] == b[0])
         return a[a.size() - 1] < b[b.size() - 1];
@@ -35,25 +17,18 @@ bool _myComp(const vector<int> &a, const vector<int> &b) {
 }
 
 vector<vector<int>> findSubArrays(vector<int> arr) {
+    vector<vector<int>> results;
     vector<int> diff(arr.size() + 1, 0);
     unordered_map<int, vector<int>> hm;
     hm[0] = vector<int>{0};
-    for (int i = 0; i < arr.size(); i++) {
-        diff[i + 1] = diff[i] + arr[i];
-        if (!hm.count(diff[i + 1]))
-            hm[diff[i + 1]] = vector<int>{i};
+    for (int i = 1; i < arr.size(); i++) {
+        diff[i] = diff[i - 1] + arr[i - 1];
+        if (!hm.count(diff[i]))
+            hm[diff[i]] = vector<int>{i};
         else {
-            hm[diff[i + 1]].push_back(i);
-        }
-    }
-    vector<vector<int>> results;
-    if (hm.empty()) return results;
-    for (auto &entry : hm) {
-        if (entry.second.size() == 2) 
-            results.push_back(entry.second);
-        else if (entry.second.size() >= 3) {
-            vector<vector<int>> temp = combination(entry.second, 2);
-            results.insert(results.end(), temp.begin(), temp.end());
+            hm[diff[i]].push_back(i);
+            for (int j : hm[diff[i]])
+                results.push_back(vector<int>{j, i - 1});
         }
     }
     sort(results.begin(), results.end(), _myComp);
