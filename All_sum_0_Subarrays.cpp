@@ -38,28 +38,35 @@ vector<vector<int>> findSubArrays(vector<int> arr) {
 
 
 int main() {
-    vector < vector < int > > res;
+    vector<vector<int>> res;
 
-    int _arr_size = 0;
-    cin >> _arr_size;
-    cin.ignore (std::numeric_limits<std::streamsize>::max(), '\n'); 
-    vector<int> _arr;
-    int _arr_item;
-    for(int _arr_i=0; _arr_i<_arr_size; _arr_i++) {
-        cin >> _arr_item;
-        cin.ignore (std::numeric_limits<std::streamsize>::max(), '\n');
-        _arr.push_back(_arr_item);
-    }
+    // int _arr_size = 0;
+    // cin >> _arr_size;
+    // cin.ignore (std::numeric_limits<std::streamsize>::max(), '\n'); 
+    // vector<int> _arr;
+    // int _arr_item;
+    // for(int _arr_i=0; _arr_i<_arr_size; _arr_i++) {
+    //     cin >> _arr_item;
+    //     cin.ignore (std::numeric_limits<std::streamsize>::max(), '\n');
+    //     _arr.push_back(_arr_item);
+    // }
 
-
+    vector<int> _arr{6, 3, -1, -3, 4, -2, 2, 4, 6, -12, -7};
+    cout << "Array: [";
+    for (int i : _arr) cout << i << ", ";
+    cout << endl;
     
     res = findSubArrays(_arr);
+
+    cout << "All sum 0 subarrays: ["
     for(int res_i=0; res_i < res.size(); res_i++) {
+        cout << "  ["
         for(int res_j=0; res_j < res[res_i].size(); res_j++) {
-            cout << res[res_i][res_j] << " ";
+            cout << res[res_i][res_j] << ", ";
         }
-        cout << endl;
+        cout << "]" << endl;
     }
+    cout << "]" << endl;
     
     return 0;
 
