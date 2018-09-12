@@ -58,9 +58,9 @@ int main() {
     
     res = findSubArrays(_arr);
 
-    cout << "All sum 0 subarrays: ["
+    cout << "All sum 0 subarrays: [";
     for(int res_i=0; res_i < res.size(); res_i++) {
-        cout << "  ["
+        cout << "  [";
         for(int res_j=0; res_j < res[res_i].size(); res_j++) {
             cout << res[res_i][res_j] << ", ";
         }
