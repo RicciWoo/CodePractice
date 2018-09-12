@@ -11,20 +11,20 @@ using namespace std;
 当然，你也可以不按照下面这个模板来作答，完全按照自己的想法来 ^-^ 
 ******************************开始写代码******************************/
 void _combination(vector<int> &nums, int index, vector<int> &items, 
-                  vector<vector<int>> &results) {
+                  int k, vector<vector<int>> &results) {
     for (int i = index; i < nums.size(); i++) {
         items.push_back(nums[i]);
-        _combination(nums, i + 1, items, results);
+        _combination(nums, i + 1, items, k, results);
         items.pop_back();
     }
-    results.push_back(items);
+    if (items.size() == k)
+        results.push_back(items);
 }
 
-vector<vector<int>> combination(vector<int> &nums) {
-    // sort(nums.begin(), nums.end());
+vector<vector<int>> combination(vector<int> &nums, int k) {
     vector<int> items;
     vector<vector<int>> results;
-    _combination(nums, 0, items, results);
+    _combination(nums, 0, items, k, results);
     return results;
 }
 
@@ -49,11 +49,14 @@ vector<vector<int>> findSubArrays(vector<int> arr) {
     vector<vector<int>> results;
     if (hm.empty()) return results;
     for (auto &entry : hm) {
-        for (int i = 0; i < entry.second.size(); i++)
-            cout << entry.second[i] << ", ";
-        cout << endl;
+        if (entry.second.size() == 2) 
+            results.push_back(entry.second);
+        else if (entry.second.size() >= 3) {
+            vector<vector<int>> temp = combination(entry.second, 2);
+            results.insert(results.end(), temp.begin(), temp.end());
+        }
     }
-    // sort(results.begin(), results.end(), myComp);
+    sort(results.begin(), results.end(), _myComp);
     return results;
 }
 /******************************结束写代码******************************/
@@ -86,4 +89,3 @@ int main() {
     return 0;
 
 }
-
