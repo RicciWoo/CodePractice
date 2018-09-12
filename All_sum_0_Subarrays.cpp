@@ -54,7 +54,7 @@ int main() {
     vector<int> _arr{6, 3, -1, -3, 4, -2, 2, 4, 6, -12, -7};
     cout << "Array: [";
     for (int i : _arr) cout << i << ", ";
-    cout << endl;
+    cout << "]" << endl;
     
     res = findSubArrays(_arr);
 
