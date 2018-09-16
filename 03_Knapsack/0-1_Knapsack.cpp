@@ -12,7 +12,7 @@ public:
 private:
     bool _knapsack(int s, vector<int> &weights, int index) {
         if (s == 0) return true;
-        if (s < 0 || index >= weights.size()) {
+        if (s < 0 || index == weights.size()) {
             return false;
         }
         return _knapsack(s - weights[index], weights, index + 1) ||

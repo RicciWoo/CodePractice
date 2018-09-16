@@ -1,6 +1,7 @@
 /******************** Recursion ********************/
 
-// Gray Code-1, Recursion
+// Gray Code-1, Recursion, LeetCode 89
+// !!! better method !!!
 class Solution {
 public:
     vector<int> grayCode(int n) {
@@ -8,7 +9,7 @@ public:
         _grayCode(n, result);
         return result;
     }
-
+    
 private:
     void _grayCode(int n, vector<int> &result) {
         if (n == 0) {
@@ -17,13 +18,12 @@ private:
         }
         _grayCode(n - 1, result);
         int k = 1 << (n - 1);
-        for (int i = result.size() - 1; i >= 0; i--) {
+        for (int i = result.size() - 1; i >= 0; i--)
             result.push_back(result[i] + k);
-        }
     }
 };
 
-// Gray Code-2, Iteration
+// Gray Code-2, Iteration, LeetCode 89
 class Solution {
 public:
     vector<int> grayCode(int n) {
@@ -92,6 +92,7 @@ public:
 };
 
 // Maze-3, Recursion, use dx, dy arrays
+// !!! better method !!!
 class Solution {
 public:
 	bool solveMaze(vector<vector<char>> &maze, int startX, int startY, 
@@ -214,6 +215,7 @@ private:
 };
 
 // Knapsack-1, Recursion, check every element, decide to use or not
+// LeetCode 39 Combination Sum
 class Solution {
 public:
     vector<vector<int>> knapsack(vector<int> &candidates, int target) {
@@ -241,33 +243,36 @@ private:
 };
 
 // Knapsack-2, Recursion, always pick one, decide which to pick
+// LeetCode 39 Combination Sum, !!! better choice !!!
 class Solution {
 public:
-    vector<vector<int>> knapsack(vector<int> &candidates, int target) {
-        // sort(candidate.begin(), candidates.end());
+    vector<vector<int>> combinationSum(
+            vector<int>& candidates, int target) {
         vector<vector<int>> results;
         vector<int> temp;
-        _knapsack(candidates, target, 0, temp, results);
+        _combination(candidates, target, 0, temp, results);
         return results;
     }
-
+    
 private:
-    void _knapsack(vector<int> &candidates, int target, int index, 
-                   vector<int> &temp, vector<vector<int>> &results) {
-        if (target < 0) return;
+    void _combination(vector<int> &candidates, int target, 
+                      int index, vector<int> &temp, 
+                      vector<vector<int>> &results) {
         if (target == 0) {
             results.push_back(temp);
             return;
         }
+        if (target < 0) return;
         for (int i = index; i < candidates.size(); i++) {
             temp.push_back(candidates[i]);
-            _knapsack(candidates, target - candidates[i], i, temp, results);
+            _combination(candidates, target - candidates[i], 
+                         i, temp, results);
             temp.pop_back();
         }
     }
 };
 
-// Knapsack II-1, Recursion
+// Knapsack II-1, Recursion, LeetCode 40 Combination Sum II
 class Solution {
 public:
     vector<vector<int>> knapsack(vector<int> &candidates, int target) {
@@ -296,33 +301,77 @@ private:
     }
 };
 
-// Knapsack II-2, Recursion
+// Knapsack II-2, Recursion, LeetCode 40 Combination Sum II
+// !!! better method !!!
 class Solution {
 public:
-    vector<vector<int>> knapsack(vector<int> &candidates, int target) {
+    vector<vector<int>> combinationSum2(
+            vector<int>& candidates, int target) {
         sort(candidates.begin(), candidates.end());
         vector<vector<int>> results;
         vector<int> temp;
-        _knapsack(candidates, target, 0, temp, results);
+        _combination(candidates, target, 0, temp, results);
         return results;
     }
-
+    
 private:
-    void _knapsack(vector<int> &candidates, int target, int index, 
-                   vector<int> &temp, vector<vector<int>> &results) {
-        if (target < 0) return;
+    void _combination(vector<int> &candidates, int target, 
+                      int index, vector<int> &temp, 
+                      vector<vector<int>> &results) {
         if (target == 0) {
             results.push_back(temp);
             return;
         }
+        if (target < 0) return;
         for (int i = index; i < candidates.size(); i++) {
             temp.push_back(candidates[i]);
-            _knapsack(candidates, target - candidates[i], i + 1, 
-            	      temp, results);
+            _combination(candidates, target - candidates[i], 
+                         i + 1, temp, results);
             temp.pop_back();
             while (i < candidates.size() - 1 && 
-            	   candidates[i] == candidates[i + 1]) i++;
+                   candidates[i + 1] == candidates[i]) i++;
         }
+    }
+};
+
+// LeetCode 216 Combination Sum III, use recursion
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<vector<int>> results;
+        vector<int> temp;
+        _combination(k, n, 1, temp, results);
+        return results;
+    }
+    
+private:
+    void _combination(int k, int n, int index, 
+                      vector<int> &temp, 
+                      vector<vector<int>> &results) {
+        if (n == 0) {
+            if (temp.size() == k) 
+                results.push_back(temp);
+            return;
+        }
+        if (n < 0)  return;
+        for (int i = index; i <= 9; i++) {
+            temp.push_back(i);
+            _combination(k, n - i, i + 1, temp, results);
+            temp.pop_back();
+        }
+    }
+};
+
+// LeetCode Combination Sum IV, use Dynamic Programming
+class Solution {
+public:
+    int combinationSum4(vector<int>& nums, int target) {
+        vector<int> comb(target + 1, 0);
+        comb[0] = 1;
+        for (int i = 1; i <= target; i++)
+            for (int j = 0; j < nums.size(); j++)
+                comb[i] += i - nums[j] < 0 ? 0 : comb[i - nums[j]];
+        return comb[target];
     }
 };
 
@@ -336,7 +385,7 @@ public:
 private:
 	bool _knapsack(int s, vector<int> &weights, int index) {
 		if (s == 0) return true;
-		if (s < 0 || index >= weights.size()) return false;
+		if (s < 0 || index == weights.size()) return false;
 		return _knapsack(s, weights, index + 1) ||
 		       _knapsack(s - weights[index], weights, index + 1);
 	}
