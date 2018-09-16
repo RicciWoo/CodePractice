@@ -14,7 +14,7 @@ public:
                 if (weights[j - 1] > i - opt[i][j - 1])
                     opt[i][j] = opt[i][j - 1];
                 else
-                    opt[i][j] = max(opt[i][j - 1], opt[i][j - 1] + weights[j - 1]);
+                    opt[i][j] = max(opt[i][j - 1], opt[i - weights[j - 1]][j - 1] + weights[j - 1]);
             }
         }
         return opt[s][weights.size()];
