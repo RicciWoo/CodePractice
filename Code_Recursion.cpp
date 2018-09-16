@@ -394,18 +394,18 @@ private:
 // 0-1 Knapsack II, Recursion
 class Solution {
 public:
-	bool knapsack(int s, vector<int> &weights) {
-		return _knapsack(s, weights, 0);
-	}
+    int knapsack(int s, vector<int> &weights) {
+        return _knapsack(s, weights, 0);
+    }
 
 private:
-	int _knapsack(int s, vector<int> &weights, int index) {
-		if (s == 0 || index >= weights.size()) return 0;
-		if (weights[index] > s) 
-			return _knapsack(s, weights, index + 1);
-		return max(_knapsack(s, weights, index + 1), weights[index] + 
-		           _knapsack(s - weights[index], weights, index + 1));
-	}
+    int _knapsack(int s, vector<int> &weights, int index) {
+        if (s == 0 || index == weights.size()) return 0;
+        if (s < weights[index])
+            return _knapsack(s, weights, index + 1);
+        return max(_knapsack(s, weights, index + 1), weights[index] + 
+                   _knapsack(s - weights[index], weights, index + 1));
+    }
 };
 
 // Permutation-1, Recursion, return as parameter and new array

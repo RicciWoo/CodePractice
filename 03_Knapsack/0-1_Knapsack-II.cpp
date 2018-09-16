@@ -5,14 +5,14 @@ using namespace std;
 // 0-1 Knapsack II, Recursion, 20180816
 class Solution {
 public:
-    bool knapsack(int s, vector<int> &weights) {
+    int knapsack(int s, vector<int> &weights) {
         return _knapsack(s, weights, 0);
     }
 
 private:
     int _knapsack(int s, vector<int> &weights, int index) {
-        if (s == 0 || index >= weights.size()) return 0;
-        if (weights[index] > s) 
+        if (s == 0 || index == weights.size()) return 0;
+        if (s < weights[index])
             return _knapsack(s, weights, index + 1);
         return max(_knapsack(s, weights, index + 1), weights[index] + 
                    _knapsack(s - weights[index], weights, index + 1));
