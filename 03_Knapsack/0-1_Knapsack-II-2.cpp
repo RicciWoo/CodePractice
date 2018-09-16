@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-// 0-1 Knapsack II, Recursion, 20180816
+// 0-1 Knapsack II, use DP, not correct!!!!!!!!
 class Solution {
 public:
     int knapsack(int s, vector<int> &weights) {
