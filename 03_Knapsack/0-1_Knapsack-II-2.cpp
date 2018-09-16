@@ -7,7 +7,7 @@ class Solution {
 public:
     int knapsack(int s, vector<int> &weights) {
         int n = weights.size();
-        vector<vector<int> opt(s + 1, vector<int>(n + 1, 0));
+        vector<vector<int>> opt(s + 1, vector<int>(n + 1, 0));
         for (int i = 0; i <= s; i++) opt[i][0] = 0;
         for (int j = 0; j <= n; j++) opt[0][j] = 0;
         for (int i = 1; i <= s; i++) {
@@ -16,7 +16,7 @@ public:
                     opt[i][j] = opt[i][j - 1];
                 else
                     opt[i][j] = max(opt[i][j - 1], 
-                                    opt[i - weights[j - 1]][j - 1] + weights[j - 1])
+                                    opt[i - weights[j - 1]][j - 1] + weights[j - 1]);
             }
         }
         return opt[s][n];
