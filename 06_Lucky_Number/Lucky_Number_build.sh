@@ -1,1 +1,1 @@
-g++ Lucky_Number.cpp -o Lucky_Number.exe
+g++ -std=c++11 Lucky_Number.cpp -o Lucky_Number.exe

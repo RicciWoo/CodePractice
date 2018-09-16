@@ -215,7 +215,7 @@ private:
 };
 
 // Knapsack-1, Recursion, check every element, decide to use or not
-// LeetCode 39 Combination Sum
+// LeetCode 39. Combination Sum
 class Solution {
 public:
     vector<vector<int>> knapsack(vector<int> &candidates, int target) {
@@ -243,7 +243,7 @@ private:
 };
 
 // Knapsack-2, Recursion, always pick one, decide which to pick
-// LeetCode 39 Combination Sum, !!! better choice !!!
+// LeetCode 39. Combination Sum, !!! better method !!!
 class Solution {
 public:
     vector<vector<int>> combinationSum(
@@ -272,7 +272,7 @@ private:
     }
 };
 
-// Knapsack II-1, Recursion, LeetCode 40 Combination Sum II
+// Knapsack II-1, Recursion, LeetCode 40. Combination Sum II
 class Solution {
 public:
     vector<vector<int>> knapsack(vector<int> &candidates, int target) {
@@ -301,7 +301,7 @@ private:
     }
 };
 
-// Knapsack II-2, Recursion, LeetCode 40 Combination Sum II
+// Knapsack II-2, Recursion, LeetCode 40. Combination Sum II
 // !!! better method !!!
 class Solution {
 public:
@@ -334,7 +334,7 @@ private:
     }
 };
 
-// LeetCode 216 Combination Sum III, use recursion
+// LeetCode 216. Combination Sum III, use recursion
 class Solution {
 public:
     vector<vector<int>> combinationSum3(int k, int n) {
@@ -362,7 +362,7 @@ private:
     }
 };
 
-// LeetCode Combination Sum IV, use Dynamic Programming
+// LeetCode 377. Combination Sum IV, use Dynamic Programming
 class Solution {
 public:
     int combinationSum4(vector<int>& nums, int target) {
@@ -408,7 +408,7 @@ private:
     }
 };
 
-// Permutation-1, Recursion, return as parameter and new array
+// Permutation-1, Recursion, return as parameter and new array, LeetCode 46
 class Solution {
 public:
     vector<vector<int>> permute(vector<int> num) {
@@ -436,92 +436,92 @@ private:
     }
 };
 
-// Permutation-2, Recursion, return as parameter and share array
+// Permutation-2, Recursion, return as parameter and share array, LeetCode 46
 class Solution {
 public:
-    vector<vector<int>> permute(vector<int> num) {
-        // sort(num.begin(), num.end());
-        vector<int> cur;
+    vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> results;
-        _permute(num, cur, results);
+        vector<int> temp;
+        _permute(nums, temp, results);
         return results;
     }
-
+    
 private:
-    void _permute(vector<int> &num, vector<int> &cur, 
+    void _permute(vector<int> &nums, vector<int> &temp, 
                   vector<vector<int>> &results) {
-        if (cur.size() == num.size()) {
-            results.push_back(cur);
+        if (temp.size() == nums.size()) {
+            results.push_back(temp);
             return;
         }
-        for (int i = 0; i < num.size(); i++) {
-            if (find(cur.begin(), cur.end(), num[i]) != cur.end()) {
+        for (int i = 0; i < nums.size(); i++) {
+            if (find(temp.begin(), temp.end(), 
+                     nums[i]) != temp.end())
                 continue;
-            }
-            cur.push_back(num[i]);
-            _permute(num, cur, results);
-            cur.pop_back();
+            temp.push_back(nums[i]);
+            _permute(nums, temp, results);
+            temp.pop_back();
         }
     }
 };
 
-// Permutation-3, Recursion, swap elements
+// Permutation-3, Recursion, swap elements, LeetCode 46
+// !!! better method !!!
 class Solution {
 public:
-    vector<vector<int>> permute(vector<int> num) {
-        // sort(num.begin(), num.end());
+    vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> results;
-        _permute(num, 0, results);
+        _permute(nums, 0, results);
         return results;
     }
-
+    
 private:
-    void _permute(vector<int> &num, int index, 
+    void _permute(vector<int> &nums, int index, 
                   vector<vector<int>> &results) {
-        if (index == num.size()) {
-            results.push_back(num);
+        if (index == nums.size()) {
+            results.push_back(nums);
             return;
         }
-        for (int i = index; i < num.size(); i++) {
-            swap(num[index], num[i]);
-            _permute(num, index + 1, results);
-            swap(num[index], num[i]);
+        for (int i = index; i < nums.size(); i++) {
+            swap(nums[index], nums[i]);
+            _permute(nums, index + 1, results);
+            swap(nums[index], nums[i]);
         }
     }
 };
 
 // Permutation-4, Recursion, return as parameter, share array and use flags
+// LeetCode 46, !!! better method !!!
 class Solution {
 public:
-    vector<vector<int>> permute(vector<int> num) {
-        // sort(num.begin(), num.end());
-        vector<int> cur;
+    vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> results;
-        vector<bool> visited(num.size(), false);
-        _permute(num, cur, visited, results);
+        vector<int> temp;
+        vector<bool> used(nums.size(), false);
+        _permute(nums, used, temp, results);
         return results;
     }
-
+    
 private:
-    void _permute(vector<int> &num, vector<int> &cur, 
-                  vector<bool> &visited, 
+    void _permute(vector<int> &nums, vector<bool> &used, 
+                  vector<int> &temp, 
                   vector<vector<int>> &results) {
-        if (cur.size() == num.size()) {
-            results.push_back(cur);
+        if (temp.size() == nums.size()) {
+            results.push_back(temp);
             return;
         }
-        for (int i = 0; i < num.size(); i++) {
-            if (visited[i]) continue;
-            visited[i] = true;
-            cur.push_back(num[i]);
-            _permute(num, cur, visited, results);
-            cur.pop_back();
-            visited[i] = false;
+        for (int i = 0; i < nums.size(); i++) {
+            if (used[i]) continue;
+            used[i] = true;
+            temp.push_back(nums[i]);
+            _permute(nums, used, temp, results);
+            temp.pop_back();
+            used[i] = false;
         }
     }
 };
 
 // Permutation II-1, Recursion, return as return and new array
+// LeetCode 47
 class Solution {
 public:
     vector<vector<int>> permute(vector<int> num) {
@@ -552,40 +552,41 @@ private:
 };
 
 // Permutation II-2, Recursion, return as parameter and share array
+// LeetCode 47, !!! better method !!!
 class Solution {
 public:
-    vector<vector<int>> permute(vector<int> num) {
-        sort(num.begin(), num.end());
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
         vector<vector<int>> results;
-        vector<int> cur;
-        vector<bool> visited(num.size(), false);
-        _permute(num, cur, visited, results);
+        vector<int> temp;
+        vector<bool> used(nums.size(), false);
+        _permute(nums, used, temp, results);
         return results;
     }
 
 private:
-    void _permute(vector<int> &num, vector<int> &cur, 
-                  vector<bool> &visited, 
+    void _permute(vector<int> &nums, vector<bool> &used, 
+                  vector<int> &temp, 
                   vector<vector<int>> &results) {
-        if (cur.size() == num.size()) {
-            results.push_back(cur);
+        sort(nums.begin(), nums.end());
+        if (temp.size() == nums.size()) {
+            results.push_back(temp);
             return;
         }
-        for (int i = 0; i < num.size(); i++) {
-            if (visited[i] || (i > 0 && num[i] == num[i - 1] && 
-                               !visited[i - 1])) {
+        for (int i = 0; i < nums.size(); i++) {
+            if (used[i] || (i > 0 && 
+                nums[i] == nums[i - 1] && !used[i - 1]))
                 continue;
-            }
-            visited[i] = true;
-            cur.push_back(num[i]);
-            _permute(num, cur, visited, results);
-            cur.pop_back();
-            visited[i] = false;
+            used[i] = true;
+            temp.push_back(nums[i]);
+            _permute(nums, used, temp, results);
+            temp.pop_back();
+            used[i] = false;
         }
     }
 };
 
 // Combination-1, Recursion, return as parameter and new array
+// LeetCode 78. Subsets
 class Solution {
 public:
     vector<vector<int>> combination(vector<int> nums) {
@@ -614,6 +615,7 @@ private:
 };
 
 // Combination-2, Recursion, return as parameter and share array
+// LeetCode 78. Subsets
 class Solution {
 public:
     vector<vector<int>> combination(vector<int> nums) {
@@ -641,6 +643,7 @@ private:
 };
 
 // Combination-3, Recursion, always pick a element, add empty set in the loop
+// LeetCode 78. Subsets
 class Solution {
 public:
     vector<vector<int>> combination(vector<int> nums) {
@@ -670,6 +673,7 @@ private:
 };
 
 // Combination-4, Recursion, always pick a element, add empty set at the end
+// LeetCode 78. Subsets
 class Solution {
 public:
     vector<vector<int>> combination(vector<int> nums) {
@@ -696,7 +700,8 @@ private:
     }
 };
 
-// Combination-5, Recursion, add empty set first or at the end
+// Combination-5, Recursion, add empty set at first
+// LeetCode 78. Subsets, !!! better method !!!
 class Solution {
 public:
     vector<vector<int>> combination(vector<int> nums) {
@@ -719,7 +724,8 @@ private:
     }
 };
 
-// Combination-6, Recursion, add empty set first or at the end
+// Combination-6, Recursion, add empty set at the end
+// LeetCode 78. Subsets, !!! better method !!!
 class Solution {
 public:
     vector<vector<int>> combination(vector<int> nums) {
@@ -739,6 +745,32 @@ private:
             items.pop_back();
         }
         results.push_back(items);
+    }
+};
+
+// Combination II, Recursion, LeetCode 90. Subsets II
+class Solution {
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> results;
+        vector<int> temp;
+        _subsets(nums, 0, temp, results);
+        return results;
+    }
+    
+private:
+    void _subsets(vector<int> &nums, int index, 
+                  vector<int> &temp, 
+                  vector<vector<int>> &results) {
+        results.push_back(temp);
+        for (int i = index; i < nums.size(); i++) {
+            if (i > index && nums[i] == nums[i - 1])
+                continue;
+            temp.push_back(nums[i]);
+            _subsets(nums, i + 1, temp, results);
+            temp.pop_back();
+        }
     }
 };
 
@@ -753,32 +785,30 @@ public:
     }
 
 private:
-    void _luckyNumber(string &num, int target, int index, int current, 
+    void _luckyNumber(string &num, int target, int index, int curr,
                       int last, string temp, vector<string> &results) {
         if (index == num.size()) {
-            if (current == target) {
+            if (curr == target) {
                 results.push_back(temp);
-                return;
             }
+            return;
         }
         for (int i = index; i < num.size(); i++) {
             if (num[index] == '0' && i != index) return;
             string m = num.substr(index, i - index + 1);
-            char *pEnd;
-            long n = strtol(m.c_str(), &pEnd, 10);
+            long n = stol(m);
             if (index == 0)
                 _luckyNumber(num, target, i + 1, n, n, temp + m, results);
             else {
-                _luckyNumber(num, target, i + 1, current + n, n, 
+                _luckyNumber(num, target, i + 1, curr + n, n, 
                              temp + "+" + m, results);
-                _luckyNumber(num, target, i + 1, current - n, -n, 
+                _luckyNumber(num, target, i + 1, curr - n, -n, 
                              temp + "-" + m, results);
-                _luckyNumber(num, target, i + 1, current - last + last * n, 
+                _luckyNumber(num, target, i + 1, curr - last + last * n, 
                              last * n, temp + "*" + m, results);
-                if (n != 0 && last % n == 0) {
-                    _luckyNumber(num, target, i + 1, current - last + last / n, 
+                if (n != 0 && last % n == 0)
+                    _luckyNumber(num, target, i + 1, curr - last + last / n, 
                                  last / n, temp + "/" + m, results);
-                }
             }
         }
     }
