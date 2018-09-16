@@ -1,1 +1,0 @@
-g++ -std=c++11 0-1_Knapsack-II-2.cpp -o 0-1_Knapsack-II-2.exe
