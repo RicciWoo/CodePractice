@@ -8,7 +8,7 @@ public:
     int knapsack(int s, vector<int> &weights) {
         vector<int> opt(weights.size() + 1, 0);
         for (int i = 1; i <= weights.size(); i++) {
-            if (weights[i - 1] > s - opt[i - ])
+            if (weights[i - 1] > s - opt[i - 1])
                 opt[i] = opt[i - 1];
             else
                 opt[i] = max(opt[i - 1], opt[i - 1] + weights[i - 1]);
