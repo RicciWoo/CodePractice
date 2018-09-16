@@ -813,3 +813,39 @@ private:
         }
     }
 };
+
+// Letter Combinations of a Phone Number - LeetCode 17
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> results;
+        if (digits.empty()) return results;
+        _letterComb(digits, 0, "", results);
+        return results;
+    }
+    
+private:
+    vector<string> dict{" ", "", "abc", "def", "ghi", "jkl", 
+                        "mno", "pqrs", "tuv", "wxyz"};
+    void _letterComb(string &digits, int index, 
+                     string temp, vector<string> &results) {
+        if (index == digits.size()) {
+            results.push_back(temp);
+            return;
+        }
+        int k = digits[index] - '0';
+        for (int i = 0; i < dict[k].size(); i++)
+            _letterComb(digits, index + 1, temp + dict[k][i], 
+                        results);
+    }
+};
+
+
+
+
+
+
+
+
+
+
