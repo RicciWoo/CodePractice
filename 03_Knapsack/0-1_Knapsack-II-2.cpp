@@ -6,14 +6,20 @@ using namespace std;
 class Solution {
 public:
     int knapsack(int s, vector<int> &weights) {
-        vector<int> opt(weights.size() + 1, 0);
-        for (int i = 1; i <= weights.size(); i++) {
-            if (weights[i - 1] > s - opt[i - 1])
-                opt[i] = opt[i - 1];
-            else
-                opt[i] = max(opt[i - 1], opt[i - 1] + weights[i - 1]);
+        int n = weights.size();
+        vector<vector<int> opt(s + 1, vector<int>(n + 1, 0));
+        for (int i = 0; i <= s; i++) opt[i][0] = 0;
+        for (int j = 0; j <= n; j++) opt[0][j] = 0;
+        for (int i = 1; i <= s; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (weights[j - 1] > i - opt[i][j - 1])
+                    opt[i][j] = opt[i][j - 1];
+                else
+                    opt[i][j] = max(opt[i][j - 1], 
+                                    opt[i - weights[j - 1]][j - 1] + weights[j - 1])
+            }
         }
-        return opt[weights.size()];
+        return opt[s][n];
     }
 };
 
