@@ -840,10 +840,103 @@ private:
     }
 };
 
+// N-Queens - LeetCode 51
+class Solution {
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> results;
+        vector<string> temp(n, string(n, '.'));
+        vector<bool> c(n, false);  // flags of columns
+        vector<bool> d1(2 * n - 1, false); // main diag
+        vector<bool> d2(2 * n - 1, false); // anti diag
+        _solveNQ(n, 0, c, d1, d2, temp, results);
+        return results;
+    }
+    
+private:
+    void _solveNQ(int n, int i, vector<bool> &c, 
+                  vector<bool> &d1, vector<bool> &d2, 
+                  vector<string> &temp, 
+                  vector<vector<string>> &results) {
+        if (i == n) {
+            results.push_back(temp);
+            return;
+        }
+        for (int j = 0; j < n; j++) {
+            if (!c[j] && !d1[i - j + n - 1] && !d2[i + j]) {
+                c[j] = d1[i - j + n - 1] = d2[i + j] = true;
+                temp[i][j] = 'Q';
+                _solveNQ(n, i + 1, c, d1, d2, temp, results);
+                temp[i][j] = '.';
+                c[j] = d1[i - j + n - 1] = d2[i + j] = false;
+            }
+        }
+    }
+};
 
+// LeetCode 51. N-Queens II
+class Solution {
+public:
+    int totalNQueens(int n) {
+        int result = 0;
+        vector<bool> c(n, false);  // flags of columns
+        vector<bool> d1(2 * n - 1, false); // main diag
+        vector<bool> d2(2 * n - 1, false); // anti diag
+        _solveNQ(n, 0, c, d1, d2, result);
+        return result;
+    }
+    
+private:
+    void _solveNQ(int n, int i, vector<bool> &c, 
+                  vector<bool> &d1, vector<bool> &d2, 
+                  int &result) {
+        if (i == n) {
+            result++;
+            return;
+        }
+        for (int j = 0; j < n; j++) {
+            if (!c[j] && !d1[i - j + n - 1] && !d2[i + j]) {
+                c[j] = d1[i - j + n - 1] = d2[i + j] = true;
+                _solveNQ(n, i + 1, c, d1, d2, result);
+                c[j] = d1[i - j + n - 1] = d2[i + j] = false;
+            }
+        }
+    }
+};
 
-
-
+// LeetCode 131. Palindrome Partitioning
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> results;
+        vector<string> temp;
+        _partition(s, 0, temp, results);
+        return results;
+    }
+    
+private:
+    void _partition(string &s, int index, vector<string> &temp, 
+                    vector<vector<string>> &results) {
+        if (index == s.size()) {
+            results.push_back(temp);
+            return;
+        }
+        for (int i = index; i < s.size(); i++) {
+            string sub = s.substr(index, i - index + 1);
+            if (_isPalindrome(sub)) {
+                temp.push_back(sub);
+                _partition(s, i + 1, temp, results);
+                temp.pop_back();
+            }
+        }
+    }
+    
+    bool _isPalindrome(string s) {
+        for (int i = 0, j = s.size() - 1; i < j; i++, j--)
+            if (s[i] != s[j]) return false;
+        return true;
+    }
+};
 
 
 
