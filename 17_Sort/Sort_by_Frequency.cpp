@@ -33,8 +33,8 @@ public:
 };
 
 int main(int argc, char **argv) {
-    <vector<int> array{1, 4, 5, 5, 7, 8, 1, 3, 4, 5, 8, 11, 
-                     2, 5, 6, 6, 7, 10, 2, 3, 5, 8, 10, 13};
+    vector<int> array{1, 4, 5, 5, 7, 8, 1, 3, 4, 5, 8, 11, 
+                    2, 5, 6, 6, 7, 10, 2, 3, 5, 8, 10, 13};
     cout << "Input: [";
     for (int a : array) cout << a << ", ";
     cout << "]" << endl;
