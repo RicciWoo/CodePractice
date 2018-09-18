@@ -16,7 +16,7 @@ public:
 
 class Solution {
 public:
-    vector<int> frequencySort(<vector<int> &array) {
+    vector<int> frequencySort(vector<int> &array) {
         unordered_map<int, char> cm;
         for (int i = 0; i < array.size(); i++) {
             cm.insert({array[i], 0});
