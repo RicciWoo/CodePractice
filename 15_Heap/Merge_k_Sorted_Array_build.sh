@@ -1,0 +1,1 @@
+g++ -std=c++11 Merge_k_Sorted_Array.cpp -o Merge_k_Sorted_Array.exe

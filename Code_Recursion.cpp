@@ -938,7 +938,81 @@ private:
     }
 };
 
+// LeetCode 36. Valid Sudoku [Hash Table]
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        unordered_set<char> used;
+        for (int i = 0; i < 9; i++) {
+            used.clear();
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] == '.') continue;
+                if (used.count(board[i][j])) return false;
+                else used.insert(board[i][j]);
+            }
+            used.clear();
+            for (int j = 0; j < 9; j++) {
+                if (board[j][i] == '.') continue;
+                if (used.count(board[j][i])) return false;
+                else used.insert(board[j][i]);
+            }
+            used.clear();
+            int r = (i / 3) * 3, c = (i % 3) * 3;
+            for (int j = 0; j < 9; j++) {
+                int x = r + j / 3, y = c + j % 3;
+                if (board[x][y] == '.') continue;
+                if (used.count(board[x][y])) return false;
+                else used.insert(board[x][y]);
+            }
+        }
+        return true;
+    }
+};
 
-
+// Sudoku Solver - LeetCode 37
+class Solution {
+public:
+    bool solveSudoku(vector<vector<char>>& board) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] == '.') {
+                    for (int k = 0; k < 9; k++) {
+                        board[i][j] = '1' + k;
+                        if (_isValid(board, i, j) && solveSudoku(board))
+                            return true;
+                        board[i][j] = '.';
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+private:
+    bool _isValid(vector<vector<char>> &board, int x, int y) {
+        unordered_set<char> used;
+        for (int j = 0; j < 9; j++) {
+            if (board[x][j] == '.') continue;
+            if (used.count(board[x][j])) return false;
+            else used.insert(board[x][j]);
+        }
+        used.clear();
+        for (int i = 0; i < 9; i++) {
+            if (board[i][y] == '.') continue;
+            if (used.count(board[i][y])) return false;
+            else used.insert(board[i][y]);
+        }
+        used.clear();
+        int r = (x / 3) * 3, c = (y / 3) * 3;
+        for (int k = 0; k < 9; k++) {
+            int i = r + k / 3, j = c + k % 3;
+            if (board[i][j] == '.') continue;
+            if (used.count(board[i][j])) return false;
+            else used.insert(board[i][j]);
+        }
+        return true;
+    }
+};
 
 
