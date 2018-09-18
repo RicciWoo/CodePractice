@@ -25,6 +25,7 @@ public:
         vector<int> result;
         while (!pq.empty()) {
             pair<int, int> item = pq.top();
+            pq.pop();
             int val = item.first;
             int i = item.second / n, j = item.second % n;
             if (++j < n) pq.push({arrays[i][j], i * n + j});
