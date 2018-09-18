@@ -3,7 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <unordered_map>
-#include <multiple_map>
+#include <map>
 using namespace std;
 
 // Sort by Frequency, use Sort
@@ -23,7 +23,7 @@ public:
             cm.insert({array[i], 0});
             cm[array[i]]++;
         }
-        multiple_map<int, int> rm;
+        multimap<int, int> rm;
         for (pair<int, int> &item : cm)
             rm.insert({item.second, item.first});
         vector<int> result;
