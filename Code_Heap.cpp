@@ -32,6 +32,35 @@ public:
     }
 };
 
+// Merge k Sorted Arrays, use Heap
+class myComp {
+public:
+    bool operator() (const pair<int, int> &a, 
+                     const pair<int, int> &b) {
+        return a.first > b.first;
+    }
+};
+class Solution {
+public:
+    vector<int> mergeKArray(vector<vector<int>> &arrays) {
+        int k = arrays.size(), n = arrays[0].size();
+        priority_queue<pair<int, int>, 
+                       vector<pair<int, int>>, myComp> pq;
+        for (int i = 0; i < arrays.size(); i++)
+            pq.push({arrays[i][0], i * n});
+        vector<int> result;
+        while (!pq.empty()) {
+            pair<int, int> item = pq.top();
+            pq.pop();
+            int val = item.first;
+            int i = item.second / n, j = item.second % n;
+            if (++j < n) pq.push({arrays[i][j], i * n + j});
+            result.push_back(val);
+        }
+        return result;
+    }
+};
+
 // Sliding Window Maximum, use Heap
 class Solution {
 public:
