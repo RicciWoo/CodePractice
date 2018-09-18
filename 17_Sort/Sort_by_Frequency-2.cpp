@@ -24,11 +24,17 @@ public:
             cm[array[i]]++;
         }
         multimap<int, int> rm;
-        for (pair<const int, int> &item : cm)
+        cout << "items in unordered_map:" << endl;
+        for (pair<const int, int> &item : cm) {
+            cout << "  " << item.first << ", " << item.second << endl;
             rm.insert({item.second, item.first});
+        }
         vector<int> result;
-        for (pair<const int, int> &item : rm)
+        cout << "items in multimap:" << endl;
+        for (pair<const int, int> &item : rm) {
+            cout << "  " << item.first << ", " << item.second << endl;
             result.push_back(item.second);
+        }
         return result;
     }
 };
