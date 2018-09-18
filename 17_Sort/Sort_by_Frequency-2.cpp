@@ -9,9 +9,8 @@ using namespace std;
 // Sort by Frequency, use Sort
 class myComp {
 public:
-    bool operator() (const pair<int, int> &a, 
-                     const pair<int, int> &b) {
-        return a.second > b.second;
+    bool operator() (const int &a, const int &b) {
+        return a > b;
     }
 };
 
@@ -23,7 +22,7 @@ public:
             cm.insert({array[i], 0});
             cm[array[i]]++;
         }
-        multimap<int, int> rm;
+        multimap<int, int, myComp()> rm;
         cout << "items in unordered_map:" << endl;
         for (pair<const int, int> &item : cm) {
             cout << "  " << item.first << ", " << item.second << endl;
