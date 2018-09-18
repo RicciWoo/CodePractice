@@ -24,10 +24,10 @@ public:
             cm[array[i]]++;
         }
         multimap<int, int> rm;
-        for (pair<int, int> &item : cm)
+        for (pair<const int, int> &item : cm)
             rm.insert({item.second, item.first});
         vector<int> result;
-        for (pair<int, int> &item : rm)
+        for (pair<const int, int> &item : rm)
             result.push_back(item.second);
         return result;
     }
