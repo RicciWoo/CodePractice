@@ -9,31 +9,30 @@ using namespace std;
 // Sort by Frequency, use Sort
 class myComp {
 public:
-    bool operator() (const int &a, const int &b) {
-        return a > b;
+    bool operator() (const pair<int, int> &a, 
+                     const pair<int, int> &b) {
+        if (a.second != b.second) 
+            return a.second > b.second;
+        return a.first < b.first;
     }
 };
 
 class Solution {
 public:
     vector<int> frequencySort(vector<int> &array) {
-        unordered_map<int, int> cm;
+        unordered_map<int, int> hm;
         for (int i = 0; i < array.size(); i++) {
-            cm.insert({array[i], 0});
-            cm[array[i]]++;
+            if (!hm.count(array[i]))
+                hm.insert({array[i], 0});
+            hm[array[i]]++;
         }
-        multimap<int, int, myComp> rm;
-        cout << "items in unordered_map:" << endl;
-        for (pair<const int, int> &item : cm) {
-            cout << "  " << item.first << ", " << item.second << endl;
-            rm.insert({item.second, item.first});
-        }
+        vector<pair<int, int>> vec;
+        for (int i = 0; i < array.size(); i++)
+            vec.push_back({i, hm[array[i]]});
+        sort(vec.begin(), vec.end(), myComp);
         vector<int> result;
-        cout << "items in multimap:" << endl;
-        for (pair<const int, int> &item : rm) {
-            cout << "  " << item.first << ", " << item.second << endl;
-            result.push_back(item.second);
-        }
+        for (int i = 0; i < array.size(); i++)
+            result.push_back(array[vec[i].first]);
         return result;
     }
 };
