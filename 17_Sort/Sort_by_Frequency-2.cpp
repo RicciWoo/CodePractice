@@ -10,30 +10,30 @@ using namespace std;
 // if elements with the same frequency, sort by appearance
 class myComp {
 public:
-    bool operator() (const pair<int, int> &a, 
-                     const pair<int, int> &b) {
-        if (a.second != b.second) 
-            return a.second > b.second;
-        return a.first < b.first;
+    bool operator() (const pair<int, pair<int, int>> &a, 
+                     const pair<int, pair<int, int>> &b) {
+        if (a.second.first != b.second.first) 
+            return a.second.first > b.second.first;
+        return a.second.second < b.second.second;
     }
 };
 
 class Solution {
 public:
     vector<int> frequencySort(vector<int> &array) {
-        unordered_map<int, int> hm;
+        unordered_map<int, pair<int, int>> hm;
         for (int i = 0; i < array.size(); i++) {
             if (!hm.count(array[i]))
-                hm.insert({array[i], 0});
-            hm[array[i]]++;
+                hm.insert({array[i], {0, i}});
+            hm[array[i]].first++;
         }
-        vector<pair<int, int>> vec;
-        for (int i = 0; i < array.size(); i++)
-            vec.push_back({i, hm[array[i]]});
+        vector<pair<int, pair<int, int>>> vec(hm.begin(), 
+                                              hm.end());
         sort(vec.begin(), vec.end(), myComp());
         vector<int> result;
-        for (int i = 0; i < array.size(); i++)
-            result.push_back(array[vec[i].first]);
+        for (int i = 0; i < vec.size(); i++)
+            for (int j = 0; j < vec[i].second.first; j++)
+                result.push_back(vec[i].first);
         return result;
     }
 };
