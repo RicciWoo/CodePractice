@@ -29,7 +29,7 @@ public:
         vector<pair<int, int>> vec;
         for (int i = 0; i < array.size(); i++)
             vec.push_back({i, hm[array[i]]});
-        sort(vec.begin(), vec.end(), myComp);
+        sort(vec.begin(), vec.end(), myComp());
         vector<int> result;
         for (int i = 0; i < array.size(); i++)
             result.push_back(array[vec[i].first]);
