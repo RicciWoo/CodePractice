@@ -7,6 +7,7 @@
 using namespace std;
 
 // Sort by Frequency, use Sort
+// if elements with the same frequency, sort by appearance
 class myComp {
 public:
     bool operator() (const pair<int, int> &a, 
