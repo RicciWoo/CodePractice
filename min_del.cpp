@@ -10,27 +10,29 @@ using namespace std;
 /*请完成下面这个函数，实现题目要求的功能
 当然，你也可以不按照下面这个模板来作答，完全按照自己的想法来 ^-^ 
 ******************************开始写代码******************************/
-void _removeChar(string str, int index, int count, int min, 
+void _removeChar(string str, int index, int count, int &miCnt, 
                  unordered_set<string> &dict) {
     if (index == str.size()) {
-        if (count < min) min = count;
+        if (count < miCnt) miCnt = count;
         return;
     }
-    if (count >= min) return;
+    if (count >= miCnt) return;
     for (int i = index; i < str.size(); i++) {
         string sub = str.substr(index, i - index + 1);
         if (dict.count(sub)) 
-            _removeChar(str, i + 1, count, min, dict);
+            _removeChar(str, i + 1, count, miCnt, dict);
         else 
-            _removeChar(str, i + 1, count + i - index + 1, min, dict);
+            _removeChar(str, i + 1, count + i - index + 1, miCnt, dict);
     }
 }
 
 int removeCharacters(string str, vector<string> dict) {
-    unordered_set<string> dictSet(dict.begin(), dict.end());
-    int min = str.size();
-    _removeChar(str, 0, 0, min, dictSet);
-	return min;
+    unordered_set<string> dictSet;
+    for (int i = 0; i < dict.size(); i++) 
+        dictSet.insert(dict[i]);
+    int miCnt = str.size();
+    _removeChar(str, 0, 0, miCnt, dictSet);
+    return miCnt;
 }
 /******************************结束写代码******************************/
 
