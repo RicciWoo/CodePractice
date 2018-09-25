@@ -874,7 +874,7 @@ private:
     }
 };
 
-// LeetCode 51. N-Queens II
+// LeetCode 52. N-Queens II
 class Solution {
 public:
     int totalNQueens(int n) {
@@ -972,13 +972,19 @@ public:
 // Sudoku Solver - LeetCode 37
 class Solution {
 public:
-    bool solveSudoku(vector<vector<char>>& board) {
+    void solveSudoku(vector<vector<char>>& board) {
+        _solveSudoku(board);
+    }
+    
+private:
+    bool _solveSudoku(vector<vector<char>> &board) {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (board[i][j] == '.') {
                     for (int k = 0; k < 9; k++) {
                         board[i][j] = '1' + k;
-                        if (_isValid(board, i, j) && solveSudoku(board))
+                        if (_isValid(board, i, j) && 
+                            _solveSudoku(board))
                             return true;
                         board[i][j] = '.';
                     }
@@ -1014,5 +1020,103 @@ private:
         return true;
     }
 };
+
+// Restore IP Addresses - LeetCode 93
+class Solution {
+public:
+    vector<string> restoreIpAddresses(string s) {
+        vector<string> results;
+        vector<string> ip;
+        _restoreIP(s, 0, ip, results);
+        return results;
+    }
+    
+private:
+    void _restoreIP(string &s, int index, 
+                    vector<string> &ip, 
+                    vector<string> &results) {
+        if (index == s.size() && ip.size() == 4) {
+            results.push_back(ip[0] + '.' + ip[1] + '.' + 
+                              ip[2] + '.' + ip[3]);
+            return;
+        }
+        if (s.size() - index > (4 - ip.size()) * 3)
+            return;
+        if (s.size() - index < 4 - ip.size())
+            return;
+        int num = 0;
+        for (int i = index; i < index + 3; i++) {
+            num = num * 10 + (s[i] - '0');
+            if (num < 0 || num > 255) return;
+            string sub = s.substr(index, i - index + 1);
+            ip.push_back(sub);
+            _restoreIP(s, i + 1, ip, results);
+            ip.pop_back();
+            if (num == 0) return;
+        }
+    }
+};
+
+// LeetCode 468. Valid IP Address [string]
+class Solution {
+public:
+    string validIPAddress(string IP) {
+        if (IP.find(".") < IP.size())
+            return _validIPv4(IP);
+        else if (IP.find(":") < IP.size())
+            return _validIPv6(IP);
+        else return "Neither";
+    }
+    
+private:
+    string _validIPv4(string &ip) {
+        vector<string> strs;
+        int start = 0, end = 0;
+        while (end < ip.size()) {
+            end = ip.find(".", start);
+            strs.push_back(ip.substr(start, end - start));
+            start = end + 1;
+        }
+        if (strs.size() != 4) return "Neither";
+        for (int i = 0; i < strs.size(); i++) {
+            if (strs[i].empty() || strs[i].size() > 3)
+                return "Neither";
+            if (strs[i].size() > 1 && strs[i][0] == '0')
+                return "Neither";
+            int num = 0;
+            for (int j = 0; j < strs[i].size(); j++) {
+                if (!isdigit(strs[i][j])) return "Neither";
+                num = num * 10 + (strs[i][j] - '0');
+                if (num > 255) return "Neither";
+            }
+        }
+        return "IPv4";
+    }
+    
+    string _validIPv6(string &ip) {
+        vector<string> strs;
+        int start = 0, end = 0;
+        while (end < ip.size()) {
+            end = ip.find(":", start);
+            strs.push_back(ip.substr(start, end - start));
+            start = end + 1;
+        }
+        if (strs.size() != 8) return "Neither";
+        for (int i = 0; i < strs.size(); i++) {
+            if (strs[i].empty() || strs[i].size() > 4)
+                return "Neither";
+            for (int j = 0; j < strs[i].size(); j++) {
+                if (!isdigit(strs[i][j]) && !isalpha(strs[i][j]))
+                    return "Neither";
+                if (islower(strs[i][j]) && strs[i][j] > 'f')
+                    return "Neither";
+                if (isupper(strs[i][j]) && strs[i][j] > 'F')
+                    return "Neither";
+            }
+        }
+        return "IPv6";
+    }
+};
+
 
 
