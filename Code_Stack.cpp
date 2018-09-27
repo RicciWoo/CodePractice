@@ -274,3 +274,91 @@ public:
         return s1.empty();
     }
 };
+
+// LeetCode 496. Next Greater Element I
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& findNums, 
+                                   vector<int>& nums) {
+        vector<int> result;
+        if (findNums.empty() || nums.empty()) return result;
+        stack<int> s;
+        s.push(nums[0]);
+        unordered_map<int, int> m;
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] <= s.top())
+                s.push(nums[i]);
+            else {
+                while (!s.empty() && nums[i] > s.top()) {
+                    m.insert({s.top(), i});
+                    s.pop();
+                }
+                s.push(nums[i]);
+            }
+        }
+        for (int i = 0; i < findNums.size(); i++) {
+            if (m.count(findNums[i]))
+                result.push_back(nums[m[findNums[i]]]);
+            else
+                result.push_back(-1);
+        }
+        return result;
+    }
+};
+
+// LeetCode 503. Next Greater ELement II
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        if (nums.empty()) return nums;
+        stack<int> s;
+        s.push(0);
+        int n = nums.size();
+        vector<int> m(n, -1);
+        for (int i = 1; i < n * 2; i++) {
+            if (nums[i % n] <= nums[s.top()])
+                s.push(i % n);
+            else {
+                while (!s.empty() && 
+                       nums[i % n] > nums[s.top()]) {
+                    m[s.top()] = i % n;
+                    s.pop();
+                }
+                s.push(i % n);
+            }
+        }
+        vector<int> result;
+        for (int i = 0; i < n; i ++) {
+            if (m[i] != -1) result.push_back(nums[m[i]]);
+            else result.push_back(-1);
+        }
+        return result;
+    }
+};
+
+// LeetCode 556. Next Greater Element III
+class Solution {
+public:
+    int nextGreaterElement(int n) {
+        string s = to_string(n);
+        if (s.size() < 2) return -1;
+        map<char, int> m;
+        int i = 0;
+        for (i = s.size() - 2; i >= 0; i--) {
+            m.insert({s[i + 1], i + 1});
+            if (s[i] < s[i + 1]) break;
+        }
+        if (i == -1) return -1;
+        for (auto it = m.begin(); it != m.end(); it++) {
+            if (it->first > s[i]) {
+                swap(s[i], s[it->second]);
+                break;
+            }
+        }
+        sort(s.begin() + i + 1, s.end());
+        long l = stol(s);
+        if (l > INT_MAX) return -1;
+        return l;
+    }
+};
+
