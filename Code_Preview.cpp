@@ -1,425 +1,186 @@
 /******************** Tree ********************/
 
-// Binary Tree Preorder Traversal-1, use recursion
+// Longest Palindrome, LeetCode 409
 class Solution {
 public:
-    vector<int> preorderTraversal(TreeNode* root) {
-        vector<int> result;
-        _preorder(root, result);
-        return result;
-    }
-    
-private:
-    void _preorder(TreeNode *root, vector<int> &result) {
-        if (root == NULL) return;
-        result.push_back(root->val);
-        _preorder(root->left, result);
-        _preorder(root->right, result);
-    }
-};
-
-// Binary Tree Preorder Traversal-2, use stack
-class Solution {
-public:
-    vector<int> preorderTraversal(TreeNode* root) {
-        vector<int> result;
-        if (root == NULL) return result;
-        stack<TreeNode *> s;
-        s.push(root);
-        while (!s.empty()) {
-            TreeNode *node = s.top();
-            s.pop();
-            result.push_back(node->val);
-            if (node->right != NULL)
-                s.push(node->right);
-            if (node->left != NULL)
-                s.push(node->left);
+    int longestPalindrome(string s) {
+        if (s.empty()) return 0;
+        
+        unordered_set<char> charSet;
+        for (int i = 0; i < s.size(); i++) {
+            if (charSet.count(s[i])) 
+                charSet.erase(s[i]);
+            else charSet.insert(s[i]);
         }
-        return result;
+        
+        int oddAppr = charSet.size();
+        if (oddAppr > 0) oddAppr -= 1;
+        return s.size() - oddAppr;
     }
 };
 
-// Binary Tree Preorder Traversal-3, use stack
+// Implement strStr(), LeetCode 28
 class Solution {
 public:
-    vector<int> preorderTraversal(TreeNode* root) {
-        vector<int> result;
-        if (root == NULL) return result;
-        stack<TreeNode *> s;
-        s.push(root);
-        TreeNode *node = root;
-        while (!s.empty()) {
-            result.push_back(node->val);
-            if (node->right != NULL)
-                s.push(node->right);
-            if (node->left != NULL)
-                node = node->left;
+    int strStr(string haystack, string needle) {
+        if (needle.empty()) return 0;
+        if (haystack.empty()) return -1;
+        
+        int n = haystack.size() - needle.size() + 1;
+        for (int i = 0; i < n; i++) {
+            int j = 0;
+            for (j = 0; j < needle.size(); j++) {
+                if (haystack[i + j] != needle[j])
+                    break;
+            }
+            if (j == needle.size()) return i;
+        }
+        
+        return -1;
+    }
+};
+
+// Implement strStr(), Rabin Karp Algorithm, LeetCode 28
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        if (needle.empty()) return 0;
+        if (haystack.empty()) return -1;
+        
+        const int BASE = 1000000;
+        int m = needle.size();
+        
+        // 31 ^ m
+        int power = 1;
+        for (int i = 0; i < m; i++)
+            power = (power * 31) % BASE;
+        
+        int needleCode = 0;
+        for (int i = 0; i < m; i++)
+            needleCode = (needleCode * 31 + needle[i]) % BASE;
+        
+        int hashCode = 0;
+        for (int i = 0; i < haystack.size(); i++) {
+            // abc + d
+            hashCode = (hashCode * 31 + haystack[i]) % BASE;
+            if (i < m - 1) continue;
+            
+            // abcd - a
+            if (i >= m) {
+                hashCode -= (haystack[i - m] * power) % BASE;
+                if (hashCode < 0) hashCode += BASE;
+            }
+            
+            // double check the string
+            if (hashCode == needleCode) {
+                if (haystack.substr(i - m + 1, m) == needle)
+                    return i - m + 1;
+            }
+        }
+        
+        return -1;
+    }
+};
+
+// Valid Palindrome, Two Pointers, LeetCode 125
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        if (s.empty()) return true;
+        
+        transform(s.begin(), s.end(), s.begin(), ::tolower);
+        
+        auto start = s.begin(), end = prev(s.end());
+        while (start < end) {
+            if (!isalnum(*start)) 
+                start++;
+            else if (!isalnum(*end))
+                end--;
+            else if (*start != *end)
+                return false;
             else {
-                node = s.top();
-                s.pop();
+                start++;
+                end--;
             }
         }
-        return result;
-    }
-};
-
-// Binary Tree Preorder Traversal-4, use stack
-class Solution {
-public:
-    vector<int> preorderTraversal(TreeNode* root) {
-        vector<int> result;
-        if (root == NULL) return result;
-        stack<TreeNode *> s;
-        TreeNode *node = root;
-        while (!s.empty() || node != NULL) {
-            if (node != NULL) {
-                result.push_back(node->val);
-                if (node->right != NULL)
-                    s.push(node->right);
-                node = node->left;
-            } else {
-                node = s.top();
-                s.pop();
-            }
-        }
-        return result;
-    }
-};
-
-// Binary Tree Inorder Traversal-1, use recursion
-class Solution {
-public:
-    vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> result;
-        _inorder(root, result);
-        return result;
-    }
-    
-private:
-    void _inorder(TreeNode *root, vector<int> &result) {
-        if (root == NULL) return;
-        _inorder(root->left, result);
-        result.push_back(root->val);
-        _inorder(root->right, result);
-    }
-};
-
-// Binary Tree Inorder Traversal-2, use stack
-class Solution {
-public:
-    vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> result;
-        if (root == NULL) return result;
-        stack<TreeNode *> s;
-        TreeNode *node = root;
-        while (!s.empty() || node != NULL) {
-            if (node != NULL) {
-                s.push(node);
-                node = node->left;
-            } else {
-                node = s.top();
-                s.pop();
-                result.push_back(node->val);
-                node = node->right;
-            }
-        }
-        return result;
-    }
-};
-
-// Binary Tree Postorder Traversal-1, use recursion
-class Solution {
-public:
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> result;
-        _postorder(root, result);
-        return result;
-    }
-    
-private:
-    void _postorder(TreeNode *root, vector<int> &result) {
-        if (root == NULL) return;
-        _postorder(root->left, result);
-        _postorder(root->right, result);
-        result.push_back(root->val);
-    }
-};
-
-// Binary Tree Postorder Traversal-2, use stack with flag
-struct NodeWithFlag {
-    TreeNode *node;
-    bool flag;
-    NodeWithFlag(TreeNode *n, bool f) : node(n), flag(f) {}
-};
-class Solution {
-public:
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> result;
-        if (root == NULL) return result;
-        TreeNode *node = root;
-        NodeWithFlag *fNode;
-        stack<NodeWithFlag *> s;
-        while (!s.empty() || node != NULL) {
-            while (node != NULL) {
-                fNode = new NodeWithFlag(node, false);
-                s.push(fNode);
-                node = node->left;
-            }
-            fNode = s.top();
-            s.pop();
-            node = fNode->node;
-            if (!fNode->flag) {
-                fNode->flag = true;
-                s.push(fNode);
-                node = node->right;
-            } else {
-                result.push_back(node->val);
-                node = NULL;
-            }
-        }
-        return result;
-    }
-};
-
-// Binary Tree Postorder Traversal-3, use stack and reverse
-class Solution {
-public:
-    vector<int> postorderTraversal(TreeNode* root) {
-        vector<int> result;
-        stack<TreeNode *> s;
-        TreeNode *node = root;
-        while (!s.empty() || node != NULL) {
-            if (node != NULL) {
-                result.push_back(node->val);
-                if (node->left)
-                    s.push(node->left);
-                node = node->right;
-            } else {
-                node = s.top();
-                s.pop();
-            }
-        }
-        reverse(result.begin(), result.end());
-        return result;
-    }
-};
-
-// Construct Binary Tree from Preorder and Inorder Traversal
-class Solution {
-public:
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int preSt = 0, preEnd = preorder.size() - 1;
-        int inSt = 0, inEnd = inorder.size() - 1;
-        return _build(preorder, preSt, preEnd, inorder, inSt, inEnd);
-    }
-    
-private:
-    TreeNode *_build(vector<int> &preorder, int preSt, int preEnd, 
-                     vector<int> &inorder, int inSt, int inEnd) {
-        if (preSt > preEnd || inSt > inEnd) return NULL;
-        int rootVal = preorder[preSt];
-        int k = 0;
-        for (int i = inSt; i <= inEnd; i++) {
-            if (rootVal == inorder[i]) {
-                k = i;
-                break;
-            }
-        }
-        TreeNode *root = new TreeNode(rootVal);
-        root->left = _build(preorder, preSt + 1, preSt + (k - inSt), 
-                            inorder, inSt, k - 1);
-        root->right = _build(preorder, preSt + (k - inSt) + 1, preEnd, 
-                             inorder, k + 1, inEnd);
-        return root;
-    }
-};
-
-// Construct Binary Tree from Preorder and Inorder Traversal
-class Solution {
-public:
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        int inSt = 0, inEnd = inorder.size() - 1;
-        int poSt = 0, poEnd = postorder.size() - 1;
-        return _build(inorder, inSt, inEnd, postorder, poSt, poEnd);
-    }
-    
-private:
-    TreeNode *_build(vector<int> &inorder, int inSt, int inEnd, 
-                     vector<int> &postorder, int poSt, int poEnd) {
-        if (inSt > inEnd || poSt > poEnd) return NULL;
-        int rootVal = postorder[poEnd];
-        int k = 0;
-        for (int i = inSt; i <= inEnd; i++) {
-            if (rootVal == inorder[i]) {
-                k = i;
-                break;
-            }
-        }
-        TreeNode *root = new TreeNode(rootVal);
-        root->left = _build(inorder, inSt, k - 1, 
-                            postorder, poSt, poSt + (k - inSt) - 1);
-        root->right = _build(inorder, k + 1, inEnd, 
-                             postorder, poSt + (k - inSt), poEnd - 1);
-        return root;
-    }
-};
-
-// Binary Search Tree
-struct TreeNode {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode(int v) : val(v), left(NULL), right(NULL) {}
-};
-class Solution {
-public:
-    bool find(int value, TreeNode *root) {
-        TreeNode *node = root;
-        while (node != NULL) {
-            if (value < node->val)
-                node = node->left;
-            else if (value > node->val)
-                node = node->right;
-            else return true;
-        }
-        return false;
-    }
-
-    bool add(int value, TreeNode *root) {
-        if (root == NULL) {
-            root = new TreeNode(value);
-            return true;
-        }
-        TreeNode *node = root;
-        while (node != NULL) {
-            if (value < node->val) {
-                if (node->left != NULL)
-                    node = node->left;
-                else {
-                    node->left = new TreeNode(value);
-                    return true;
-                }
-            } else if (value > node->val) {
-                if (node->right != NULL)
-                    node = node->right;
-                else {
-                    node->right = new TreeNode(value);
-                    return true;
-                }
-            } else return false;
-        }
-        return false;
-    }
-
-    bool remove(int value, TreeNode *root) {
-        if (root == NULL) return false;
-        if (value == root->val) {
-            root = _removeNode(root);
-            return true;
-        }
-        TreeNode *node = root;
-        while (node != NULL) {
-            if (value < node->val) {
-                if (node->left != NULL && value != node->left->val) 
-                    node = node->left;
-                else if (node->left == NULL) return false;
-                else {
-                    node->left = _removeNode(node->left);
-                    return true;
-                }
-            } else if (node->val < value) {
-                if (node->right != NULL && value != node->right->val)
-                    node = node->right;
-                else if (node->right == NULL) return false;
-                else {
-                    node->right = _removeNode(node->right);
-                    return true;
-                }
-            } else return false;
-        }
-        return false;
-    }
-
-private:
-    TreeNode *_removeNode(TreeNode *node) {
-        if (node->left == NULL && node->right == NULL)
-            return NULL;
-        else if (node->left == NULL)
-            return node->right;
-        else if (node->right == NULL)
-            return node->left;
-        else {
-            node->val = _findAndRemove(node);
-            return node;
-        }
-    }
-
-    int _findAndRemove(TreeNode *node) {
-        int result;
-        if (node->left->right == NULL) {
-            result = node->left->val;
-            node->left = node->left->left;
-            return result;
-        }
-        node = node->left;
-        while (node->right->right != NULL)
-            node = node->right;
-        result = node->right->val;
-        node->right = node->right->left;
-        return result;
-    }
-};
-
-// Trie Tree
-struct TrieNode {
-    bool isWord;
-    vector<TrieNode *> children;
-    TrieNode() {
-        isWord = false;
-        children = vector<TrieNode *>(26, NULL);
-    }
-};
-class Trie {
-private:
-    TrieNode *root;
-    
-public:
-    /** Initialize your data structure here. */
-    Trie() {
-        root = new TrieNode();
-    }
-    
-    /** Inserts a word into the trie. */
-    void insert(string word) {
-        if (word.size() == 0) return;
-        TrieNode *pNode = root;
-        for (int i = 0; i < word.size(); i++) {
-            if (pNode->children[word[i] - 'a'] == NULL)
-                pNode->children[word[i] - 'a'] = new TrieNode();
-            pNode = pNode->children[word[i] - 'a'];
-        }
-        pNode->isWord = true;
-    }
-    
-    /** Returns if the word is in the trie. */
-    bool search(string word) {
-        if (word.size() == 0) return true;
-        TrieNode *pNode = root;
-        for (int i = 0; i < word.size(); i++) {
-            pNode = pNode->children[word[i] - 'a'];
-            if (pNode == NULL) return false;
-        }
-        return pNode->isWord;
-    }
-    
-    /** Returns if there is any word in the trie that starts with the given prefix. */
-    bool startsWith(string prefix) {
-        if (prefix.size() == 0) return true;
-        TrieNode *pNode = root;
-        for (int i = 0; i < prefix.size(); i++) {
-            pNode = pNode->children[prefix[i] - 'a'];
-            if (pNode == NULL) return false;
-        }
+        
         return true;
     }
 };
+
+// Longest Palindromic Substring, Center Enumeration, LeetCode 5
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        if (s.size() <= 1) return s;
+        
+        int start = 0, len = 0, longest = 0;
+        for (int i = 0; i < s.size(); i++) {
+            len = _longestPalindrome(s, i, i);
+            if (len > longest) {
+                longest = len;
+                start = i - len / 2;
+            }
+            
+            len = _longestPalindrome(s, i, i + 1);
+            if (len > longest) {
+                longest = len;
+                start = i - len / 2 + 1;
+            }
+        }
+        
+        return s.substr(start, longest);
+    }
+    
+private:
+    int _longestPalindrome(string &s, int left, int right) {
+        int len = 0;
+        while (left >= 0 && right < s.size()) {
+            if (s[left] != s[right]) break;
+            len += (left == right ? 1 : 2);
+            left--;
+            right++;
+        }
+        
+        return len;
+    }
+};
+
+// Longest Palindromic Substring, Center Enumeration, LeetCode 5
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        if (s.size() <= 1) return s;
+        
+        int n = s.size();
+        vector<vector<bool>> opt(n, vector<bool>(n, false));
+        
+        int longest = 1, start = 0;
+        for (int i = 0; i < n; i++)
+            opt[i][i] = true;
+        // use upper triangle
+        for (int i = 0; i < n - 1; i++) {
+            opt[i][i + 1] = s[i] == s[i + 1];
+            if (opt[i][i + 1]) {
+                start = i;
+                longest = 2;
+            }
+        }
+        
+        // must start from bottom to top
+        for (int i = n - 3; i >= 0; i--) {
+            for (int j = i + 2; j < n; j++) {
+                opt[i][j] = opt[i + 1][j - 1] && s[i] == s[j];
+                
+                if (opt[i][j] && j - i + 1 > longest) {
+                    start = i;
+                    longest = j - i + 1;
+                }
+            }
+        }
+         
+        return s.substr(start, longest);
+    }
+};
+
+
