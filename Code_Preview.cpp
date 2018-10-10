@@ -1,4 +1,4 @@
-/******************** Tree ********************/
+/******************** Preview ********************/
 
 // Longest Palindrome, LeetCode 409
 class Solution {
@@ -85,26 +85,34 @@ public:
 // Valid Palindrome, Two Pointers, LeetCode 125
 class Solution {
 public:
-    bool isPalindrome(string s) {
-        if (s.empty()) return true;
+    /**
+     * @param s: A string
+     * @return: Whether the string is a valid palindrome
+     */
+    bool isPalindrome(string &s) {
+        if (s.empty()) {
+            return true;
+        }
         
-        transform(s.begin(), s.end(), s.begin(), ::tolower);
-        
-        auto start = s.begin(), end = prev(s.end());
-        while (start < end) {
-            if (!isalnum(*start)) 
-                start++;
-            else if (!isalnum(*end))
-                end--;
-            else if (*start != *end)
-                return false;
-            else {
-                start++;
-                end--;
+        int left = 0, right = s.size() - 1;
+        while (left < right) {
+            while (left < s.size() && !isalnum(s[left])) {
+                left++;
+            }
+            
+            while (right >= 0 && !isalnum(s[right])) {
+                right--;
+            }
+            
+            if (tolower(s[left]) != tolower(s[right])) {
+                break;
+            } else {
+                left++;
+                right--;
             }
         }
         
-        return true;
+        return left >= right;
     }
 };
 
@@ -183,4 +191,68 @@ public:
     }
 };
 
+// Longest Palindrome Subsequence, Dynamic Programming, LeetCode 516
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        if (s.empty()) return 0;
+        if (s.size() == 1) return 1;
+        
+        int n = s.size();
+        vector<vector<int>> dp(n, vector<int>(n, 0));
+        for (int i = 0; i < n; i++)
+            dp[i][i] = 1;
+        
+        for (int i = n - 2; i >= 0; i--) {
+            for (int j = i + 1; j < n; j++) {
+                if (s[i] == s[j])
+                    dp[i][j] = dp[i + 1][j - 1] + 2;
+                else
+                    dp[i][j] = max(dp[i + 1][j], dp[i][j - 1]);
+            }
+        }
+        
+        return dp[0][n - 1];
+    }
+};
 
+// Valid Palindrome II, Two Pointers, LeetCode 680
+class Solution {
+public:
+    /**
+     * @param s: a string
+     * @return: nothing
+     */
+    bool validPalindrome(string &s) {
+        if (s.size() <= 2) return true;
+        
+        int left = 0, right = s.size() - 1;
+        while (left < right) {
+            if (s[left] != s[right]) {
+                break;
+            }
+            left++;
+            right--;
+        }
+        
+        if (left >= right) {
+            return true;
+        }
+        
+        return _isSubPalindrome(s, left + 1, right) || 
+               _isSubPalindrome(s, left, right - 1);
+    }
+    
+private:
+    bool _isSubPalindrome(string &s, int left, int right) {
+        while (left < right) {
+            if (s[left] != s[right]) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        
+        return true;
+    }
+};
