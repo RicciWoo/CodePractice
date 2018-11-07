@@ -275,7 +275,7 @@ public:
         }
         
         // return max(nums[start], nums[end]);
-        if (nums[start] > nums[start + 1]) {
+        if (nums[start] > nums[end]) {
             return nums[start];
         }
         return nums[end];
@@ -283,9 +283,13 @@ public:
 };
 
 // Search a 2D Matrix
+
 // Search a 2D Matrix II
+
 // Search for a Range
+
 // Total Occurrence of Target
+
 // Smallest Rectangle Enclosing Black Pixels
 
 // Find Peak Element
@@ -298,10 +302,10 @@ public:
     int findPeak(vector<int> &nums) {
         if (nums.size() < 3) return -1;
         
-        int start = 1, end = nums.size() - 1;
+        int start = 0, end = nums.size() - 1;
         while (start + 1 < end) {
             int mid = start + (end - start) / 2;
-            if (nums[mid] > nums[mid - 1]) {
+            if (nums[mid] < nums[mid + 1]) {
                 start = mid;
             } else {
                 end = mid;
@@ -311,7 +315,7 @@ public:
         if (nums[start] > nums[end]) {
             return start;
         } else {
-            return start;
+            return end;
         }
     }
 };
