@@ -16,7 +16,8 @@ public:
         for (int i = 0; i < 4; i++) {
             int newX = startX + dx[i], newY = startY + dy[i];
             if (newX < 0 || newX >= maze.size() || 
-                newY < 0 || newY >= maze[0].size()) {
+                newY < 0 || newY >= maze[0].size() || 
+                maze[newX][newY] == 'X') {
                 continue;
             }
             if (solveMaze(maze, newX, newY, targetX, targetY)) {
