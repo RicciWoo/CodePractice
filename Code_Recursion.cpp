@@ -1,10 +1,11 @@
 /******************** Recursion ********************/
 
-// Gray Code, Recursion, LeetCode 89
+// LeetCode 89 - Gray Code, Recursion
 class Solution {
 public:
     vector<int> grayCode(int n) {
         vector<int> result;
+        if (n < 0) return result;
         _grayCode(n, result);
         return result;
     }
@@ -16,13 +17,67 @@ private:
             return;
         }
         _grayCode(n - 1, result);
-        int k = 1 << (n - 1);
-        for (int i = result.size() - 1; i >= 0; i--)
-            result.push_back(result[i] + k);
+        int highBit = 1 << (n - 1);
+        int currSize = result.size();
+        for (int i = currSize - 1; i >= 0; i--) {
+            result.push_back(result[i] + highBit);
+        }
+    }
+};
+
+// LeetCode 717 - 1-bit and 2-bit Characters, Recursion
+class Solution {
+public:
+    bool isOneBitCharacter(vector<int> &bits) {
+        if (bits.empty()) {
+            return false;
+        }
+        
+        return _isOneBitChar(bits, 0);
+    }
+    
+private:
+    bool _isOneBitChar(vector<int> &bits, int index) {
+        if (index >= bits.size()) {
+            return false;
+        }
+        if (index == bits.size() - 1) {
+            return true;
+        }
+        
+        if (bits[index] == 0) {
+            return _isOneBitChar(bits, index + 1);
+        }
+        return _isOneBitChar(bits, index + 2);
     }
 };
 
 // Maze, Recursion
+class Solution {
+public:
+    bool solveMaze(vector<vector<char>> &maze, int startX, int startY, 
+                   int targetX, int targetY) {
+        if (startX == targetX && startY == targetY) {
+            return true;
+        }
+        maze[startX][startY] = 'X';
+        vector<int> dx{1, 0, -1, 0};
+        vector<int> dy{0, 1, 0, -1};
+        for (int i = 0; i < 4; i++) {
+            int newX = startX + dx[i], newY = startY + dy[i];
+            if (newX < 0 || newX >= maze.size() || 
+                newY < 0 || newY >= maze[0].size() || 
+                maze[newX][newY] == 'X') {
+                continue;
+            }
+            if (solveMaze(maze, newX, newY, targetX, targetY)) {
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
 class Solution {
 public:
 	bool solveMaze(vector<vector<char>> &maze, int startX, int startY, 
@@ -46,7 +101,7 @@ public:
 	}
 };
 
-// Knapsack, Recursion, LeetCode 39. Combination Sum
+// LeetCode 39. Combination Sum, Knapsack, Recursion, 
 class Solution {
 public:
     vector<vector<int>> combinationSum(
