@@ -24,7 +24,7 @@ int maxLength(vector<int> &a, int k) {
 
 int main(int argc, char **argv) {
 
-    ofstream fout(getenv("OUTPUT_PATH"));
+    ofstream fout("result.txt");
 
     string a_count_temp;
     getline(cin, a_count_temp);
@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
         string a_item_temp;
         getline(cin, a_item_temp);
 
-        int a_item = stoi(ltrim(rtrim(prices_item_temp)));
+        int a_item = stoi(ltrim(rtrim(a_item_temp)));
 
         a[i] = a_item;
     }
