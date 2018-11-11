@@ -22,7 +22,7 @@ void finalPrice(vector<int> prices) {
             st.push(make_pair(prices[i], i));
         } else {
             while (!st.empty() && prices[i] < st.top().first) {
-                price = st.top().first;
+                int price = st.top().first;
                 cost += (price - prices[i]);
                 st.pop();
             }
