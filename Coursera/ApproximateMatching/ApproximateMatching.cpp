@@ -24,16 +24,30 @@ public:
         // build Trie Tree for suffix
         TrieNode *suffixRoot = _buildTrieTree(suffix);
 
-        // search prefix matching of substring of text
+        // search matching for substring of text
         int maxScore = 0;
         string result;
         for (int i = 0; i < text.size(); i++) {
             for (int j = i; j < text.size(); j++) {
-                string word = text.substr(i, j - i + 1);
-                string revWord = word;
-                reverse(revWord.begin(), revWord.end());
-                int prefixScore = _searchPrefix(prefixRoot, revWord);
-                int suffixScore = _searchPrefix(suffixRoot, word);
+                string sub = text.substr(i, j - i + 1);
+
+                // calculate prefixScore
+                int prefixScore = 0;
+                for (int k = 1; k <= sub.size(); k++) {
+                    string prefixSub = sub.substr(0, k);
+                    reverse(prefixSub.begin(), prefixSub.end());
+                    int score = _searchPrefix(prefixRoot, prefixSub);
+                    prefixScore = max(prefixScore, score);
+                }
+
+                // calculate suffixScore
+                int suffixScore = 0;
+                for (int k = sub.size() - 1; k >= 0; k--) {
+                    string suffixSub = sub.substr(k);
+                    int score = _searchPrefix(suffixRoot, suffixSub);
+                    suffixScore = max(suffixScore, score);
+                }
+
                 int textScore = prefixScore + suffixScore;
                 if (textScore > maxScore) {
                     maxScore = textScore;
