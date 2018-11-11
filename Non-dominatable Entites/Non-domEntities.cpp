@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
 
     int result;
     Solution *solution = new Solution;
-    result = solution->countNonDomin(cutCost, unitPrice, lengths);
+    result = solution->countNonDomin(entities);
     cout << "entities: {" << endl;
     for (vector<int> &entity : entities) {
         cout << "  {";
