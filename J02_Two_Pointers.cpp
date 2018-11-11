@@ -1,31 +1,76 @@
 /******************** Two Pointers ********************/
 
-// Window Sum
-
-// Remove Duplicate Numbers in Array
+// LintCode 604 - Window Sum
 class Solution {
 public:
-    /**
-     * @param nums: an array of integers
-     * @return: the number of unique integers
-     */
-    int deduplication(vector<int> &nums) {
-        if (nums.empty()) return 0;
-        
-        sort(nums.begin(), nums.end());
-        
-        int len = 0;
-        for (int i = 1; i < nums.size(); i++) {
-            if (nums[i] != nums[len]) {
-                nums[++len] = nums[i];
-            }
+    vector<int> winSum(vector<int> &nums, int k) {
+        if (nums.empty() || k <= 0 || nums.size() < k) {
+            return vector<int>();
         }
         
-        return len + 1;
+        vector<int> sums(nums.size() - k + 1, 0);
+        for (int i = 0; i < k; i++) {
+            sums[0] += nums[i];
+        }
+        for (int i = 1; i < sums.size(); i++) {
+            sums[i] = sums[i - 1]
+                      - nums[i - 1] + nums[i + k - 1];
+        }
+        return sums;
     }
 };
 
-// Middle of Linked List
+// LintCode 521 - Remove Duplicate Numbers in Array
+class Solution {
+public:
+    int deduplication(vector<int> &nums) {
+        if (nums.empty()) {
+            return 0;
+        }
+        
+        sort(nums.begin(), nums.end());
+        int j = 0;
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] != nums[j]) {
+                nums[++j] = nums[i];
+            }
+        }
+        return j + 1;
+    }
+};
+
+// LeetCode 876 - Middle of the Linked List
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *middleNode(ListNode *head) {
+        if (head == nullptr) {
+            return nullptr;
+        }
+        
+        ListNode dummy(-1);
+        dummy.next = head;
+        ListNode *slow = &dummy;
+        ListNode *fast = &dummy;
+        while (fast != nullptr) {
+            slow = slow->next;
+            fast = fast->next;
+            if (fast != nullptr) {
+                fast = fast->next;
+            }
+        }
+        return slow;
+    }
+};
+
+// LintCode 228 - Middle of Linked List
 /**
  * Definition of singly-linked-list:
  * class ListNode {
@@ -38,7 +83,6 @@ public:
  *     }
  * }
  */
-
 class Solution {
 public:
     /**
@@ -52,10 +96,11 @@ public:
         
         ListNode dummy(-1);
         dummy.next = head;
-        ListNode *fast = &dummy, *slow = &dummy;
+        ListNode *fast = &dummy;
+        ListNode *slow = &dummy;
         while (fast && fast->next) {
-            fast = fast->next->next;
             slow = slow->next;
+            fast = fast->next->next;
         }
         
         return slow;

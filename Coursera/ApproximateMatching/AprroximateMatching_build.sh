@@ -1,0 +1,1 @@
+g++ -std=c++11 AprroximateMatching.cpp -o AprroximateMatching.exe
