@@ -32,7 +32,7 @@ public:
 };
 
 int main(int argc, char **argv) {
-    vector<vector<int>> entities{{2, 4}, {4, 1}, {8, 8}, {3, 5}};
+    vector<vector<int>> entities{{3, 5}, {8, 7}, {6, 9}, {3, 4}, {7, 8}};
     cout << "entities: {" << endl;
     for (vector<int> &entity : entities) {
         cout << "  {";
