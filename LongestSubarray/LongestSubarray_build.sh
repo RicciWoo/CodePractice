@@ -1,1 +1,0 @@
-g++ -std=c++11 LongestSubarray.cpp -o LongestSubarray.exe
