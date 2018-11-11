@@ -28,7 +28,7 @@ public:
         int maxScore = 0;
         string result;
         for (int i = 0; i < text.size(); i++) {
-            for (int j = i + 1; j < text.size(); j++) {
+            for (int j = i; j < text.size(); j++) {
                 string word = text.substr(i, j - i + 1);
                 string revWord = word;
                 reverse(revWord.begin(), revWord.end());
