@@ -26,6 +26,7 @@ void finalPrice(vector<int> prices) {
                 cost += (price - prices[i]);
                 st.pop();
             }
+            st.push(make_pair(prices[i], i));
         }
     }
 
