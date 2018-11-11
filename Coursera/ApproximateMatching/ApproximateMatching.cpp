@@ -41,6 +41,8 @@ public:
                 }
             }
         }
+
+        return result;
     }
 
 private:
