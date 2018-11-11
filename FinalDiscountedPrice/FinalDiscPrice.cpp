@@ -47,10 +47,7 @@ int main(int argc, char **argv) {
     string prices_count_temp;
     getline(cin, prices_count_temp);
 
-    cout << prices_count_temp << endl;
-
     int prices_count = stoi(ltrim(rtrim(prices_count_temp)));
-    cout << prices_count << endl;
 
     vector<int> prices(prices_count);
 
