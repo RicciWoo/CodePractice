@@ -18,7 +18,7 @@ public:
             return 0;
         }
 
-        sort(entities.begin(), entities.end(), myComp);
+        sort(entities.begin(), entities.end(), myComp());
         int count = 0, maximum = 0;
         for (int i = 0; i < entities.size(); i++) {
             if (entities[i][1] > maximum) {
