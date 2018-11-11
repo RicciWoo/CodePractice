@@ -33,10 +33,6 @@ public:
 
 int main(int argc, char **argv) {
     vector<vector<int>> entities{{2, 4}, {4, 1}, {8, 8}, {3, 5}};
-
-    int result;
-    Solution *solution = new Solution;
-    result = solution->countNonDomin(entities);
     cout << "entities: {" << endl;
     for (vector<int> &entity : entities) {
         cout << "  {";
@@ -46,6 +42,21 @@ int main(int argc, char **argv) {
         cout << "}" << endl;
     }
     cout << "}" << endl;
+    int result;
+    Solution *solution = new Solution;
+    result = solution->countNonDomin(entities);
+    cout << "# of Non-dominatable entities: " << result << endl;
 
+    entities = vector<vector<int>>{{2, 4}, {4, 1}, {8, 8}, {3, 5}};
+    cout << "entities: {" << endl;
+    for (vector<int> &entity : entities) {
+        cout << "  {";
+        for (int en : entity) {
+            cout << en << ", ";
+        }
+        cout << "}" << endl;
+    }
+    cout << "}" << endl;
+    result = solution->countNonDomin(entities);
     cout << "# of Non-dominatable entities: " << result << endl;
 }
