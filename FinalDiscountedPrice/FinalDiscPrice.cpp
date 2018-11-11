@@ -47,6 +47,10 @@ int main(int argc, char **argv) {
     string prices_count_temp;
     getline(cin, prices_count_temp);
 
+    cout << prices_count_temp << endl;
+    cout << ltrim(rtrim(prices_count_temp)) << endl;
+    cout << "----------" << endl;
+
     int prices_count = std::stoi(ltrim(rtrim(prices_count_temp)));
     cout << prices_count << endl;
 
