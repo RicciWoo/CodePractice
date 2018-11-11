@@ -18,10 +18,10 @@ void finalPrice(vector<int> prices) {
 
     int cost = 0;
     for (int i = 0; i < prices.size(); i++) {
-        if (st.empty() || prices[i] >= st.top().first) {
+        if (st.empty() || prices[i] > st.top().first) {
             st.push(make_pair(prices[i], i));
         } else {
-            while (!st.empty() && prices[i] < st.top().first) {
+            while (!st.empty() && prices[i] <= st.top().first) {
                 int price = st.top().first;
                 cost += (price - prices[i]);
                 st.pop();
