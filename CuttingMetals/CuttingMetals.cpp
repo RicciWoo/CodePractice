@@ -25,9 +25,9 @@ public:
         }
 
         int maxCut = 0;
-        if (_profit(cutCost, unitPrice, end, length) >= 0) {
+        if (_profit(cutCost, unitPrice, end, lengths) >= 0) {
             maxCut = end;
-        } else if (_profit(cutCost, unitPrice, start, length) >= 0) {
+        } else if (_profit(cutCost, unitPrice, start, lengths) >= 0) {
             maxCut = start;
         }
 
@@ -51,7 +51,7 @@ private:
 
 int main(int argc, char **argv) {
     int cutCost = 1;
-    int unitPrice = 10
+    int unitPrice = 10;
     vector<int> lengths{26, 103, 59};
 
     int result;
