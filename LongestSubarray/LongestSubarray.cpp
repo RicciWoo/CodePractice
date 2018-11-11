@@ -25,7 +25,7 @@ int maxLength(vector<int> &a, int k) {
 
 int main(int argc, char **argv) {
 
-    ofstream fout("result.txt");
+    // ofstream fout("result.txt");
 
     string a_count_temp;
     getline(cin, a_count_temp);
@@ -49,10 +49,10 @@ int main(int argc, char **argv) {
     int k = stoi(ltrim(rtrim(k_temp)));
 
     int result = maxLength(a, k);
+    cout << result << endl;
 
-    fout << result << "\n";
-
-    fout.close();
+    // fout << result << "\n";
+    // fout.close();
 
     return 0;
 }
