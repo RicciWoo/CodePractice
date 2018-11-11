@@ -51,7 +51,7 @@ public:
                 int textScore = prefixScore + suffixScore;
                 if (textScore > maxScore) {
                     maxScore = textScore;
-                    result = word;
+                    result = sub;
                 }
             }
         }
