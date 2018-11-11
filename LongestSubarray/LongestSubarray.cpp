@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
     int k = stoi(ltrim(rtrim(k_temp)));
 
     int result = maxLength(a, k);
-    cout << result << endl;
+    cout << "output: "<< result << endl;
 
     // fout << result << "\n";
     // fout.close();
