@@ -6,7 +6,7 @@ using namespace std;
 // Cutting Metals, Brute Force, 20181111
 class myComp {
 public:
-    bool operator() (const vector<int> &a, vector<int> &b) {
+    bool operator() (const vector<int> &a, const vector<int> &b) {
         return a[0] >= b[0];
     }
 };
