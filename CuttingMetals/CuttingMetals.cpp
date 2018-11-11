@@ -11,41 +11,26 @@ public:
             return 0;
         }
 
-        int start = 1, end = 0;
+        int maxLength = 0;
         for (int i = 0; i < lengths.size(); i++) {
-            end = max(end, lengths[i]);
+            maxLength = max(maxLength, lengths[i]);
         }
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
-            if (_profit(cutCost, unitPrice, mid, lengths) >= 0) {
-                start = mid;
-            } else {
-                end = mid;
+
+        int maxProfit = 0;
+        for (int i = 1; i <= maxLength; i++) {
+            int profit = 0;
+            for (int j = 0; j < lengths.size(); j++) {
+                int metals = lengths[j] / i;
+                int cuts = metals;
+                if (cuts > 0 && lengths[j] % i == 0) {
+                    cuts--;
+                }
+                profit = metals * i * unitPrice - cuts * cutCost;
+                maxProfit = max(maxProfit, profit);
             }
         }
 
-        int maxCut = 0;
-        if (_profit(cutCost, unitPrice, end, lengths) >= 0) {
-            maxCut = end;
-        } else if (_profit(cutCost, unitPrice, start, lengths) >= 0) {
-            maxCut = start;
-        }
-
-        return maxCut;
-    }
-
-private:
-    int _profit(int cutCost, int unitPrice, int length, 
-                vector<int> &lengths) {
-        int profit = 0;
-        for (int i = 0; i < lengths.size(); i++) {
-            int metals = lengths[i] / length;
-            int cut = metals;
-            if (metals > 0 && lengths[i] % length == 0) {
-                metals--;
-            }
-            profit += metals * length * unitPrice - cut * cutCost;
-        }
+        return maxProfit;
     }
 };
 
