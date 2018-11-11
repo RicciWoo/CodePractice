@@ -7,7 +7,7 @@ using namespace std;
 class myComp {
 public:
     bool operator() (const vector<int> &a, const vector<int> &b) {
-        return a[0] <= b[0];
+        return a[0] >= b[0];
     }
 };
 
@@ -19,11 +19,10 @@ public:
         }
 
         sort(entities.begin(), entities.end(), myComp());
-        int count = 0, maximum = 0;
-        for (int i = 0; i < entities.size(); i++) {
-            if (entities[i][1] > maximum) {
+        int count = 1, maximum = entities[0][1];
+        for (int i = 1; i < entities.size(); i++) {
+            if (entities[i][1] >= maximum) {
                 maximum = entities[i][1];
-            } else {
                 count++;
             }
         }
