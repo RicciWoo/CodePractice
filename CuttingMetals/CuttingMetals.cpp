@@ -25,7 +25,7 @@ public:
                 if (cuts > 0 && lengths[j] % i == 0) {
                     cuts--;
                 }
-                profit = metals * i * unitPrice - cuts * cutCost;
+                profit += metals * i * unitPrice - cuts * cutCost;
                 maxProfit = max(maxProfit, profit);
             }
         }
