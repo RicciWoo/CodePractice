@@ -42,6 +42,7 @@ void finalPrice(vector<int> prices) {
     for (int i = result.size() - 1; i >= 0; i--) {
         cout << result[i] << " ";
     }
+    cout << endl;
 }
 
 int main(int argc, char **argv) {
