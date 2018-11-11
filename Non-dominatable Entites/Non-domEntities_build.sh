@@ -1,1 +1,0 @@
-g++ -std=c++11 Non-domEntities.cpp -o Non-domEntities.exe
