@@ -10,8 +10,7 @@ string ltrim(const string &);
 string rtrim(const string &);
 
 int maxLength(vector<int> &a, int k) {
-    int sum = 0;
-    int count = 0, maxCount = 0;
+    int sum = 0, count = 0, maxCount = 0;
     for (int i = 0; i < a.size(); i++) {
         if (sum + a[i] <= k) {
             sum += a[i];
@@ -21,6 +20,7 @@ int maxLength(vector<int> &a, int k) {
         }
         maxCount = max(maxCount, count);
     }
+    return maxCount;
 }
 
 int main(int argc, char **argv) {
