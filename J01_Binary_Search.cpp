@@ -819,3 +819,44 @@ private:
         return num <= k;
     }
 };
+
+// LintCode 183 - Wood Cut
+class Solution {
+public:
+    int woodCut(vector<int> &L, int k) {
+        if (L.empty() || k <= 0) {
+            return 0;
+        }
+        
+        int start = 1, end = 0;
+        for (int i = 0; i < L.size(); i++) {
+            end = max(end, L[i]);
+        }
+        
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (_count(L, mid) >= k) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        
+        if (_count(L, end) >= k) {
+            return end;
+        }
+        if (_count(L, start) >= k) {
+            return start;
+        }
+        return 0;
+    }
+
+private:
+    int _count(vector<int> &L, int length) {
+        int sum = 0;
+        for (int i = 0; i < L.size(); i++) {
+            sum += L[i] / length;
+        }
+        return sum;
+    }
+};
