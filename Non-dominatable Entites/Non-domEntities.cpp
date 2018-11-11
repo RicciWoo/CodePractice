@@ -7,7 +7,7 @@ using namespace std;
 class myComp {
 public:
     bool operator() (const vector<int> &a, const vector<int> &b) {
-        return a[0] >= b[0];
+        return a[0] <= b[0];
     }
 };
 
