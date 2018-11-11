@@ -14,12 +14,11 @@ void finalPrice(vector<int> prices) {
     }
 
     stack<pair<int, int>> st;
-    st.push(make_pair(prices[0], 0));
+    //st.push(make_pair(prices[0], 0));
 
     int cost = 0;
-    for (int i = 1; i < prices.size(); i++) {
-        int price = st.top().first;
-        if (prices[i] >= price) {
+    for (int i = 0; i < prices.size(); i++) {
+        if (st.empty() || prices[i] >= st.top().first) {
             st.push(make_pair(prices[i], i));
         } else {
             while (!st.empty() && prices[i] < st.top().first) {
