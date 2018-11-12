@@ -25,7 +25,7 @@ int maxLength(vector<int> &a, int k) {
             }
         }
     }
-    return maxCount;
+    return maxLen;
 }
 
 int main(int argc, char **argv) {
