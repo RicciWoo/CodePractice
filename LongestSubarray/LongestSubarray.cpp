@@ -16,12 +16,9 @@ int maxLength(vector<int> &a, int k) {
         if (sum <= k) {
             maxLen = max(maxLen, i - j + 1);
         } else {
-            while (j <= i) {
+            if (j <= i) {
                 sum -= a[j];
                 j++;
-                if (sum <= k) {
-                    break;
-                }
             }
         }
     }
