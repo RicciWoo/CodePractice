@@ -97,8 +97,8 @@ public:
         unordered_map<int, int> sizes;
         for (int i = 0; i < roots.size(); i++) {
             int root = roots[i];
-            int i = root / n, j = root % n;
-            if (grid[i][j] == 0) {
+            int x = root / n, y = root % n;
+            if (grid[x][y] == 0) {
                 continue;
             }
 
