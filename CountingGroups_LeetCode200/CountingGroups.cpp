@@ -100,7 +100,7 @@ public:
             }
         }
 
-        unordered_map<int> counts;
+        unordered_map<int, int> counts;
         counts = unionFind->calculateSizes();
         vector<int> results;
         for (int &i : t) {
