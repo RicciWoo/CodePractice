@@ -63,8 +63,9 @@ private:
 class Solution {
 public:
     vector<int> numIslands(vector<vector<int>> &grid, vector<int> &t) {
+        vector<int> results;
         if (grid.empty() || grid[0].empty()) {
-            return 0;
+            return results;
         }
         
         int m = grid.size(), n = grid[0].size();
@@ -102,7 +103,6 @@ public:
 
         unordered_map<int, int> counts;
         counts = unionFind->calculateSizes();
-        vector<int> results;
         for (int &i : t) {
             results.push_back(counts[i]);
         }
