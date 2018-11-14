@@ -37,6 +37,12 @@ public:
         }
     }
 
+    void calculateSizes() {
+        for (int i = 0; i < father.size(); i++) {
+            _find(i);
+        }
+    }
+
 private:
     vector<int> father;
     int count;
@@ -90,6 +96,9 @@ public:
         }
         
         unionFind->printFather();
+        unionFind->calculateSizes();
+        unionFind->printFather();
+
         return unionFind->getCount();
     }
 };
