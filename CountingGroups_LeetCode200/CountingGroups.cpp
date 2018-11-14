@@ -142,7 +142,7 @@ int main(int argc, char **argv) {
                           {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 
                           {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
     
-    vector<int> t{5, 1, 10, 20, 2, 6};
+    vector<int> t{1, 10, 20, 2, 6};
 
     cout << "the grid: " << endl;
     for (vector<int> &n : m) {
