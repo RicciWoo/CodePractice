@@ -1,0 +1,1 @@
+g++ -std=c++11 MinimumUniqueArraySum.cpp -o MinimumUniqueArraySum.exe
