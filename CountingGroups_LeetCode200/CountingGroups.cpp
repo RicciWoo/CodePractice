@@ -62,7 +62,7 @@ private:
 };
 class Solution {
 public:
-    int numIslands(vector<vector<int>> &grid, vector<int> &t) {
+    vector<int> numIslands(vector<vector<int>> &grid, vector<int> &t) {
         if (grid.empty() || grid[0].empty()) {
             return 0;
         }
@@ -143,11 +143,11 @@ int main(int argc, char **argv) {
     // int num = solution->numIslands(m);
     // cout << "# of Islands: " << num << endl;
 
-    vector<int> result;
+    vector<int> results;
     Solution *solution = new Solution;
-    result = solution->countGroups(m, t);
+    results = solution->countGroups(m, t);
     cout << "# of groups: ";
-    for (int &i : result) {
+    for (int &i : results) {
         cout << i << ", ";
     }
     cout << endl;
