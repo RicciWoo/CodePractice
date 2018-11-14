@@ -34,7 +34,7 @@ public:
     unordered_map<int, int> calculateSizes() {
         unordered_map<int, int> sizes;
         for (int i = 0; i < father.size(); i++) {
-            int root = father[i];
+            int root = _find(i);
             if (root != i) {
                 if (!sizes.count(root)) {
                     sizes[root] = 1;
