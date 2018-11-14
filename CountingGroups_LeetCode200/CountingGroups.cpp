@@ -92,8 +92,10 @@ public:
             }
         }
 
+        // get all roots from union find
         vector<int> roots = unionFind->getFinalRoots();
 
+        // calculate island sizes
         unordered_map<int, int> sizes;
         for (int i = 0; i < roots.size(); i++) {
             int root = roots[i];
@@ -109,6 +111,7 @@ public:
             }
         }
 
+        // count number islands with the same size
         unordered_map<int, int> counts;
         for (auto &p : sizes) {
             if (!counts.count(p.second)) {
@@ -118,6 +121,7 @@ public:
             }
         }
 
+        // get the counts that we want
         for (int &i : t) {
             if (counts.count(i)) {
                 results.push_back(counts[i]);
