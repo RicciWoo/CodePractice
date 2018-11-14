@@ -30,34 +30,13 @@ public:
     void setCount(int total) {
         count = total;
     }
-    
-    unordered_map<int, int> calculateSizes() {
+
+    vector<int> getFinalRoots() {
         for (int i = 0; i < father.size(); i++) {
             _find(i);
         }
 
-        unordered_map<int, int> sizes;
-        for (int i = 0; i < father.size(); i++) {
-            int root = father[i];
-            if (root != i) {
-                if (!sizes.count(root)) {
-                    sizes[root] = 1;
-                } else {
-                    sizes[root]++;
-                }
-            }
-        }
-
-        unordered_map<int, int> counts;
-        for (auto &p : sizes) {
-            if (!counts.count(p.second)) {
-                counts[p.second] = 1;
-            } else {
-                counts[p.second]++;
-            }
-        }
-
-        return counts;
+        return father;
     }
 
 private:
@@ -113,8 +92,32 @@ public:
             }
         }
 
+        vector<int> roots = unionFind->getFinalRoots();
+
+        unordered_map<int, int> sizes;
+        for (int i = 0; i < roots.size(); i++) {
+            int root = roots[i];
+            int i = root / n, j = root % n;
+            if (grid[i][j] == 0) {
+                continue;
+            }
+
+            if (!sizes.count(root)) {
+                sizes[root] = 1;
+            } else {
+                sizes[root]++;
+            }
+        }
+
         unordered_map<int, int> counts;
-        counts = unionFind->calculateSizes();
+        for (auto &p : sizes) {
+            if (!counts.count(p.second)) {
+                counts[p.second] = 1;
+            } else {
+                counts[p.second]++;
+            }
+        }
+
         for (int &i : t) {
             if (counts.count(i)) {
                 results.push_back(counts[i]);
