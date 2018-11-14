@@ -6,7 +6,7 @@ using namespace std;
 // Minimum Unique Array Sum, 20181114
 class Solution {
 public:
-    int getMinimumUniqueSum(vector<int> &arr) {
+    int getMinimumUniqueSum(vector<int> arr) {
         if (arr.empty()) {
             return 0;
         }
