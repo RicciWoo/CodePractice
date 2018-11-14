@@ -1,1 +1,0 @@
-g++ -std=c++11 ArrayReduction.cpp -o ArrayReduction.exe
