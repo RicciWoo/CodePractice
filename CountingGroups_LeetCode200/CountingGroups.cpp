@@ -44,7 +44,7 @@ private:
 };
 class Solution {
 public:
-    int numIslands(vector<vector<char>> &grid) {
+    int numIslands(vector<vector<int>> &grid) {
         if (grid.empty() || grid[0].empty()) {
             return 0;
         }
@@ -55,7 +55,7 @@ public:
         int total = 0;
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (grid[i][j] == '1') {
+                if (grid[i][j] == 1) {
                     total++;
                 }
             }
@@ -64,18 +64,18 @@ public:
         unionFind->setCount(total);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (grid[i][j] == '1') {
+                if (grid[i][j] == 1) {
                     int curr = i * n + j;
-                    if (i > 0 && grid[i - 1][j] == '1') {
+                    if (i > 0 && grid[i - 1][j] == 1) {
                         unionFind->connect(curr, (i - 1) * n + j);
                     }
-                    if (i < m - 1 && grid[i + 1][j] == '1') {
+                    if (i < m - 1 && grid[i + 1][j] == 1) {
                         unionFind->connect(curr, (i + 1) * n + j);
                     }
-                    if (j > 0 && grid[i][j - 1] == '1') {
+                    if (j > 0 && grid[i][j - 1] == 1) {
                         unionFind->connect(curr, i * n + (j - 1));
                     }
-                    if (j < n - 1 && grid[i][j + 1] == '1') {
+                    if (j < n - 1 && grid[i][j + 1] == 1) {
                         unionFind->connect(curr, i * n + (j + 1));
                     }
                 }
