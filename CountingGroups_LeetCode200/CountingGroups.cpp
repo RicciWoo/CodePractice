@@ -31,7 +31,7 @@ public:
         count = total;
     }
     
-    unordered_map calculateSizes() {
+    unordered_map<int, int> calculateSizes() {
         unordered_map<int, int> sizes;
         for (int i = 0; i < father.size(); i++) {
             int root = _find(i);
