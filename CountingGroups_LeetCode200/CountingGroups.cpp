@@ -30,17 +30,21 @@ public:
         count = total;
     }
     
-    void printFather() {
-        cout << "the father: " << endl;
+    unordered_map calculateSizes() {
+        unordered_map<int, int> sizes;
         for (int i = 0; i < father.size(); i++) {
-            cout << "father[" << i << "] = " << father[i] << endl;
+            int root = _find(i);
+            if (root != i) {
+                sizes[root]++;
+            }
         }
-    }
 
-    void calculateSizes() {
-        for (int i = 0; i < father.size(); i++) {
-            _find(i);
+        unordered_map<int, int> counts;
+        for (auto &p : sizes) {
+            counts[p.second]++;
         }
+
+        return counts;
     }
 
 private:
@@ -57,7 +61,7 @@ private:
 };
 class Solution {
 public:
-    int numIslands(vector<vector<int>> &grid) {
+    int numIslands(vector<vector<int>> &grid, vector<int> &t) {
         if (grid.empty() || grid[0].empty()) {
             return 0;
         }
@@ -94,12 +98,15 @@ public:
                 }
             }
         }
-        
-        unionFind->printFather();
-        unionFind->calculateSizes();
-        unionFind->printFather();
 
-        return unionFind->getCount();
+        unordered_map<int> counts;
+        counts = unionFind->calculateSizes();
+        vector<int> results;
+        for (int &i : t) {
+            results.push_back(counts[i]);
+        }
+
+        return results;
     }
 };
 
@@ -131,16 +138,16 @@ int main(int argc, char **argv) {
     }
     cout << endl;
 
-    Solution *solution = new Solution;
-    int num = solution->numIslands(m);
-    cout << "# of Islands: " << num << endl;
+    // Solution *solution = new Solution;
+    // int num = solution->numIslands(m);
+    // cout << "# of Islands: " << num << endl;
 
-    // vector<int> result;
-    // 
-    // result = solution->countGroups(m, t);
-    // cout << "# of groups: ";
-    // for (int &i : result) {
-    //     cout << i << ", ";
-    // }
-    // cout << endl;
+    vector<int> result;
+    Solution *solution = new Solution;
+    result = solution->countGroups(m, t);
+    cout << "# of groups: ";
+    for (int &i : result) {
+        cout << i << ", ";
+    }
+    cout << endl;
 }
