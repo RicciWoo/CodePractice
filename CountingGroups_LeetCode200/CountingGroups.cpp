@@ -32,20 +32,25 @@ public:
     }
     
     unordered_map<int, int> calculateSizes() {
-        for (int i = 0; i < father.size(); i++) {
-            _find(i);
-        }
         unordered_map<int, int> sizes;
         for (int i = 0; i < father.size(); i++) {
             int root = father[i];
             if (root != i) {
-                sizes[root]++;
+                if (!sizes.count(root)) {
+                    sizes[root] = 1;
+                } else {
+                    sizes[root]++;
+                }
             }
         }
 
         unordered_map<int, int> counts;
         for (auto &p : sizes) {
-            counts[p.second]++;
+            if (!counts.count(p.second)) {
+                counts[p.second] = 1;
+            } else {
+                counts[p.second]++;
+            }
         }
 
         return counts;
@@ -107,7 +112,11 @@ public:
         unordered_map<int, int> counts;
         counts = unionFind->calculateSizes();
         for (int &i : t) {
-            results.push_back(counts[i]);
+            if (counts.count(i)) {
+                results.push_back(counts[i]);
+            } else {
+                results.push_back(0);
+            }
         }
 
         return results;
