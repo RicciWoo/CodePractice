@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
     Solution *solution = new Solution;
     result = solution->reductionCost(nums);
     cout << "numbers: [";
-    for (int &i : num) {
+    for (int &i : nums) {
         cout << i << ", ";
     }
     cout << endl;
