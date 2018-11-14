@@ -32,9 +32,13 @@ public:
     }
     
     unordered_map<int, int> calculateSizes() {
+        for (int i = 0; i < father.size(); i++) {
+            _find(i);
+        }
+
         unordered_map<int, int> sizes;
         for (int i = 0; i < father.size(); i++) {
-            int root = _find(i);
+            int root = father[i];
             if (root != i) {
                 if (!sizes.count(root)) {
                     sizes[root] = 1;
