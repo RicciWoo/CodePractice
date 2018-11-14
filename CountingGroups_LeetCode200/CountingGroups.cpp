@@ -30,6 +30,13 @@ public:
         count = total;
     }
     
+    void printFather() {
+        cout << "the father: " << endl;
+        for (int i = 0; i < father.size(); i++) {
+            cout << "father[" << i << "] = " << father[i] << endl;
+        }
+    }
+
 private:
     vector<int> father;
     int count;
@@ -82,6 +89,7 @@ public:
             }
         }
         
+        unionFind->printFather();
         return unionFind->getCount();
     }
 };
