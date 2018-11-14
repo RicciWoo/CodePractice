@@ -62,7 +62,7 @@ private:
 };
 class Solution {
 public:
-    vector<int> numIslands(vector<vector<int>> &grid, vector<int> &t) {
+    vector<int> countGroups(vector<vector<int>> &grid, vector<int> &t) {
         vector<int> results;
         if (grid.empty() || grid[0].empty()) {
             return results;
