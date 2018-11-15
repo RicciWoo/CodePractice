@@ -1,0 +1,1 @@
+g++ -std=c++11 ipsy_codes.cpp -o ipsy_codes.exe
