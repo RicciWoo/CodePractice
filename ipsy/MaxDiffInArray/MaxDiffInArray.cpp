@@ -3,9 +3,9 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
-#include <numeric_limites>
 
 using namespace std;
+#define BIGNUMBER 1024
 
 // Maximum Difference in an Array, 20181115
 int maxDifference(vector<int> a) {
@@ -30,14 +30,14 @@ int main(int argc, char **argv) {
 
     int a_count;
     cin >> a_count;
-    cin.ignore(numeric_limites<streamsize>::max(), '\n');
+    cin.ignore(BIGNUMBER, '\n');
 
     vector<int> a(a_count);
 
     for (int i = 0; i < a_count; i++) {
         int a_item;
         cin >> a_item;
-        cin.ignore(numeric_limites<streamsize>::max(), '\n');
+        cin.ignore(BIGNUMBER, '\n');
 
         a[i] = a_item;
     }
