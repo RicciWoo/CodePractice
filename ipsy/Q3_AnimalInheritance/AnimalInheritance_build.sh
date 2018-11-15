@@ -1,1 +1,0 @@
-g++ -std=c++11 AnimalInheritance.cpp -o AnimalInheritance.exe
