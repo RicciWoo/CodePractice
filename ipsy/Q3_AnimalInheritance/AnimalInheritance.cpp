@@ -34,7 +34,7 @@ public:
              << "carnivorous, and is " << (this->getIsMammal() ? "" : "not ")
              << "a mammal." << endl;
     }
-}
+};
 
 /**
  *   Dog class
