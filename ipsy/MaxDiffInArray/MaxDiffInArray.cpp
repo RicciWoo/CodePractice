@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
 
     // fout.close();
 
-    cout << res << "\n";
+    cout << "result: " <<  res << "\n";
 
     return 0;
 }
