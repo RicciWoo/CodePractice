@@ -57,13 +57,13 @@ int main(int argc, char **argv) {
 
     int votes_count = stoi(ltrim(rtrim(votes_count_temp)));
 
-    vector<int> votes(votes_count);
+    vector<string> votes(votes_count);
 
     for (int i = 0; i < votes_count; i++) {
         string votes_item_temp;
         getline(cin, votes_item_temp);
 
-        int votes_item = stoi(ltrim(rtrim(votes_item_temp)));
+        string votes_item = ltrim(rtrim(votes_item_temp));
 
         votes[i] = votes_item;
     }
