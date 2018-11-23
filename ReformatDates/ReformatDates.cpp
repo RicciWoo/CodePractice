@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <unordered_map>
 using namespace std;
 
 // Cutting Metal Surplus/Metals, Brute Force, 20181111
