@@ -7,7 +7,7 @@ using namespace std;
 // Splitting Pixels, 20181123
 class Solution {
 public:
-    vector<string> splitPixels(vector<string> pixels) {
+    vector<string> splitPixels(vector<string> &pixels) {
         vector<string> results;
         if (pixels.empty()) {
             return results;
@@ -22,9 +22,9 @@ public:
             string bStr = pixels[i].substr(16, 8);
             int rInt = 0, gInt = 0, bInt = 0;
             for (int j = 0; j < 8; j++) {
-                rInt = (rInt + rStr[i] - '0') << 1;
-                gInt = (gInt + gStr[i] - '0') << 1;
-                bInt = (bInt + bStr[i] - '0') << 1;
+                rInt = (rInt + rStr[j] - '0') << 1;
+                gInt = (gInt + gStr[j] - '0') << 1;
+                bInt = (bInt + bStr[j] - '0') << 1;
             }
 
             int rCom = rInt * rInt;
