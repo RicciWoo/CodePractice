@@ -1,1 +1,0 @@
-g++ -std=c++11 PalindrSubstr.cpp -o PalindrSubstr.exe
