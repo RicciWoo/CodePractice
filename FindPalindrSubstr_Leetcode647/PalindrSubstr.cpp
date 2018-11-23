@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <unordered_set>
 using namespace std;
 
 // LeetCode 647 - Palindromic Substrings, Dynamic Programming
@@ -13,14 +14,21 @@ public:
         
         int n = s.size(), result = 0;
         vector<vector<bool>> dp(n, vector<bool>(n, false));
+        unordered_set<string> exist;
         for (int i = 0; i < n; i++) {
             dp[i][i] = true;
-            result++;
+            if (!exist.count(s.substr(i, 1))) {
+                exist.insert(s.substr(i, 1));
+                result++;
+            }
         }
         for (int i = 0; i < n - 1; i++) {
             if (s[i] == s[i + 1]) {
                 dp[i][i + 1] = true;
-                result++;
+                if (!exist.count(s.substr(i, 2))) {
+                    exist.insert(s.substr(i, 2));
+                    result++;
+                }
             }
         }
         
@@ -28,7 +36,10 @@ public:
             for (int j = i + 2; j < n; j++) {
                 if (dp[i + 1][j - 1] && s[i] == s[j]) {
                     dp[i][j] = true;
-                    result++;
+                    if (!exist.count(s.substr(i, j - i + 1))) {
+                        exist.insert(s.substr(i, j - i + 1));
+                        result++;
+                    }
                 }
             }
         }
