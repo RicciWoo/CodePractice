@@ -1,0 +1,1 @@
+g++ -std=c++11 RoyalNames.cpp -o RoyalNames.exe
