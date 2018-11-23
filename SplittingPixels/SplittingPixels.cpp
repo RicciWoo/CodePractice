@@ -22,9 +22,9 @@ public:
             string bStr = pixels[i].substr(16, 8);
             int rInt = 0, gInt = 0, bInt = 0;
             for (int j = 0; j < 8; j++) {
-                rInt = (rInt + rStr[j] - '0') << 1;
-                gInt = (gInt + gStr[j] - '0') << 1;
-                bInt = (bInt + bStr[j] - '0') << 1;
+                rInt = (rInt << 1) + (rStr[j] - '0');
+                gInt = (gInt << 1) + (gStr[j] - '0');
+                bInt = (bInt << 1) + (bStr[j] - '0');
             }
 
             cout << rInt << endl;
