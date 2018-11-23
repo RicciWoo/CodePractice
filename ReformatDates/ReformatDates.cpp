@@ -35,10 +35,10 @@ public:
             }
 
             string day;
-            if (isnum(strs[0][0])) {
+            if (isdigit(strs[0][0])) {
                 day += strs[0][0];
             }
-            if (isnum(strs[0][1])) {
+            if (isdigit(strs[0][1])) {
                 day += strs[0][1];
             }
             if (day.size() == 1) {
