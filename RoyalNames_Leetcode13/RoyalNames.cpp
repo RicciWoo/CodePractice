@@ -32,7 +32,7 @@ public:
             string name = str.substr(0, pos);
             string sub = str.substr(pos + 1);
             int num = _romanToInt(sub);
-            nums.insert(make_pair(name, num));
+            nums.push_back(make_pair(name, num));
         }
 
         vector<string> results;
@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
     results = solution->getSortedList(names);
     cout << "Royal names:" << endl;
     for (string &n : names) {
-        cout << "  \"" << n << "\"" endl;
+        cout << "  \"" << n << "\"" << endl;
     }
     cout << "sorted names:" << endl;
     for (string &r : results) {
@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
     results = solution->getSortedList(names);
     cout << "Royal names:" << endl;
     for (string &n : names) {
-        cout << "  \"" << n << "\"" endl;
+        cout << "  \"" << n << "\"" << endl;
     }
     cout << "sorted names:" << endl;
     for (string &r : results) {
