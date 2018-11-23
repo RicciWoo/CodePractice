@@ -38,7 +38,7 @@ public:
         vector<string> results;
         sort(nums.begin(), nums.end(), myComp());
         for (int i = 0; i < nums.size(); i++) {
-            string result = nums[i].first;
+            string result = nums[i].first + " ";
             result += _intToRoman(nums[i].second);
             results.push_back(result);
         }
