@@ -47,7 +47,7 @@ public:
             int green = rCom + gRes + bCom;
             colors.insert({green, "Green"});
             int blue = rCom + gCom + bRes;
-            colors.insert({green, "Blue"});
+            colors.insert({blue, "Blue"});
 
             if (colors.size() < 5) {
                 results.push_back("Ambiguous");
