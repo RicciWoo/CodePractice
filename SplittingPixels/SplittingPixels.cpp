@@ -14,7 +14,7 @@ public:
         }
 
         map<int, string> colors;
-        for (int i = 0; i < pixels.size; i++) {
+        for (int i = 0; i < pixels.size(); i++) {
             colors.clear();
 
             string rStr = pixels[i].substr(0, 8);
@@ -45,10 +45,10 @@ public:
             int blue = rCom + gCom + bRes;
             colors.insert({green, "Blue"});
 
-            if (colors.size < 5) {
+            if (colors.size() < 5) {
                 results.push_back("Ambiguous");
             } else {
-                results.push_back(*colors.begin());
+                results.push_back(colors.begin()->second);
             }
         }
 
