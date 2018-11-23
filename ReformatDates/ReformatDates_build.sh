@@ -1,1 +1,0 @@
-g++ -std=c++11 ReformatDates.cpp -o ReformatDates.exe
