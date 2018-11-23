@@ -8,8 +8,8 @@ using namespace std;
 // LeetCode 13 - Roman to Integer, Hash Map
 class myComp {
 public:
-    operator() (const pair<string, int> &a, 
-                const pair<string, int> &b ) {
+    bool operator() (const pair<string, int> &a, 
+                     const pair<string, int> &b ) {
         if (a.first == b.first) {
             return a.second >= b.second;
         }
