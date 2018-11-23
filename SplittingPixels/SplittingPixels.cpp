@@ -27,9 +27,9 @@ public:
                 bInt = (bInt + bStr[j] - '0') << 1;
             }
 
-            cout << rStr << endl;
-            cout << gStr << endl;
-            cout << bStr << endl;
+            cout << rInt << endl;
+            cout << gInt << endl;
+            cout << bInt << endl;
 
             int rCom = rInt * rInt;
             int rRes = (255 - rInt) * (255 - rInt);
