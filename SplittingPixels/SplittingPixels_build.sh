@@ -1,1 +1,0 @@
-g++ -std=c++11 SplittingPixels.cpp -o SplittingPixels.exe
