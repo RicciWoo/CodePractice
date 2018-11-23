@@ -60,5 +60,5 @@ int main(int argc, char **argv) {
     }
     cout << "]" << endl;
     cout << "length of subarray: " << k << endl;
-    cout << "maximum of minimums" << result << endl;
+    cout << "maximum of minimums: " << result << endl;
 }
