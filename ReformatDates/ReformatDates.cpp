@@ -25,6 +25,7 @@ public:
                                               {"Nov", "11"}, 
                                               {"Dec", "12"}};
 
+        vector<string> results;
         for (string &str : dates) {
             vector<string> strs;
             for (int i = 0, j = 0; i <= str.size(); i++) {
@@ -34,6 +35,7 @@ public:
                 }
             }
 
+            // reformat day
             string day;
             if (isdigit(strs[0][0])) {
                 day += strs[0][0];
@@ -45,11 +47,19 @@ public:
                 day = "0" + day;
             }
 
-            cout << "day: " << day << endl;
+            // reformat month
+            string month = monDict[strs[1]];
 
+            // no need to reformat year
+            string year = strs[2];
+
+            // reformat date
+            string date = year + "-" + month + "-" + day;
+
+            results.push_back(date);
         }
 
-        return dates;
+        return results;
     }
 };
 
