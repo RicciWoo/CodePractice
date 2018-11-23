@@ -1,0 +1,1 @@
+g++ -std=c++11 Segment.cpp -o Segment.exe
