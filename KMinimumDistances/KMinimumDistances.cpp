@@ -33,10 +33,10 @@ private:
         int mid = start + (end - start) / 2;
         int pivote = _distance(locations[mid]);
         while (left < right) {
-            while (left < right && _distance(locations[left] < pivote)) {
+            while (left < right && _distance(locations[left]) < pivote) {
                 left++;
             }
-            while (left < right && _distance(locations[right] > pivote)) {
+            while (left < right && _distance(locations[right]) > pivote) {
                 right--;
             }
 
