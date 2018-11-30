@@ -15,7 +15,7 @@ public:
         int m = lot.size(), n = lot[0].size();
         vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
         int minDist = INT_MAX;
-        _bfs(lot, dist, 0, 0, 1, minDist);
+        _bfs(lot, dist, 0, 0, 0, minDist);
 
         return minDist;
     }
@@ -24,14 +24,12 @@ private:
     void _bfs(vector<vector<int>> &lot, vector<vector<int>> &dist, 
              int x, int y, int currDist, int &minDist) {
         if (lot[x][y] == 9) {
-            //dist[x][y] = min(dist[x][y], currDist);
+            dist[x][y] = min(dist[x][y], currDist);
             minDist = min(minDist, currDist);
-            //return;
+            return;
         }
 
-        if (lot[x][y] != 9) {
-            lot[x][y] = 0;
-        }
+        lot[x][y] = 0;
         dist[x][y] = min(dist[x][y], currDist);
 
         int m = lot.size(), n = lot[0].size();
