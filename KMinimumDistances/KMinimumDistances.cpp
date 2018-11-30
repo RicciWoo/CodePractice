@@ -48,11 +48,11 @@ private:
         }
 
         if (k <= right) {
-            _quickSelect(locations, start, right, k);
+            _partition(locations, start, right, k);
             return;
         }
         if (k >= left) {
-            _quickSelect(locations, left, end, k);
+            _partition(locations, left, end, k);
             return;
         }
     }
