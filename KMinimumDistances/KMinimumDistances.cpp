@@ -80,8 +80,8 @@ int main(int argc, char **argv) {
     results = solution->KMinDist(locations, k);
     cout << k << " minimum disttances: [" << endl;
     for (pair<int, int> res : results) {
-        cout << "  [" << loc.first << ", ";
-        cout << loc.second << "]" << endl;
+        cout << "  [" << res.first << ", ";
+        cout << res.second << "]" << endl;
     }
     cout << "]";
 }
