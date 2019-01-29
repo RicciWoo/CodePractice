@@ -1,6 +1,6 @@
 /******************** Binary Search ********************/
 
-// 704. Binary Search
+// LintCode 704 - Binary Search, Binary Search, 20181205
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
@@ -28,7 +28,7 @@ public:
     }
 };
 
-// LintCode 14 - First Position of Target
+// LintCode 14 - First Position of Target, Binary Search, 20181205
 class Solution {
 public:
     int binarySearch(vector<int> &nums, int target) {
@@ -56,7 +56,7 @@ public:
     }
 };
 
-// LintCode 458 - Last Position of Target
+// LintCode 458 - Last Position of Target, Binary Search, 20181205
 class Solution {
 public:
     int lastPosition(vector<int> &nums, int target) {
@@ -84,7 +84,8 @@ public:
     }
 };
 
-// LeetCode 34 - Find First and Last Position of Element in Sorted Array
+// LeetCode 34 - Find First and Last Position of Element in Sorted Array, 
+// Binary Search, 20181205
 class Solution {
 public:
     vector<int> searchRange(vector<int> &nums, int target) {
@@ -149,14 +150,9 @@ private:
     }
 };
 
-// LintCode 462 - Total Occurrence of Target
+// LintCode 462 - Total Occurrence of Target, Binary Search, 20181205
 class Solution {
 public:
-    /**
-     * @param A: A an integer array sorted in ascending order
-     * @param target: An integer
-     * @return: An integer
-     */
     int totalOccurrence(vector<int> &A, int target) {
         if (A.empty()) {
             return 0;
@@ -213,10 +209,10 @@ private:
     }
 };
 
-// LeetCode 35 - Search Insert Position
+// LeetCode 35 - Search Insert Position, Binary Search, 20181205
 class Solution {
 public:
-    int searchInsert(vector<int>& nums, int target) {
+    int searchInsert(vector<int> &nums, int target) {
         if (nums.empty()) {
             return 0;
         }
@@ -241,7 +237,7 @@ public:
     }
 };
 
-// LeetCode 278 - First Bad Version
+// LeetCode 278 - First Bad Version, Binary Search, 20181205
 // Forward declaration of isBadVersion API.
 bool isBadVersion(int version);
 class Solution {
@@ -268,7 +264,7 @@ public:
     }
 };
 
-// LeetCode 658 - Find K Closest Elements
+// LeetCode 658 - Find K Closest Elements, Binary Search, 20181205
 class Solution {
 public:
     vector<int> findClosestElements(vector<int> &arr, 
@@ -325,7 +321,7 @@ private:
     }
 };
 
-// LeetCode 702 - Search in a Sorted Array of Unknown Size
+// LeetCode 702 - Search in a Sorted Array of Unknown Size, Binary Search, 20181205
 // Forward declaration of ArrayReader class.
 class ArrayReader;
 class Solution {
@@ -356,7 +352,7 @@ public:
     }
 };
 
-// LeetCode 153 - Find Minimum in Rotated Sorted Array
+// LeetCode 153 - Find Minimum in Rotated Sorted Array, Binary Search, 20181205
 class Solution {
 public:
     int findMin(vector<int> &nums) {
@@ -382,7 +378,7 @@ public:
     }
 };
 
-// LeetCode 154 - Find Minimum in Rotated Sorted Array II
+// LeetCode 154 - Find Minimum in Rotated Sorted Array II, Binary Search, 20181205
 class Solution {
 public:
     int findMin(vector<int> &nums) {
@@ -411,7 +407,7 @@ public:
     }
 };
 
-// LeetCode 852 - Peak Index in a Mountain Array
+// LeetCode 852 - Peak Index in a Mountain Array, Binary Search, 20181205
 class Solution {
 public:
     int peakIndexInMountainArray(vector<int>& A) {
@@ -436,7 +432,7 @@ public:
     }
 };
 
-// LeetCode 74 - Search a 2D Matrix
+// LeetCode 74 - Search a 2D Matrix, Binary Search, 20181205
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, 
@@ -491,7 +487,7 @@ public:
     }
 };
 
-// LeetCode 240 - Search a 2D Matrix II
+// LeetCode 240 - Search a 2D Matrix II, Binary Search, 20181205
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, 
@@ -500,15 +496,15 @@ public:
             return false;
         }
         
-        int i = matrix.size() - 1, j = 0;
-        while (i >= 0 && j < matrix[0].size()) {
-            if (matrix[i][j] == target) {
+        int row = matrix.size() - 1, col = 0;
+        while (row >= 0 && col < matrix[0].size()) {
+            if (matrix[row][col] == target) {
                 return true;
             }
-            if (matrix[i][j] < target) {
-                j++;
+            if (matrix[row][col] < target) {
+                col++;
             } else {
-                i--;
+                row--;
             }
         }
         
@@ -516,7 +512,7 @@ public:
     }
 };
 
-// LeetCode 302 - Smallest Rectangle Enclosing Black Pixels
+// LeetCode 302 - Smallest Rectangle Enclosing Black Pixels, Binary Search, 20181205
 class Solution {
 public:
     int minArea(vector<vector<char>>& image, 
@@ -624,7 +620,7 @@ private:
     }
 };
 
-// LeetCode 162 - Find Peak Element
+// LeetCode 162 - Find Peak Element, Binary Search, 20181205
 class Solution {
 public:
     int findPeakElement(vector<int> &nums) {
@@ -649,7 +645,7 @@ public:
     }
 };
 
-// LeetCode 33 - Search in Rotated Sorted Array
+// LeetCode 33 - Search in Rotated Sorted Array, Binary Search, 20181205
 class Solution {
 public:
     int search(vector<int> &nums, int target) {
@@ -690,7 +686,7 @@ public:
     }
 };
 
-// LeetCode 81 - Search in Rotated Sorted Array II
+// LeetCode 81 - Search in Rotated Sorted Array II, Binary Search, 20181205
 class Solution {
 public:
     bool search(vector<int> &nums, int target) {
@@ -737,7 +733,7 @@ public:
     }
 };
 
-// LintCode 140 - Fast Power
+// LintCode 140 - Fast Power, Binary Search, 20181205
 class Solution {
 public:
     int fastPower(int a, int b, int n) {
@@ -758,7 +754,7 @@ public:
     }
 };
 
-// LeetCode 50 - Pow(x, n)
+// LeetCode 50 - Pow(x, n), Binary Search, 20181205
 class Solution {
 public:
     double myPow(double x, int n) {
@@ -783,11 +779,15 @@ private:
     }
 };
 
-// Copy Book
+// LintCode 437 - Copy Book, Binary Search, 20181205
 class Solution {
 public:
     int copyBooks(vector<int> &pages, int k) {
-        int start = 0, end = INT_MAX;
+        if (pages.empty() || k <= 0) {
+            return 0;
+        }
+        
+        int start = 1, end = INT_MAX;
         while (start + 1 < end) {
             int mid = start + (end - start) / 2;
             if (_check(pages, mid, k)) {
@@ -805,22 +805,24 @@ public:
     
 private:
     bool _check(vector<int> &pages, int limit, int k) {
-        int num = 0, left = 0;
-        for (int item : pages) {
-            if (item > limit) {
+        int n = 1, left = limit;
+        for (int &page : pages) {
+            if (page > limit) {
                 return false;
             }
-            if (item > left) {
-                num++;
+            
+            if (page > left) {
+                n++;
                 left = limit;
             }
-            left -= item;
+            left -= page;
         }
-        return num <= k;
+        
+        return n <= k;
     }
 };
 
-// LintCode 183 - Wood Cut
+// LintCode 183 - Wood Cut, Binary Search, 20181205
 class Solution {
 public:
     int woodCut(vector<int> &L, int k) {

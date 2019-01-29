@@ -1,0 +1,1 @@
+g++ -std=c++11 MinDistToObstacle.cpp -o MinDistToObstacle.exe

@@ -40,7 +40,7 @@ public:
     }
 };
 
-// LeetCode 876 - Middle of the Linked List, 20181125
+// LeetCode 876 - Middle of the Linked List, Two Pointers, 20181125
 // If there are two middle nodes, return the second middle node.
 /**
  * Definition for singly-linked list.
@@ -71,7 +71,7 @@ public:
     }
 };
 
-// LintCode 228 - Middle of Linked List, 20181125
+// LintCode 228 - Middle of Linked List, Two Pointers, 20181125
 // Given 1->2, return the node with value 1.
 /**
  * Definition of singly-linked-list:
@@ -796,7 +796,7 @@ private:
     }
 };
 
-// Partition Array
+// LintCode 31 - Partition Array, Quick Partition, 20181205
 class Solution {
 public:
     int partitionArray(vector<int> &nums, int k) {
@@ -809,21 +809,43 @@ public:
             while (left <= right && nums[left] < k) {
                 left++;
             }
-            
             while (left <= right && nums[right] >= k) {
                 right--;
             }
             
             if (left <= right) {
-                int temp = nums[left];
-                nums[left] = nums[right];
-                nums[right] = temp;
+                swap(nums[left], nums[right]);
                 left++;
                 right--;
             }
         }
         
         return left;
+    }
+};
+
+// LintCode 625 - Partition Array II, Quick Partition, 20181205
+class Solution {
+public:
+    void partition2(vector<int> &nums, int low, int high) {
+        if (nums.empty()) {
+            return;
+        }
+        
+        int left = 0, right = nums.size() - 1;
+        int mid = 0;
+        while (mid <= right) {
+            if (nums[mid] < low) {
+                swap(nums[mid], nums[left]);
+                left++;
+                mid++;
+            } else if (nums[mid] > high) {
+                swap(nums[mid], nums[right]);
+                right--;
+            } else {
+                mid++;
+            }
+        }
     }
 };
 
@@ -872,7 +894,7 @@ private:
     }
 };
 
-// LintCode 461 - Kth Smallest Numbers in Unsorted Array, Partition, 20181129
+// LintCode 461 - Kth Smallest Numbers in Unsorted Array, Quick Partition, 20181129
 class Solution {
 public:
     int kthSmallest(int k, vector<int> &nums) {
@@ -961,7 +983,7 @@ private:
     }
 };
 
-// LeetCode 215 - Kth Largest Element in an Array, Partition, 20181129
+// LeetCode 215 - Kth Largest Element in an Array, Quick Partition, 20181129
 class Solution {
 public:
     int findKthLargest(vector<int> &nums, int k) {
@@ -1006,6 +1028,7 @@ private:
 };
 
 // LeetCode 905 - Sort Array By Parity, Two Pointers, 20181129
+// First all the even elements, followed by all the odds
 class Solution {
 public:
     vector<int> sortArrayByParity(vector<int> &A) {
@@ -1034,6 +1057,7 @@ public:
 };
 
 // LintCode 373 - Partition Array by Odd and Even, Two Pointers, 20181129
+// Odd number first and even number second
 class Solution {
 public:
     void partitionArray(vector<int> &nums) {
@@ -1147,7 +1171,7 @@ public:
     }
 };
 
-// LintCode 143 - Sort Colors II, Rainbow Sort, 20181129
+// LintCode 143 - Sort Colors II, Two Pointers, 20181129
 class Solution {
 public:
     void sortColors2(vector<int> &colors, int k) {
