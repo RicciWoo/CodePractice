@@ -1,11 +1,14 @@
 /******************** Recursion ********************/
 
-// LeetCode 89 - Gray Code, Recursion
+// LeetCode 89 - Gray Code, Depth-first Search, 20190219
 class Solution {
 public:
     vector<int> grayCode(int n) {
         vector<int> result;
-        if (n < 0) return result;
+        if (n < 0) {
+            return result
+        };
+        
         _grayCode(n, result);
         return result;
     }
@@ -16,6 +19,7 @@ private:
             result.push_back(0);
             return;
         }
+        
         _grayCode(n - 1, result);
         int highBit = 1 << (n - 1);
         int currSize = result.size();
@@ -25,7 +29,7 @@ private:
     }
 };
 
-// LeetCode 717 - 1-bit and 2-bit Characters, Recursion
+// LeetCode 717 - 1-bit and 2-bit Characters, Depth-first Search, 20190219
 class Solution {
 public:
     bool isOneBitCharacter(vector<int> &bits) {

@@ -51,10 +51,6 @@ private:
  */
 class Solution {
 public:
-    /**
-     * @param root: The root of binary tree.
-     * @return: An integer
-     */
     int maxDepth(TreeNode *root) {
         if (root == nullptr) {
             return 0;
@@ -101,7 +97,7 @@ private:
 };
 
 // LeetCode 98 - Validate Binary Search Tree, 
-// Depth-first Search, Inorder Traversal, 20181227
+// Depth-first Search, Inorder Traversal, Recursion, 20181227
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -137,7 +133,7 @@ private:
 };
 
 // LeetCode 98 - Validate Binary Search Tree, 
-// Depth-first Search, Divide and Conquer, 20181227
+// Depth-first Search, Divide and Conquer, min/max Values, 20181227
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -147,17 +143,6 @@ private:
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-class ResultType {
-public:
-    bool isBST;
-    int maxVal, minVal;
-    ResultType(bool isBST, int maxVal, int minVal) {
-        this->isBST = isBST;
-        this->maxVal = maxVal;
-        this->minVal = minVal;
-    }
-};
-
 class Solution {
 public:
     bool isValidBST(TreeNode *root) {
@@ -165,33 +150,45 @@ public:
     }
     
 private:
-    ResultType *_isValid(TreeNode *root) {
+    struct Result {
+        bool isBST;
+        int maxVal, minVal;
+        Result(bool isBST) {
+            this->isBST = isBST;
+            this->maxVal = INT_MIN;
+            this->minVal = INT_MAX;
+        }
+    };
+    
+    Result *_isValid(TreeNode *root) {
         if (root == nullptr) {
-            return new ResultType(true, INT_MIN, INT_MAX);
+            return new Result(true);
         }
         
-        ResultType *left = _isValid(root->left);
-        ResultType *right = _isValid(root->right);
+        Result *left = _isValid(root->left);
+        Result *right = _isValid(root->right);
         if (!left->isBST || !right->isBST) {
-            return new ResultType(false, 0, 0);
+            return new Result(false);
         }
         
-        if (root->left != nullptr && left->maxVal >= root->val) {
-            return new ResultType(false, 0, 0);
+        if (root->left != nullptr && 
+            left->maxVal >= root->val) {
+            return new Result(false);
         }
-        if (root->right != nullptr && right->minVal <= root->val) {
-            return new ResultType(false, 0, 0);
+        if (root->right != nullptr && 
+            right->minVal <= root->val) {
+            return new Result(false);
         }
         
-        ResultType *result = new ResultType(true, 0, 0);
-        result->minVal = min(root->val, left->minVal);
-        result->maxVal = max(root->val, right->maxVal);
+        Result *result = new Result(true);
+        result->minVal = min(left->minVal, root->val);
+        result->maxVal = max(right->maxVal, root->val);
         return result;
     }
 };
 
 // LeetCode 98 - Validate Binary Search Tree, 
-// Depth-first Search, Divide and Conquer, 20181227
+// Depth-first Search, Divide and Conquer, min/max Nodes, 20181227
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -201,15 +198,6 @@ private:
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-class ResultType {
-public:
-    bool isBST;
-    TreeNode *maxNode, *minNode;
-    ResultType(bool isBST) {
-        this->isBST = isBST;
-        this->maxNode = this->minNode = nullptr;
-    }
-};
 class Solution {
 public:
     bool isValidBST(TreeNode *root) {
@@ -217,33 +205,46 @@ public:
     }
     
 private:
-    ResultType *_isValid(TreeNode *root) {
+    struct Result {
+        bool isBST;
+        TreeNode *maxNode, *minNode;
+        Result(bool isBST) {
+            this->isBST = isBST;
+            this->maxNode = this->minNode = nullptr;
+        }
+    };
+    
+    Result *_isValid(TreeNode *root) {
         if (root == nullptr) {
-            return new ResultType(true);
+            return new Result(true);
         }
         
-        ResultType *left = _isValid(root->left);
-        ResultType *right = _isValid(root->right);
+        Result *left = _isValid(root->left);
+        Result *right = _isValid(root->right);
         if (!left->isBST || !right->isBST) {
-            return new ResultType(false);
+            return new Result(false);
         }
         
-        if (left->maxNode != nullptr && left->maxNode->val >= root->val) {
-            return new ResultType(false);
+        if (root->left != nullptr && 
+            left->maxNode->val >= root->val) {
+            return new Result(false);
         }
-        if (right->minNode != nullptr && right->minNode->val <= root->val) {
-            return new ResultType(false);
+        if (root->right != nullptr && 
+            right->minNode->val <= root->val) {
+            return new Result(false);
         }
         
-        ResultType *result = new ResultType(true);
-        result->minNode = left->minNode != nullptr ? left->minNode : root;
-        result->maxNode = right->maxNode != nullptr ? right->maxNode : root;
+        Result *result = new Result(true);
+        result->minNode = 
+            left->minNode != nullptr ? left->minNode : root;
+        result->maxNode = 
+            right->maxNode != nullptr ? right->maxNode : root;
         return result;
     }
 };
 
 // LeetCode 98 - Validate Binary Search Tree, 
-// Iteration, Inorder Traversal, 20190103
+// Depth-first Search, Inorder Traversal, Iteration, 20190226
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -255,7 +256,7 @@ private:
  */
 class Solution {
 public:
-    bool isValidBST(TreeNode* root) {
+    bool isValidBST(TreeNode *root) {
         if (root == nullptr) {
             return true;
         }
@@ -266,13 +267,13 @@ public:
             root = root->left;
         }
         
-        TreeNode *lastNode = nullptr;
+        TreeNode *prev = nullptr;
         while (!st.empty()) {
             TreeNode *node = st.top();
-            if (lastNode != nullptr && lastNode->val >= node->val) {
+            if (prev != nullptr && prev->val >= node->val) {
                 return false;
             }
-            lastNode = node;
+            prev = node;
             
             if (node->right != nullptr) {
                 node = node->right;
@@ -378,24 +379,26 @@ private:
  *     }
  * }
  */
-class Result {
-public:
-    int sum, minSum;
-    TreeNode *subtree;
-    Result(int sum, int minSum, TreeNode *subtree) {
-        this->sum = sum;
-        this->minSum = minSum;
-        this->subtree = subtree;
-    }
-};
 class Solution {
 public:
     TreeNode *findSubtree(TreeNode *root) {
-        Result *result = _findSubtree(root);
-        return result->subtree;
+        if (root == nullptr) {
+            return nullptr;
+        }
+        return _findSubtree(root)->subtree;
     }
     
 private:
+    struct Result {
+        int sum, minSum;
+        TreeNode *subtree;
+        Result(int sum, int minSum, TreeNode *subtree) {
+            this->sum = sum;
+            this->minSum = minSum;
+            this->subtree = subtree;
+        }
+    };
+    
     Result *_findSubtree(TreeNode *root) {
         if (root == nullptr) {
             return new Result(0, INT_MAX, nullptr);
@@ -420,7 +423,7 @@ private:
 };
 
 // LintCode 597 - Subtree with Maximum Average, 
-// Depth-first Search, Divide and Conquer, 20181227
+// Depth-first Search, Postorder Traversal, 20181227
 /**
  * Definition of TreeNode:
  * class TreeNode {
@@ -433,15 +436,6 @@ private:
  *     }
  * }
  */
-class Result {
-public:
-    int sum, size;
-    Result(int sum, int size) {
-        this->sum = sum;
-        this->size = size;
-    }
-};
-
 class Solution {
 public:
     TreeNode *findSubtree2(TreeNode *root) {
@@ -452,19 +446,30 @@ public:
     }
     
 private:
-    Result *_findSubtree(TreeNode *root, 
-                         TreeNode *&subtree, Result *&subResult) {
+    struct Result {
+        int sum, size;
+        Result(int sum, int size) {
+            this->sum = sum;
+            this->size = size;
+        }
+    };
+
+    Result *_findSubtree(TreeNode *root, TreeNode *&subtree, 
+                         Result *&subResult) {
         if (root == nullptr) {
             return new Result(0, 0);
         }
         
-        Result *left = _findSubtree(root->left, subtree, subResult);
-        Result *right = _findSubtree(root->right, subtree, subResult);
+        Result *left = _findSubtree(root->left, 
+                                    subtree, subResult);
+        Result *right = _findSubtree(root->right, 
+                                     subtree, subResult);
         Result *result = new Result(
             left->sum + right->sum + root->val, 
             left->size + right->size + 1);
         if (subResult == nullptr || 
-            result->sum * subResult->size > subResult->sum * result->size ) {
+                result->sum * subResult->size > 
+                subResult->sum * result->size ) {
             subtree = root;
             subResult = result;
         }
@@ -474,7 +479,7 @@ private:
 };
 
 // LeetCode 257 - Binary Tree Paths, 
-// Depth-first Search, Inorder Traversal, 20181230
+// Depth-first Search, Preorder Traversal, 20181230
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -503,18 +508,19 @@ private:
         if (root == nullptr) {
             return;
         }
-        
         if (root->left == nullptr && root->right == nullptr) {
             results.push_back(path);
             return;
         }
         
         if (root->left != nullptr) {
-            string newPath = path + "->" + to_string(root->left->val);
+            string newPath = path + "->" + 
+                             to_string(root->left->val);
             _binaryTreePaths(root->left, newPath, results);
         }
         if (root->right != nullptr) {
-            string newPath = path + "->" + to_string(root->right->val);
+            string newPath = path + "->" + 
+                             to_string(root->right->val);
             _binaryTreePaths(root->right, newPath, results);
         }
     }
@@ -535,7 +541,10 @@ class Solution {
 public:
     TreeNode *lowestCommonAncestor(TreeNode *root, 
                                    TreeNode *p, TreeNode *q) {
-        if (root == nullptr || root == p || root == q) {
+        if (root == nullptr) {
+            return nullptr;
+        }
+        if (root == p || root == q) {
             return root;
         }
         
@@ -556,7 +565,6 @@ public:
 };
 
 // LeetCode 236 - Lowest Common Ancestor of a Binary Tree, 
-// LintCode 88 - Lowest Common Ancester of a Binary Tree, 
 // Depth-first Search, Divide and Conquer, 20181230
 /**
  * Definition for a binary tree node.
@@ -571,7 +579,10 @@ class Solution {
 public:
     TreeNode *lowestCommonAncestor(TreeNode *root, 
                                    TreeNode *p, TreeNode *q) {
-        if (root == nullptr || root == p || root == q) {
+        if (root == nullptr) {
+            return nullptr;
+        }
+        if (root == p || root == q) {
             return root;
         }
         
@@ -603,15 +614,14 @@ public:
 class Solution {
 public:
     ParentTreeNode *lowestCommonAncestorII(ParentTreeNode *root, 
-                                           ParentTreeNode *A, 
-                                           ParentTreeNode *B) {
+                        ParentTreeNode *A, ParentTreeNode *B) {
         if (root == nullptr) {
             return nullptr;
         }
         
-        vector<ParentTreeNode *> pathA = _getPath2Root(A);
-        vector<ParentTreeNode *> pathB = _getPath2Root(B);
-        
+        vector<ParentTreeNode *> pathA, pathB;
+        _getPath2Root(A, pathA);
+        _getPath2Root(B, pathB);
         int indexA = pathA.size() - 1;
         int indexB = pathB.size() - 1;
         
@@ -630,15 +640,12 @@ public:
     }
     
 private:
-    vector<ParentTreeNode *> _getPath2Root(ParentTreeNode *node) {
-        vector<ParentTreeNode *> path;
-        
+    void _getPath2Root(ParentTreeNode *node, 
+                       vector<ParentTreeNode *> &path) {
         while (node != nullptr) {
             path.push_back(node);
             node = node->parent;
         }
-        
-        return path;
     }
 };
 
@@ -656,16 +663,6 @@ private:
  *     }
  * }
  */
-class Result {
-public:
-    bool aExist, bExist;
-    TreeNode *node;
-    Result(bool aExist, bool bExist, TreeNode *node) {
-        this->aExist = aExist;
-        this->bExist = bExist;
-        this->node = node;
-    }
-};
 class Solution {
 public:
     TreeNode *lowestCommonAncestor3(TreeNode *root, 
@@ -680,8 +677,18 @@ public:
         }
         return nullptr;
     }
-
+    
 private:
+    struct Result {
+        bool aExist, bExist;
+        TreeNode *node;
+        Result(bool aExist, bool bExist, TreeNode *node) {
+            this->aExist = aExist;
+            this->bExist = bExist;
+            this->node = node;
+        }
+    };
+    
     Result *_lca(TreeNode *root, TreeNode *A, TreeNode *B) {
         if (root == nullptr) {
             return new Result(false, false, nullptr);
@@ -696,20 +703,21 @@ private:
             return new Result(aExist, bExist, root);
         }
         
-        TreeNode *node = nullptr;
         if (left->node != nullptr && right->node != nullptr) {
-            node = root;
-        } else if (left->node != nullptr) {
-            node = left->node;
-        } else if (right->node != nullptr) {
-            node = right->node;
+            return new Result(aExist, bExist, root);
         }
-        return new Result(aExist, bExist, node);
+        if (left->node != nullptr) {
+            return new Result(aExist, bExist, left->node);
+        }
+        if (right->node != nullptr) {
+            return new Result(aExist, bExist, right->node);
+        }
+        return new Result(aExist, bExist, nullptr);
     }
 };
 
-// LeetCode 114 - Flattern Binary Tree to Linked List, 
-// Depth-first Search, Preorder Traversal, 20190102
+// LeetCode 114 - Flatten Binary Tree to Linked List, 
+// Depth-first Search, Preorder Traversal, Recursion, 20190102
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -749,7 +757,7 @@ private:
     }
 };
 
-// LeetCode 114 - Flattern Binary Tree to Linked List, 
+// LeetCode 114 - Flatten Binary Tree to Linked List, 
 // Depth-first Search, Divide and Conquer, 20190102
 /**
  * Definition for a binary tree node.
@@ -794,8 +802,8 @@ private:
     }
 };
 
-// LeetCode 114 - Flattern Binary Tree to Linked List, 
-// Iteration, Preorder Traversal, 20190102
+// LeetCode 114 - Flatten Binary Tree to Linked List, 
+// Depth-first Search, Preorder Traversal, Iteration, 20190102
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -834,7 +842,7 @@ public:
 };
 
 // LeetCode 230 - Kth Smallest Element in a BST, 
-// Iteration, Inorder Traversal, 20190103
+// Depth-first Search, Inorder Traversal, Iteration, 20190103
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -857,27 +865,28 @@ public:
             root = root->left;
         }
         
-        for (int i = 0; i < k - 1; i++) {
+        for (int i = 1; i < k; i++) {
             if (st.empty()) {
                 return -1;
             }
-            TreeNode *node = st.top();
-            if (node->right != nullptr) {
-                node = node->right;
-                while (node != nullptr) {
-                    st.push(node);
-                    node = node->left;
+            
+            root = st.top();
+            if (root->right != nullptr) {
+                root = root->right;
+                while (root != nullptr) {
+                    st.push(root);
+                    root = root->left;
                 }
             } else {
-                node = st.top();
+                root = st.top();
                 st.pop();
-                while (!st.empty() && st.top()->right == node) {
-                    node = st.top();
+                while (!st.empty() && st.top()->right == root) {
+                    root = st.top();
                     st.pop();
                 }
             }
         }
-
+        
         return st.empty() ? -1 : st.top()->val;
     }
 };
@@ -937,7 +946,7 @@ private:
 };
 
 // LeetCode 173 - Binary Search Tree Iterator, 
-// Iteration, Inorder Traversal, 20190103
+// Depth-first Search, Inorder Traversal, Iteration, 20190103
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -987,7 +996,7 @@ public:
 };
 
 // LintCode 86 - Binary Search Tree Iterator, 
-// Iteration, Inorder Traversal, 20190103
+// Depth-first Search, Inorder Traversal, Iteration, 20190103
 /**
  * Definition of TreeNode:
  * class TreeNode {
@@ -1042,7 +1051,8 @@ public:
     }
 };
 
-// LeetCode 285 - Inorder Successor in BST, 20190103
+// LeetCode 285 - Inorder Successor in BST, 
+// Depth-first Search, Inorder Traversal, Iteration, 20190103
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -1071,7 +1081,7 @@ public:
         
         if (root == nullptr) {
             return nullptr;
-        }
+        } 
         if (root->right == nullptr) {
             return successor;
         }
@@ -1084,7 +1094,7 @@ public:
 };
 
 // LeetCode 94 - Binary Tree Inorder Traversal, 
-// Iteration, Inorder Traversal-1, 20190110
+// Depth-first Search, Inorder Traversal, Iteration, 20190110
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -1120,7 +1130,7 @@ public:
 };
 
 // LeetCode 94 - Binary Tree Inorder Traversal, 
-// Iteration, Inorder Traversal-2, 20190110
+// Depth-first Search, Inorder Traversal, Iteration, 20190110
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -1155,7 +1165,7 @@ public:
 };
 
 // LeetCode 94 - Binary Tree Inorder Traversal, 
-// Iteration, Inorder Traversal-3, 20190110
+// Depth-first Search, Inorder Traversal, Iteration, 20190110
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -1202,7 +1212,7 @@ public:
 };
 
 // LeetCode 144 - Binary Tree Preorder Traversal, 
-// Iteration, Preorder Traversal-1, 20190110
+// Depth-first Search, Preorder Traversal, Iteration, 20190110
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -1239,7 +1249,7 @@ public:
 };
 
 // LeetCode 144 - Binary Tree Preorder Traversal, 
-// Iteration, Preorder Traversal-2, 20190110
+// Depth-first Search, Preorder Traversal, Iteration, 20190110
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -1277,7 +1287,7 @@ public:
 };
 
 // LeetCode 145 - Binary Tree Postorder Traversal, 
-// Iteration, Postorder Traversal, 20190110
+// Depth-first, Postorder Traversal, Iteration, 20190110
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -1364,7 +1374,7 @@ private:
             return nullptr;
         }
         
-        if (target <= root->val) {
+        if (root->val >= target) {
             return _lowerBound(root->left, target);
         }
         
@@ -1372,7 +1382,6 @@ private:
         if (lower != nullptr) {
             return lower;
         }
-        
         return root;
     }
     
@@ -1381,7 +1390,7 @@ private:
             return nullptr;
         }
         
-        if (target > root->val) {
+        if (root->val < target) {
             return _upperBound(root->right, target);
         }
         
@@ -1389,13 +1398,12 @@ private:
         if (upper != nullptr) {
             return upper;
         }
-        
         return root;
     }
 };
 
 // LeetCode 272 - Closest Binary Search Tree Value II, 
-// Iteration, Inorder Traversal, 20190111
+// Depth-first Search, Inorder Traversal, Iteration, 20190111
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -1408,9 +1416,9 @@ private:
 class Solution {
 public:
     vector<int> closestKValues(TreeNode *root, double target, int k) {
-        vector<int> result;
+        vector<int> results;
         if (k == 0 || root == nullptr) {
-            return result;
+            return results;
         }
         
         stack<TreeNode *> lowerSt;
@@ -1424,25 +1432,24 @@ public:
         
         for (int i = 0; i < k; i++) {
             if (lowerSt.empty() || !upperSt.empty() && 
-                upperSt.top()->val - target <= 
-                target - lowerSt.top()->val) {
-                result.push_back(upperSt.top()->val);
+                    upperSt.top()->val - target <= 
+                    target - lowerSt.top()->val) {
+                results.push_back(upperSt.top()->val);
                 _moveUpper(upperSt);
             } else {
-                result.push_back(lowerSt.top()->val);
+                results.push_back(lowerSt.top()->val);
                 _moveLower(lowerSt);
             }
         }
         
-        return result;
+        return results;
     }
     
 private:
     void _getStack(TreeNode *root, double target, 
-                   stack<TreeNode *> &st) {
+                   stack<TreeNode *> &st) {        
         while (root != nullptr) {
             st.push(root);
-            
             if (target <= root->val) {
                 root = root->left;
             } else {
@@ -1488,31 +1495,47 @@ private:
     }
 };
 
-// LeetCode 700 - Search in a Binary Search Tree, 20190111
+// LeetCode 700 - Search in a Binary Search Tree, 
+// Depth-first Search, 20190111
 /**
- * Definition for a binary tree node.
- * struct TreeNode {
+ * Definition of TreeNode:
+ * class TreeNode {
+ * public:
  *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
+ *     TreeNode *left, *right;
+ *     TreeNode(int val) {
+ *         this->val = val;
+ *         this->left = this->right = NULL;
+ *     }
+ * }
  */
 class Solution {
 public:
-    TreeNode *searchBST(TreeNode *root, int val) {
-        if (root == nullptr) {
-            return nullptr;
+    vector<int> searchRange(TreeNode *root, int k1, int k2) {
+        vector<int> results;
+        if (root == nullptr || k1 > k2) {
+            return results;
         }
         
-        if (val == root->val) {
-            return root;
+        _searchRange(root, k1, k2, results);
+        return results;
+    }
+    
+private:
+    void _searchRange(TreeNode *root, int k1, int k2, 
+                      vector<int> &results) {
+        if (root == nullptr) {
+            return;
         }
-        if (val < root->val) {
-            return searchBST(root->left, val);
+        
+        if (root->val >= k1) {
+            _searchRange(root->left, k1, k2, results);
         }
-        if (val > root->val) {
-            return searchBST(root->right, val);
+        if (root->val < k2) {
+            _searchRange(root->right, k1, k2, results);
+        }
+        if (root->val >= k1 && root->val <= k2) {
+            results.push_back(root->val);
         }
     }
 };
@@ -1562,7 +1585,8 @@ private:
     }
 };
 
-// LeetCode 701 - Insert into a Binary Search Tree, 20190111
+// LeetCode 701 - Insert into a Binary Search Tree, 
+// Depth-first Search, 20190111
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -1589,7 +1613,8 @@ public:
     }
 };
 
-// LintCode 85 - Insert Node in a Binary Search Tree, 20190111
+// LintCode 85 - Insert Node in a Binary Search Tree, 
+// Depth-first Search, 20190111
 /**
  * Definition of TreeNode:
  * class TreeNode {
@@ -1619,7 +1644,8 @@ public:
     }
 };
 
-// LintCode 87 - Remove Node in Binary Search Tree, 20190111
+// LintCode 87 - Remove Node in Binary Search Tree, 
+// Depth-first Search, 20190111
 /**
  * Definition of TreeNode:
  * class TreeNode {
@@ -1634,71 +1660,69 @@ public:
  */
 class Solution {
 public:
-    TreeNode * removeNode(TreeNode * root, int value) {
+    TreeNode *removeNode(TreeNode *root, int value) {
         TreeNode *dummy = new TreeNode(0);
         dummy->left = root;
         
-        TreeNode *parent = _findNode(dummy, root, value);
-        TreeNode *node = nullptr;
+        TreeNode *parent = _findParent(dummy, root, value);
         if (parent->left != nullptr && parent->left->val == value) {
-            node = parent->left;
-        } else if (parent->right != nullptr && parent->right->val == value) {
-            node = parent->right;
+            root = parent->left;
+        } else if (parent->right != nullptr && 
+                   parent->right->val == value) {
+            root = parent->right;
         } else {
             return dummy->left;
         }
         
-        _deleteNode(parent, node);
-        
+        _removeNode(parent, root);
         return dummy->left;
     }
     
 private:
-    TreeNode *_findNode(TreeNode *parent, TreeNode *node, int value) {
-        if (node == nullptr) {
+    TreeNode *_findParent(TreeNode *parent, TreeNode *root, int value) {
+        if (root == nullptr) {
+            return parent;
+        }
+        if (value == root->val) {
             return parent;
         }
         
-        if (node->val == value) {
-            return parent;
+        if (value < root->val) {
+            return _findParent(root, root->left, value);
         }
-        if (value < node->val) {
-            return _findNode(node, node->left, value);
-        } else {
-            return _findNode(node, node->right, value);
-        }
+        return _findParent(root, root->right, value);
     }
     
-    void _deleteNode(TreeNode *parent, TreeNode *node) {
-        if (node->right == nullptr) {
-            if (parent->left == node) {
-                parent->left = node->left;
+    void _removeNode(TreeNode *parent, TreeNode *root) {
+        if (root->right == nullptr) {
+            if (parent->left == root) {
+                parent->left = root->left;
             } else {
-                parent->right = node->left;
+                parent->right = root->left;
             }
         } else {
-            TreeNode *temp = node->right;
-            TreeNode *father = node;
+            TreeNode *father = root;
+            TreeNode *node = root->right;
             
-            while (temp->left != nullptr) {
-                father = temp;
-                temp = temp->left;
+            while (node->left != nullptr) {
+                father = node;
+                node = node->left;
             }
             
-            if (father->left == temp) {
-                father->left = temp->right;
+            if (father->left == node) {
+                father->left = node->right;
             } else {
-                father->right = temp->right;
+                father->right = node->right;
             }
             
-            if (parent->left == node) {
-                parent->left = temp;
+            if (parent->left == root) {
+                parent->left = node;
             } else {
-                parent->right = temp;
+                parent->right = node;
             }
             
-            temp->left = node->left;
-            temp->right = node->right;
+            node->left = root->left;
+            node->right = root->right;
         }
     }
 };

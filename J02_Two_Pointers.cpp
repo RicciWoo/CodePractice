@@ -20,6 +20,46 @@ public:
     }
 };
 
+// LeetCode 26 - Remove Duplicates from Sorted Array, Two Pointers, 20190220
+class Solution {
+public:
+    int removeDuplicates(vector<int> &nums) {
+        if (nums.empty()) {
+            return 0;
+        }
+        
+        int j = 0;
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i] != nums[j]) {
+                nums[++j] = nums[i];
+            }
+        }
+        
+        return j + 1;
+    }
+};
+
+// LeetCode 80 - Remove Duplicates from Sorted Array II, Two Pointers, 20190220
+class Solution {
+public:
+    int removeDuplicates(vector<int> &nums) {
+        if (nums.size() <= 2) {
+            return nums.size();
+        }
+        
+        int j = 1;
+        for (int i = 2; i < nums.size(); i++) {
+            if (nums[i] != nums[j - 1]) {
+                nums[++j] = nums[i];
+            }
+            
+            
+        }
+        
+        return j + 1;
+    }
+};
+
 // LintCode 521 - Remove Duplicate Numbers in Array, Two Pointers, 20181125
 class Solution {
 public:
@@ -52,7 +92,7 @@ public:
  */
 class Solution {
 public:
-    ListNode* middleNode(ListNode* head) {
+    ListNode *middleNode(ListNode *head) {
         if (head == nullptr) {
             return nullptr;
         }
@@ -128,7 +168,7 @@ public:
             slow = slow->next;
             fast = fast->next->next;
         }
-        
+
         return true;
     }
 };
@@ -226,6 +266,42 @@ private:
     }
 };
 
+// LeetCode 19 - Remove Nth Node From End of List, Two Pointers, 20190220
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *removeNthFromEnd(ListNode *head, int n) {
+        if (head == nullptr) {
+            return nullptr;
+        }
+        
+        ListNode *dummy = new ListNode(-1);
+        dummy->next = head;
+        ListNode *slow = dummy, *fast = dummy;
+        for (int i = 0; i < n; i++) {
+            if (fast == nullptr) {
+                return nullptr;
+            }
+            fast = fast->next;
+        }
+        
+        while (fast->next != nullptr) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+        
+        slow->next = slow->next->next;
+        return dummy->next;
+    }
+};
+
 // LeetCode 283 - Move Zeroes, Two Pointers, 20181125
 class Solution {
 public:
@@ -237,7 +313,7 @@ public:
         int j = 0;
         for (int i = 0; i < nums.size(); i++) {
             if (nums[i] != 0) {
-                if (i != j) {
+                if (i != j && nums[i] != nums[j]) {
                     nums[j] = nums[i];
                 }
                 j++;
@@ -323,44 +399,42 @@ private:
 // LeetCode 1 - Two Sum, Hash Table, 20181125
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int target) {
+    vector<int> twoSum(vector<int> &nums, int target) {
         vector<int> result;
         if (nums.size() < 2) {
             return result;
         }
         
-        unordered_map<int, int> hashMap;
+        unordered_map<int, int> hashmap;
         for (int i = 0; i < nums.size(); i++) {
             int complement = target - nums[i];
-            if (hashMap.count(complement)) {
+            if (hashmap.count(complement)) {
                 result.push_back(i);
-                result.push_back(hashMap[complement]);
+                result.push_back(hashmap[complement]);
                 return result;
             }
-            hashMap.insert({nums[i], i});
+            hashmap[nums[i]] = i;
         }
         
         return result;
     }
 };
 
-// Two Sum III - Data Structure Design, Hash Table, 20181125
+// LeetCode 170 - Two Sum III - Data Structure Design, Hash Table, 20181125
 class TwoSum {
 private:
-    unordered_map<int, int> hashMap;
-
-public:    
-    /** Add the number to an internal data structure.. */
-    void add(int number) {
-        hashMap[number]++;
-    }
+    unordered_map<int, int> hashmap;
     
-    /** Find if there exists any pair of numbers which sum is equal to the value. */
+public:
+    void add(int number) {
+        hashmap[number]++;
+    }
+
     bool find(int value) {
-        for (pair<const int, int> p : hashMap) {
-            int diff = value - p.first;
-            if (hashMap.count(diff)) {
-                if (diff != p.first || hashMap[diff] > 1) {
+        for (auto &entry : hashmap) {
+            int diff = value - entry.first;
+            if (hashmap.count(diff)) {
+                if (diff != entry.first || hashmap[diff] > 1) {
                     return true;
                 }
             }
@@ -373,7 +447,7 @@ public:
 // LeetCode 167 - Two Sum II - Input array is sorted, Two Pointers, 20181125
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& numbers, int target) {
+    vector<int> twoSum(vector<int> &numbers, int target) {
         vector<int> result;
         if (numbers.size() < 2) {
             return result;
@@ -416,10 +490,12 @@ public:
                 left++;
                 right--;
                 
-                while (left < right && nums[left] == nums[left - 1]) {
+                while (left < right && 
+                       nums[left] == nums[left - 1]) {
                     left++;
                 }
-                while (left < right && nums[right] == nums[right + 1]) {
+                while (left < right && 
+                       nums[right] == nums[right + 1]) {
                     right--;
                 }
             } else if (sum < target) {
@@ -675,25 +751,25 @@ public:
             return result;
         }
         
-        unordered_map<int, int> hashMap;
+        unordered_map<int, int> hashmap;
         for (int i = 0; i < nums.size(); i++) {
             int sum = nums[i] + target;
-            if (hashMap.count(sum)) {
-                int index = hashMap[sum];
+            if (hashmap.count(sum)) {
+                int index = hashmap[sum];
                 result.push_back(index + 1);
                 result.push_back(i + 1);
-                return result;
+                break;
             }
             
             int diff = nums[i] - target;
-            if (hashMap.count(diff)) {
-                int index = hashMap[diff];
+            if (hashmap.count(diff)) {
+                int index = hashmap[diff];
                 result.push_back(index + 1);
                 result.push_back(i + 1);
-                return result;
+                break;
             }
             
-            hashMap.insert({nums[i], i});
+            hashmap[nums[i]] = i;
         }
         
         return result;
@@ -711,10 +787,10 @@ public:
         vector<int> temp(A.size(), 0);
         _mergeSort(A, 0, A.size() - 1, temp);
     }
-    
+
 private:
     void _mergeSort(vector<int> &A, int start, int end, 
-                    vector<int> &temp) {
+               vector<int> &temp) {
         if (start >= end) {
             return;
         }
@@ -722,15 +798,13 @@ private:
         int mid = start + (end - start) / 2;
         _mergeSort(A, start, mid, temp);
         _mergeSort(A, mid + 1, end, temp);
-        _merge(A, start, end, temp);
+        _merge(A, start, mid, end, temp);
     }
     
-    void _merge(vector<int> &A, int start, int end, 
-                vector<int> &temp) {
-        int leftIndex = start;
-        int mid = start + (end - start) / 2;
-        int rightIndex = mid + 1;
-        int index = leftIndex;
+    void _merge(vector<int> &A, int start, int mid, int end, 
+           vector<int> &temp) {
+        int leftIndex = start, rightIndex = mid + 1;
+        int index = start;
         
         while (leftIndex <= mid && rightIndex <= end) {
             if (A[leftIndex] < A[rightIndex]) {
@@ -746,7 +820,6 @@ private:
         while (rightIndex <= end) {
             temp[index++] = A[rightIndex++];
         }
-        
         for (int i = start; i <= end; i++) {
             A[i] = temp[i];
         }
@@ -756,43 +829,39 @@ private:
 // LintCode 464 - Sort Integers II, Quick Sort, 20181129
 class Solution {
 public:
-    void sortIntegers2(vector<int> &nums) {
-        if (nums.empty()) {
+    void sortIntegers2(vector<int> &A) {
+        if (A.empty()) {
             return;
         }
         
-        _quickSort(nums, 0, nums.size() - 1);
+        _quickSort(A, 0, A.size() - 1);
     }
     
 private:
-    void _quickSort(vector<int> &nums, int start, int end) {
+    void _quickSort(vector<int> &A, int start, int end) {
         if (start >= end) {
             return;
         }
         
         int left = start, right = end;
-        // get value, not index
-        int pivot = nums[start + (end - start) / 2];
-        // left <= right, not left < right
+        int pivot = A[start + (end - start) / 2];
         while (left <= right) {
-            // nums[left] < pivot, not nums[left] <= pivot
-            while (left <= right && nums[left] < pivot) {
+            while (left <= right && A[left] < pivot) {
                 left++;
             }
-            // nums[right] > pivot, not nums[right] >= pivot
-            while (left <= right && nums[right] > pivot) {
+            while (left <= right && A[right] > pivot) {
                 right--;
             }
             
             if (left <= right) {
-                swap(nums[left], nums[right]);
+                swap(A[left], A[right]);
                 left++;
                 right--;
             }
         }
         
-        _quickSort(nums, start, right);
-        _quickSort(nums, left, end);
+        _quickSort(A, start, right);
+        _quickSort(A, left, end);
     }
 };
 
@@ -849,7 +918,8 @@ public:
     }
 };
 
-// LintCode 461 - Kth Smallest Numbers in Unsorted Array, Quick Select, 20181129
+// LintCode 461 - Kth Smallest Numbers in Unsorted Array, 
+// Quick Select, 20181129
 class Solution {
 public:
     int kthSmallest(int k, vector<int> &nums) {
@@ -861,18 +931,14 @@ public:
     }
     
 private:
-    int _quickSelect(vector<int> &nums, int start, int end, int k) {
-        if (start == end) {
-            return nums[start];
-        }
-        
+    int _quickSelect(vector<int> &nums, 
+                     int start, int end, int k) {        
         int left = start, right = end;
         int pivot = nums[start + (end - start) / 2];
         while (left <= right) {
             while (left <= right && nums[left] < pivot) {
                 left++;
             }
-            
             while (left <= right && nums[right] > pivot) {
                 right--;
             }
@@ -888,13 +954,15 @@ private:
             return _quickSelect(nums, start, right, k);
         }
         if (start + k - 1 >= left) {
-            return _quickSelect(nums, left, end, k - (left - start));
+            return _quickSelect(nums, left, end, 
+                                k - (left - start));
         }
-        return nums[start + 1];
+        return nums[right + 1];
     }
 };
 
-// LintCode 461 - Kth Smallest Numbers in Unsorted Array, Quick Partition, 20181129
+// LintCode 461 - Kth Smallest Numbers in Unsorted Array, 
+// Quick Partition, 20181129
 class Solution {
 public:
     int kthSmallest(int k, vector<int> &nums) {
@@ -904,20 +972,16 @@ public:
         
         return _partition(nums, 0, nums.size() - 1, k - 1);
     }
-    
+
 private:
-    int _partition(vector<int> &nums, int start, int end, int k) {
-        if (start == end) {
-            return nums[start];
-        }
-        
+    int _partition(vector<int> &nums, 
+                   int start, int end, int k) {
         int left = start, right = end;
-        int pivot = nums[left + (right - left) / 2];
+        int pivot = nums[start + (end - start) / 2];
         while (left <= right) {
             while (left <= right && nums[left] < pivot) {
                 left++;
             }
-            
             while (left <= right && nums[right] > pivot) {
                 right--;
             }
@@ -939,11 +1003,12 @@ private:
     }
 };
 
-// LeetCode 215 - Kth Largest Element in an Array, Quick Select, 20181129
+// LeetCode 215 - Kth Largest Element in an Array, 
+// Quick Select, 20181129
 class Solution {
 public:
     int findKthLargest(vector<int> &nums, int k) {
-        if (nums.empty()) {
+        if (nums.empty() || k <= 0 || k > nums.size()) {
             return -1;
         }
         
@@ -951,11 +1016,8 @@ public:
     }
     
 private:
-    int _quickSelect(vector<int> &nums, int start, int end, int k) {
-        if (start == end) {
-            return nums[start];
-        }
-        
+    int _quickSelect(vector<int> &nums, 
+                     int start, int end, int k) {
         int left = start, right = end;
         int pivot = nums[start + (end - start) / 2];
         while (left <= right) {
@@ -977,17 +1039,19 @@ private:
             return _quickSelect(nums, start, right, k);
         }
         if (start + k - 1 >= left) {
-            return _quickSelect(nums, left, end, k - (left - start));
+            return _quickSelect(nums, left, end, 
+                                k - (left - start));
         }
         return nums[right + 1];
     }
 };
 
-// LeetCode 215 - Kth Largest Element in an Array, Quick Partition, 20181129
+// LeetCode 215 - Kth Largest Element in an Array, 
+// Quick Partition, 20181129
 class Solution {
 public:
-    int findKthLargest(vector<int> &nums, int k) {
-        if (nums.empty()) {
+    int findKthLargest(vector<int>& nums, int k) {
+        if (nums.empty() || k <= 0 || k > nums.size()) {
             return -1;
         }
         
@@ -995,11 +1059,8 @@ public:
     }
     
 private:
-    int _partition(vector<int> &nums, int start, int end, int k) {
-        if (start == end) {
-            return nums[start];
-        }
-        
+    int _partition(vector<int> &nums, 
+                   int start, int end, int k) {
         int left = start, right = end;
         int pivot = nums[start + (end - start) / 2];
         while (left <= right) {
@@ -1009,7 +1070,7 @@ private:
             while (left <= right && nums[right] < pivot) {
                 right--;
             }
-            
+
             if (left <= right) {
                 swap(nums[left], nums[right]);
                 left++;

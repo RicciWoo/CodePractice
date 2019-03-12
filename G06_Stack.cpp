@@ -1,54 +1,62 @@
 /******************** Stack ********************/
 
-// Valid Parentheses, use stack
+// LeetCode 20 - Valid Parentheses, Stack, 20190303
 class Solution {
 public:
     bool isValid(string s) {
+        if (s.empty()) {
+            return true;
+        }
+        
         stack<char> pair;
-        if (s.size() == 0) return true;
+        if (s.size() == 0) {
+            return true;
+        }
         for (int i = 0; i < s.size(); i++) {
-            if (s[i] == '(' || s[i] == '[' || s[i] == '{') 
+            if (s[i] == '(' || s[i] == '[' || s[i] == '{') {
                 pair.push(s[i]);
-            else if (s[i] == ')') {
-                if (pair.empty()) return false;
-                if (pair.top() != '(') return false;
-                else pair.pop();
-            }
-            else if (s[i] == ']') {
-                if (pair.empty()) return false;
-                if (pair.top() != '[') return false;
-                else pair.pop();
-            }
-            else if (s[i] == '}') {
-                if (pair.empty()) return false;
-                if (pair.top() != '{') return false;
-                else pair.pop();
+            } else if (s[i] == ')') {
+                if (pair.empty() || pair.top() != '(') {
+                    return false;
+                }
+                pair.pop();
+            } else if (s[i] == ']') {
+                if (pair.empty() || pair.top() != '[') {
+                    return false;
+                }
+                pair.pop();
+            } else if (s[i] == '}') {
+                if (pair.empty() || pair.top() != '{') {
+                    return false;
+                }
+                pair.pop();
             }
         }
+        
         return pair.empty();
     }
 };
 
-// Max Stack with peekMax() and popMax()
+// LeetCode 716 - Max Stack, Stack, 20190303
 class MaxStack {
 private:
-    stack<int> eleSt;
-    stack<int> maxSt;
+    stack<int> eleSt, maxSt;
     
-public:
+public:    
     void push(int x) {
-        int curMax = INT_MIN;
-        if (!maxSt.empty()) curMax = maxSt.top();
-        curMax = max(curMax, x);
         eleSt.push(x);
-        maxSt.push(curMax);
+        if (maxSt.empty() || x >= maxSt.top()) {
+            maxSt.push(x);
+            return;
+        }
+        maxSt.push(maxSt.top());
     }
     
     int pop() {
-        int result = eleSt.top();
+        int element = eleSt.top();
         eleSt.pop();
         maxSt.pop();
-        return result;
+        return element;
     }
     
     int top() {
@@ -60,31 +68,35 @@ public:
     }
     
     int popMax() {
-        stack<int> temSt;
-        int result = peekMax();
-        while (top() != result) temSt.push(pop());
-        pop();
-        while (!temSt.empty()) {
-            push(temSt.top());
-            temSt.pop();
+        stack<int> tempSt;
+        int maxElem = peekMax();
+        while (top() != maxElem) {
+            tempSt.push(pop());
         }
-        return result;
+        pop();
+        
+        while (!tempSt.empty()) {
+            push(tempSt.top());
+            tempSt.pop();
+        }
+        
+        return maxElem;
     }
 };
 
-// Min Stack with getMin()
+// LeetCode 155 - Min Stack, Stack, 20190304
 class MinStack {
 private:
-    stack<int> eleSt;
-    stack<int> minSt;
+    stack<int> eleSt, minSt;
     
 public:
     void push(int x) {
-        int curMin = INT_MAX;
-        if (!minSt.empty()) curMin = minSt.top();
-        curMin = min(curMin, x);
         eleSt.push(x);
-        minSt.push(curMin);
+        if (minSt.empty() || x <= minSt.top()) {
+            minSt.push(x);
+            return;
+        }
+        minSt.push(minSt.top());
     }
     
     void pop() {
@@ -126,52 +138,76 @@ public:
     }
 };
 
-// Remove Duplicate Letters-1, use recursion
+// LeetCode 316 - Remove Duplicate Letters, Depth-first Search, 20190304
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
-        if (s.size() == 0) return s;
-        vector<int> cnt(26, 0);
-        for (int i = 0; i < s.size(); i++)
-            cnt[s[i] - 'a']++;
+        if (s.empty()) {
+            return s;
+        }
+        
+        vector<int> count(26, 0);
+        for (int i = 0; i < s.size(); i++) {
+            count[s[i] - 'a']++;
+        }
+        
         int pos = 0;
         for (int i = 0; i < s.size(); i++) {
-            if (s[i] < s[pos]) pos = i;
-            if (--cnt[s[i] - 'a'] == 0) break;
+            if (s[i] < s[pos]) {
+                pos = i;
+            }
+            if (--count[s[i] - 'a'] == 0) {
+                break;
+            }
         }
-        string sub = "";
-        for (int i = pos + 1; i < s.size(); i++)
-            if (s[i] != s[pos]) sub += s.substr(i, 1);
+        
+        string sub;
+        for (int i = pos + 1; i < s.size(); i++) {
+            if (s[i] != s[pos]) {
+                sub += s[i];
+            }
+        }
         return s[pos] + removeDuplicateLetters(sub);
     }
 };
 
-// Remove Duplicate Letters-2, use stack
+// LeetCode 316 - Remove Duplicate Letters, Stack, 20190304
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
-        vector<int> cnt(26, 0);
-        for (int i = 0; i < s.size(); i++)
-            cnt[s[i] - 'a']++;
+        string result;
+        if (s.empty()) {
+            return result;
+        }
+        
+        vector<int> count(26, 0);
+        for (int i = 0; i < s.size(); i++) {
+            count[s[i] - 'a']++;
+        }
+        
         stack<char> chStack;
         vector<bool> visited(26, false);
         for (int i = 0; i < s.size(); i++) {
-            cnt[s[i] - 'a']--;
-            if (visited[s[i] - 'a']) continue;
-            while (!chStack.empty() && s[i] < chStack.top() && 
-                   cnt[chStack.top() - 'a'] > 0) {
+            count[s[i] - 'a']--;
+            if (visited[s[i] - 'a']) {
+                continue;
+            }
+            while (!chStack.empty() && 
+                   s[i] < chStack.top() && 
+                   count[chStack.top() - 'a'] > 0) {
                 visited[chStack.top() - 'a'] = false;
                 chStack.pop();
             }
             chStack.push(s[i]);
             visited[s[i] - 'a'] = true;
         }
-        string result = "";
+        
         while (!chStack.empty()) {
             result += chStack.top();
             chStack.pop();
         }
-        reverse(begin(result), end(result));
+        
+        reverse(result.begin(), result.end());
         return result;
     }
 };
@@ -179,28 +215,40 @@ public:
 // Largest Rectangle in Histogram, use stack
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& heights) {
-        int area = 0;
-        stack<int> hStack;
-        for (int i = 0; i < heights.size(); i++) {
-            if (hStack.empty() || heights[i] > heights[hStack.top()])
-                hStack.push(i);
-            else {
-                int start = hStack.top();
-                hStack.pop();
-                int width = hStack.empty() ? i : i - hStack.top() - 1;
-                area = max(area, heights[start] * width);
-                i--;
+    string removeDuplicateLetters(string s) {
+        string result;
+        if (s.empty()) {
+            return result;
+        }
+        
+        vector<int> count(26, 0);
+        for (int i = 0; i < s.size(); i++) {
+            count[s[i] - 'a']++;
+        }
+        
+        stack<char> chStack;
+        vector<bool> visited(26, false);
+        for (int i = 0; i < s.size(); i++) {
+            count[s[i] - 'a']--;
+            if (visited[s[i] - 'a']) {
+                continue;
             }
+            while (!chStack.empty() && 
+                   s[i] < chStack.top() && 
+                   count[chStack.top() - 'a'] > 0) {
+                visited[chStack.top() - 'a'] = false;
+                chStack.pop();
+            }
+            chStack.push(s[i]);
+            visited[s[i] - 'a'] = true;
         }
-        while (!hStack.empty()) {
-            int start = hStack.top();
-            hStack.pop();
-            int width = hStack.empty() ? heights.size() : 
-                        heights.size() - hStack.top() - 1;
-            area = max(area, heights[start] * width);
+        
+        while (!chStack.empty()) {
+            result += chStack.top();
+            chStack.pop();
         }
-        return area;
+        reverse(result.begin(), result.end());
+        return result;
     }
 };
 

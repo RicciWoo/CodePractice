@@ -35,6 +35,15 @@ public:
 
 // LeetCode 297 - Serialize and Deserialize Binary Tree, 
 // Breadth-first Search, 20181205
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
 class Codec {
 public:
     // Encodes a tree to a single string.
@@ -57,18 +66,17 @@ public:
             q.push(node->right);
         }
         
-        stringstream ss;
-        ss << "{" << nodes[0]->val;
+        string str = "{" + to_string(nodes[0]->val);
         for (int i = 1; i < nodes.size(); i++) {
             if (nodes[i] != nullptr) {
-                ss << "," << nodes[i]->val;
+                str += "," + to_string(nodes[i]->val);
             } else {
-                ss << ",#";
+                str += ",#"; 
             }
         }
-        ss << "}";
+        str += "}";
         
-        return ss.str();
+        return str;
     }
 
     // Decodes your encoded data to tree.
@@ -77,9 +85,9 @@ public:
             return nullptr;
         }
         
-        string sub = data.substr(1, data.size() - 2);
+        string str = data.substr(1, data.size() - 2);
         vector<string> vals;
-        _split(sub, ",", vals);
+        _split(str, ',', vals);
         
         TreeNode *root = new TreeNode(stoi(vals[0]));
         queue<TreeNode *> q;
@@ -108,10 +116,10 @@ public:
     }
     
 private:
-    void _split(string &str, string delim, 
+    void _split(string &str, char delim, 
                 vector<string> &results) {
         for (int i = 0, j = 0; i <= str.size(); i++) {
-            if (str[i] == delim[0] || i == str.size()) {
+            if (i == str.size() || str[i] == delim) {
                 results.push_back(str.substr(j, i - j));
                 j = i + 1;
             }
@@ -129,7 +137,7 @@ public:
             return result;
         }
         
-        queue<TreeNode*> curr, next;
+        queue<TreeNode *> curr, next;
         curr.push(root);
         while (!curr.empty()) {
             vector<int> level;
@@ -155,9 +163,18 @@ public:
 
 // LeetCode 103 - Binary Tree Zigzag Level Order Traversal, 
 // Breadth-first Search, 20181209
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
 class Solution {
 public:
-    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+    vector<vector<int>> zigzagLevelOrder(TreeNode *root) {
         vector<vector<int>> results;
         if (root == nullptr) {
             return results;
@@ -176,6 +193,7 @@ public:
                 } else {
                     level.push_front(node->val);
                 }
+                
                 if (node->left != nullptr) {
                     next.push(node->left);
                 }
@@ -187,14 +205,13 @@ public:
             swap(curr, next);
             vector<int> result(level.begin(), level.end());
             results.push_back(result);
-
         }
         
         return results;
     }
 };
 
-// LintCode 242 - Convert Binary Tree to Linked List by Depth, 
+// LintCode 242 - Convert Binary Tree to Linked Lists by Depth, 
 // Breadth-first Search, 20181209
 class Solution {
 public:
@@ -230,46 +247,50 @@ public:
 };
 
 // LeetCode 133 - Clone Graph, Breadth-first Search, 20181217.
-/**
- * Definition for undirected graph.
- * struct UndirectedGraphNode {
- *     int label;
- *     vector<UndirectedGraphNode *> neighbors;
- *     UndirectedGraphNode(int x) : label(x) {};
- * };
- */
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    Node() {}
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
 class Solution {
 public:
-    UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+    Node *cloneGraph(Node *node) {
         if (node == nullptr) {
             return nullptr;
         }
         
-        UndirectedGraphNode *n1 = node;
-        UndirectedGraphNode *n2 = new UndirectedGraphNode(n1->label);
-        unordered_map<UndirectedGraphNode *, UndirectedGraphNode *> hm;
-        hm.insert({n1, n2});
-        queue<UndirectedGraphNode *> q;
+        Node *n1 = node;
+        Node *n2 = new Node(n1->val);
+        unordered_map<Node *, Node *> hashmap;
+        hashmap[n1] = n2;
+        queue<Node *> q;
         q.push(n1);
         
         while (!q.empty()) {
             n1 = q.front();
             q.pop();
-            n2 = hm[n1];
-            for (UndirectedGraphNode *nb1 : n1->neighbors) {
-                if (hm.count(nb1)) {
-                    n2->neighbors.push_back(hm[nb1]);
+            n2 = hashmap[n1];
+            for (Node *nb1 : n1->neighbors) {
+                if (hashmap.count(nb1)) {
+                    n2->neighbors.push_back(hashmap[nb1]);
                 } else {
-                    UndirectedGraphNode *nb2 = 
-                        new UndirectedGraphNode(nb1->label);
+                    Node *nb2 = new Node(nb1->val);
                     n2->neighbors.push_back(nb2);
-                    hm.insert({nb1, nb2});
+                    hashmap[nb1] = nb2;
                     q.push(nb1);
                 }
             }
         }
         
-        return hm[node];
+        return hashmap[node];
     }
 };
 
@@ -278,7 +299,7 @@ public:
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, 
-                     vector<string> &wordList) {
+                     vector<string>& wordList) {
         unordered_set<string> wordSet(wordList.begin(), 
                                       wordList.end());
         if (!wordSet.count(endWord)) {
@@ -368,7 +389,7 @@ public:
     }
 };
 
-// LeetCode 200 - Number of Islands, Breadth-first Search, 20181217.
+// LeetCode 200 - Number of Islands, Breadth-first Search, 20190223
 class Solution {
 public:
     int numIslands(vector<vector<char>> &grid) {
@@ -393,71 +414,82 @@ private:
     void _bfs(vector<vector<char>> &grid, int x, int y) {
         vector<int> dx{1, 0, -1, 0};
         vector<int> dy{0, 1, 0, -1};
-        
+
         int m = grid.size(), n = grid[0].size();
         queue<int> q;
         q.push(x * n + y);
         grid[x][y] = '0';
         
         while (!q.empty()) {
-            int curr = q.front();
+            x = q.front() / n;
+            y = q.front() % n;
             q.pop();
-            x = curr / n;
-            y = curr % n;
-            for (int k = 0; k < 4; k++) {
-                int i = x + dx[k], j = y + dy[k];
-                if (i < 0 || i >= m || j < 0 || j >= n) {
+            for (int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if (nx < 0 || nx >= m || ny < 0 || ny >= n) {
                     continue;
                 }
-                if (grid[i][j] == '1') {
-                    grid[i][j] = '0';
-                    q.push(i * n + j);
+                if (grid[nx][ny] == '1') {
+                    grid[nx][ny] = '0';
+                    q.push(nx * n + ny);
                 }
             }
         }
     }
 };
 
-// LeetCode 200 - Number of Islands, Union-Find, 20181217.
-class UnionFind {
-private:
-    vector<int> father;
-    int count = 0;
-    
+// LintCode 433 - Number of Islands, Breadth-first Search, 20190223
+class Solution {
 public:
-    UnionFind(int n) {
-        father = vector<int>(n, 0);
-        for (int i = 0; i < n; i++) {
-            father[i] = i;
-        }
-    }
-    
-    void setCount(int total) {
-        count = total;
-    }
-    
-    int getCount() {
-        return count;
-    }
-    
-    void connect(int a, int b) {
-        int rootA = _find(a);
-        int rootB = _find(b);
-        if (rootA != rootB) {
-            father[rootA] = rootB;
-            count--;
-        }
-    }
-    
-private:
-    int _find(int x) {
-        if (father[x] == x) {
-            return x;
+    int numIslands(vector<vector<bool>> &grid) {
+        if (grid.empty() || grid[0].empty()) {
+            return 0;
         }
         
-        return father[x] = _find(father[x]);
+        int islands = 0;
+        for (int i = 0; i < grid.size(); i++) {
+            for (int j = 0; j < grid[0].size(); j++) {
+                if (grid[i][j]) {
+                    _bfs(grid, i, j);
+                    islands++;
+                }
+            }
+        }
+        
+        return islands;
+    }
+    
+private:
+    void _bfs(vector<vector<bool>> &grid, int x, int y) {
+        vector<int> dx{1, 0, -1, 0};
+        vector<int> dy{0, 1, 0, -1};
+        
+        int m = grid.size(), n = grid[0].size();
+        queue<int> q;
+        q.push(x * n + y);
+        grid[x][y] = false;
+        
+        while (!q.empty()) {
+            x = q.front() / n;
+            y = q.front() % n;
+            q.pop();
+            for (int i = 0; i < 4; i++) {
+                int nx = x + dx[i];
+                int ny = y + dy[i];
+                if (nx < 0 || nx >= m || ny < 0 || ny >= n) {
+                    continue;
+                }
+                if (grid[nx][ny]) {
+                    grid[nx][ny] = false;
+                    q.push(nx * n + ny);
+                }
+            }
+        }
     }
 };
+
+// LeetCode 200 - Number of Islands, Union-Find, 20190223
 class Solution {
 public:
     int numIslands(vector<vector<char>> &grid) {
@@ -499,9 +531,131 @@ public:
         
         return unionFind->getCount();
     }
+    
+private:
+    struct UnionFind {
+        UnionFind(int n) {
+            father = vector<int>(n, 0);
+            for (int i = 0; i < n; i++) {
+                father[i] = i;
+            }
+        }
+        
+        void setCount(int total) {
+            count = total;
+        }
+        
+        int getCount() {
+            return count;
+        }
+        
+        void connect(int a, int b) {
+            int rootA = _find(a);
+            int rootB = _find(b);
+            if (rootA != rootB) {
+                father[rootA] = rootB;
+                count--;
+            }
+        }
+    
+    private:
+        vector<int> father;
+        int count = 0;
+        
+        int _find(int x) {
+            if (father[x] == x) {
+                return x;
+            }
+            
+            return father[x] = _find(father[x]);
+        }
+    };
 };
 
-// LintCode 611 - Knight Shortest Path, Breadth-first Search, 20181218.
+// LintCode 433 - Number of Islands, Union-Find, 20190223
+class Solution {
+public:
+    int numIslands(vector<vector<bool>> &grid) {
+        if (grid.empty() || grid[0].empty()) {
+            return 0;
+        }
+        
+        int m = grid.size(), n = grid[0].size();
+        UnionFind *unionFind = new UnionFind(m * n);
+        
+        int total = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j]) {
+                    total++;
+                }
+            }
+        }
+        unionFind->setCount(total);
+        
+        vector<int> dx{1, 0, -1, 0};
+        vector<int> dy{0, 1, 0, -1};
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (!grid[i][j]) {
+                    continue;
+                }
+                for (int k = 0; k < 4; k++) {
+                    int x = i + dx[k], y = j + dy[k];
+                    if (x < 0 || x >= m || y < 0 || y >= n) {
+                        continue;
+                    }
+                    if (grid[x][y]) {
+                        unionFind->connect(i * n + j, x * n + y);
+                    }
+                }
+            }
+        }
+        
+        return unionFind->getCount();
+    }
+    
+private:
+    struct UnionFind {
+        UnionFind(int n) {
+            father = vector<int>(n, 0);
+            for (int i = 0; i < n; i++) {
+                father[i] = i;
+            }
+        }
+        
+        void setCount(int total) {
+            count = total;
+        }
+        
+        int getCount() {
+            return count;
+        }
+        
+        void connect(int a, int b) {
+            int rootA = _find(a);
+            int rootB = _find(b);
+            if (rootA != rootB) {
+                father[rootA] = rootB;
+                count--;
+            }
+        }
+        
+    private:
+        vector<int> father;
+        int count = 0;
+        
+        int _find(int x) {
+            if (father[x] == x) {
+                return x;
+            }
+            
+            return father[x] = _find(father[x]);
+        }
+    };
+};
+
+// LintCode 611 - Knight Shortest Path, Breadth-first Search, 20190223
 /**
  * Definition for a point.
  * struct Point {
@@ -523,8 +677,8 @@ public:
             return -1;
         }
         
-        int n = grid.size(), m = grid[0].size();
-        vector<vector<int>> dist(n, vector<int>(m, INT_MAX));
+        int m = grid.size(), n = grid[0].size();
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
         dist[source.x][source.y] = 0;
         vector<int> dx{1, 1, -1, -1, 2, 2, -2, -2};
         vector<int> dy{2, -2, 2, -2, 1, -1, 1, -1};
@@ -537,8 +691,10 @@ public:
             for (int i = 0; i < 8; i++) {
                 int x = curr.x + dx[i];
                 int y = curr.y + dy[i];
-                if (x < 0 || x >= n || y < 0 || y >= m || 
-                    grid[x][y]) {
+                if (x < 0 || x >= m || y < 0 || y >= n) {
+                    continue;
+                }
+                if (grid[x][y]) {
                     continue;
                 }
                 if (dist[curr.x][curr.y] + 1 < dist[x][y]) {
@@ -555,19 +711,19 @@ public:
     }
 };
 
-// LintCode 630 - Knight Shortest Path II, Breadth-first Search, 20181218.
+// LintCode 630 - Knight Shortest Path II, Breadth-first Search, 20190223
 class Solution {
 public:
     int shortestPath2(vector<vector<bool>> &grid) {
         if (grid.empty() || grid[0].empty()) {
             return -1;
         }
-        int n = grid.size(), m = grid[0].size();
-        if (grid[0][0] || grid[n - 1][m - 1]) {
+        int m = grid.size(), n = grid[0].size();
+        if (grid[0][0] || grid[m - 1][n - 1]) {
             return -1;
         }
         
-        vector<vector<int>> dist(n, vector<int>(m, INT_MAX));
+        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
         dist[0][0] = 0;
         vector<int> dx{1, -1, 2, -2};
         vector<int> dy{2,  2, 1,  1};
@@ -575,26 +731,28 @@ public:
         queue<int> q;
         q.push(0);
         while (!q.empty()) {
-            int curr = q.front();
+            int x = q.front() / n;
+            int y = q.front() % n;
             q.pop();
-            int x = curr / m, y = curr % m;
             for (int i = 0; i < 4; i++) {
-                int newX = x + dx[i], newY = y + dy[i];
-                if (newX < 0 || newX >= n || 
-                    newY < 0 || newY >= m || grid[x][y]) {
+                int nx = x + dx[i], ny = y + dy[i];
+                if (nx < 0 || nx >= m || ny < 0 || ny >= n) {
                     continue;
                 }
-                if (dist[x][y] + 1 < dist[newX][newY]) {
-                    dist[newX][newY] = dist[x][y] + 1;
-                    q.push(newX * m + newY);
+                if (grid[nx][ny]) {
+                    continue;
+                }
+                if (dist[x][y] + 1 < dist[nx][ny]) {
+                    dist[nx][ny] = dist[x][y] + 1;
+                    q.push(nx * n + ny);
                 }
             }
         }
         
-        if (dist[n - 1][m - 1] == INT_MAX) {
+        if (dist[m - 1][n - 1] == INT_MAX) {
             return -1;
         }
-        return dist[n - 1][m - 1];
+        return dist[m - 1][n - 1];
     }
 };
 
@@ -610,45 +768,40 @@ public:
 class Solution {
 public:
     vector<DirectedGraphNode *> topSort(
-                    vector<DirectedGraphNode *> &graph) {
-        vector<DirectedGraphNode *> result;
+                        vector<DirectedGraphNode *> &graph) {
+        vector<DirectedGraphNode *> results;
         if (graph.empty()) {
-            return result;
+            return results;
         }
         
-        unordered_map<DirectedGraphNode *, int> hm;
+        unordered_map<DirectedGraphNode *, int> indegree;
         for (DirectedGraphNode *node : graph) {
             for (DirectedGraphNode *nb : node->neighbors) {
-                if (hm.count(nb)) {
-                    hm[nb]++;
-                } else {
-                    hm[nb] = 1;
-                }
+                indegree[nb]++;
             }
         }
         
         queue<DirectedGraphNode *> q;
         for (DirectedGraphNode *node : graph) {
-            if (!hm.count(node)) {
+            if (!indegree.count(node)) {
                 q.push(node);
-                result.push_back(node);
+                results.push_back(node);
             }
         }
-        
         while (!q.empty()) {
             DirectedGraphNode *node = q.front();
             q.pop();
             for (DirectedGraphNode *nb : node->neighbors) {
-                hm[nb]--;
-                if (hm[nb] == 0) {
-                    hm.erase(nb);
+                indegree[nb]--;
+                if (indegree[nb] == 0) {
+                    // indegree.erase(nb);
                     q.push(nb);
-                    result.push_back(nb);
+                    results.push_back(nb);
                 }
             }
         }
         
-        return result;
+        return results;
     }
 };
 
@@ -663,28 +816,29 @@ public:
         }
         
         vector<vector<int>> graph(numCourses);
-        vector<int> degree(numCourses, 0);
+        vector<int> indegree(numCourses, 0);
         for (pair<int, int> p : prerequisites) {
             graph[p.second].push_back(p.first);
-            degree[p.first]++;
+            indegree[p.first]++;
         }
         
         queue<int> q;
+        int count = 0;
         for (int i = 0; i < numCourses; i++) {
-            if (degree[i] == 0) {
+            if (indegree[i] == 0) {
                 q.push(i);
+                count++;
             }
         }
         
-        int count = 0;
         while (!q.empty()) {
             int n = q.front();
             q.pop();
-            count++;
             for (int i : graph[n]) {
-                degree[i]--;
-                if (degree[i] == 0) {
+                indegree[i]--;
+                if (indegree[i] == 0) {
                     q.push(i);
+                    count++;
                 }
             }
         }
@@ -698,45 +852,43 @@ public:
 class Solution {
 public:
     vector<int> findOrder(int numCourses, 
-                          vector<pair<int, int>> &prerequisites) {
-        vector<int> result;
-        if (numCourses <= 1 || prerequisites.empty()) {
-            for (int i = 0; i < numCourses; i ++) {
-                result.push_back(i);
-            }
-            return result;
+                vector<pair<int, int>> &prerequisites) {
+        vector<int> results;
+        if (numCourses <= 0) {
+            return results;
         }
         
         vector<vector<int>> graph(numCourses);
-        vector<int> degree(numCourses, 0);
+        vector<int> indegree(numCourses, 0);
         for (pair<int, int> p : prerequisites) {
             graph[p.second].push_back(p.first);
-            degree[p.first]++;
+            indegree[p.first]++;
         }
         
         queue<int> q;
         for (int i = 0; i < numCourses; i++) {
-            if (degree[i] == 0) {
+            if (indegree[i] == 0) {
                 q.push(i);
+                results.push_back(i);
             }
         }
         
         while (!q.empty()) {
             int n = q.front();
             q.pop();
-            result.push_back(n);
             for (int i : graph[n]) {
-                degree[i]--;
-                if (degree[i] == 0) {
+                indegree[i]--;
+                if (indegree[i] == 0) {
                     q.push(i);
+                    results.push_back(i);
                 }
             }
         }
         
-        if (result.size() < numCourses) {
+        if (results.size() < numCourses) {
             return vector<int>();
         }
-        return result;
+        return results;
     }
 };
 
@@ -745,77 +897,110 @@ public:
 class Solution {
 public:
     string alienOrder(vector<string> &words) {
+        string results;
         if (words.empty()) {
-            return "";
-        }
-        
-        unordered_map<char, int> degree;
-        for (string word : words) {
-            for (char c : word) {
-                degree[c] = 0;
-            }
+            return results;
         }
         
         unordered_map<char, vector<char>> graph;
         for (int i = 0; i < words.size() - 1; i++) {
-            int minLen = min(words[i].size(), words[i + 1].size());
+            int minLen = min(words[i].size(), 
+                             words[i + 1].size());
             for (int j = 0; j < minLen; j++) {
                 if (words[i][j] != words[i + 1][j]) {
-                    graph[words[i][j]].push_back(words[i + 1][j]);
+                    graph[words[i][j]].push_back(
+                                    words[i + 1][j]);
                     break;
                 }
             }
         }
         
+        unordered_map<char, int> indegree;
+        for (string word : words) {
+            for (char ch : word) {
+                indegree[ch] = 0;
+            }
+        }
         for (pair<const char, vector<char>> g : graph) {
-            for (char c : g.second) {
-                degree[c]++;
+            for (char ch : g.second) {
+                indegree[ch]++;
             }
         }
         
         queue<char> q;
-        for (pair<const char, int> d : degree) {
-            if (d.second == 0) {
-                q.push(d.first);
+        for (pair<const char, int> i : indegree) {
+            if (i.second == 0) {
+                q.push(i.first);
+                results.push_back(i.first);
             }
         }
-        
-        string result;
         while (!q.empty()) {
             char ch = q.front();
             q.pop();
-            result.push_back(ch);
             for (char c : graph[ch]) {
-                degree[c]--;
-                if (degree[c] == 0) {
+                indegree[c]--;
+                if (indegree[c] == 0) {
                     q.push(c);
+                    results.push_back(c);
                 }
             }
         }
         
-        if (result.size() != degree.size()) {
+        if (results.size() != indegree.size()) {
             return "";
         }
-        return result;
+        return results;
     }
 };
 
 // LeetCode 261 - Graph Valid Tree, 
-// Topological Sort, Breadth-first Search, 20181219.
+// Topological Sort, Breadth-first Search, 20181219
 class Solution {
 public:
     bool validTree(int n, vector<pair<int, int>> &edges) {
-        if (n <= 0) {
-            return false;
-        }
-        if (edges.size() != n - 1) {
+        if (n <= 0 || edges.size() != n - 1) {
             return false;
         }
         
         vector<vector<int>> graph(n);
         for (pair<int, int> p : edges) {
-            int u = p.first;
-            int v = p.second;
+            int u = p.first, v = p.second;
+            graph[u].push_back(v);
+            graph[v].push_back(u);
+        }
+        
+        queue<int> q;
+        q.push(0);
+        unordered_set<int> visited;
+        visited.insert(0);
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+            for (int nb : graph[node]) {
+                if (visited.count(nb)) {
+                    continue;
+                }
+                visited.insert(nb);
+                q.push(nb);
+            }
+        }
+        
+        return visited.size() == n;
+    }
+};
+
+// LintCode 178 - Graph Valid Tree, 
+// Topological Sort, Breadth-first Search, 20190223
+class Solution {
+public:
+    bool validTree(int n, vector<vector<int>> &edges) {
+        if (n <= 0 || edges.size() != n - 1) {
+            return false;
+        }
+        
+        vector<vector<int>> graph(n);
+        for (vector<int> e : edges) {
+            int u = e[0], v = e[1];
             graph[u].push_back(v);
             graph[v].push_back(u);
         }
@@ -852,10 +1037,10 @@ public:
  */
 class Solution {
 public:
-     UndirectedGraphNode *searchNode(vector<UndirectedGraphNode *> &graph,
-                                     map<UndirectedGraphNode *, int> &values,
-                                     UndirectedGraphNode *node,
-                                     int target) {
+     UndirectedGraphNode *searchNode(
+                    vector<UndirectedGraphNode *> &graph,
+                    map<UndirectedGraphNode *, int> &values,
+                    UndirectedGraphNode *node, int target) {
         if (graph.empty()) {
             return nullptr;
         }
@@ -897,22 +1082,21 @@ public:
         
         vector<vector<int>> graph(n);
         for (pair<int, int> p : edges) {
-            int u = p.first;
-            int v = p.second;
+            int u = p.first, v = p.second;
             graph[u].push_back(v);
             graph[v].push_back(u);
         }
         
-        int count = 0;
+        int components = 0;
         vector<bool> visited(n, false);
         for (int i = 0; i < n; i++) {
             if (!visited[i]) {
                 _bfs(graph, visited, i);
-                count++;
+                components++;
             }
         }
         
-        return count;
+        return components;
     }
     
 private:
@@ -935,59 +1119,6 @@ private:
     }
 };
 
-// LeetCode 323 - Number of Connected Components in an Undirected Graph, 
-// Union Find, 20181219.
-class UnionFind {
-private:
-    vector<int> father;
-    int count;
-    
-    int _find(int x) {
-        if (father[x] == x) {
-            return x;
-        }
-        return father[x] = _find(father[x]);
-    }
-    
-public:
-    UnionFind(int n) {
-        count = n;
-        father = vector<int>(n);
-        for (int i = 0; i < n; i++) {
-            father[i] = i;
-        }
-    }
-    
-    int getCount() {
-        return count;
-    }
-    
-    void connect(int a, int b) {
-        int rootA = _find(a);
-        int rootB = _find(b);
-        if (rootA != rootB) {
-            father[rootA] = rootB;
-            count--;
-        }
-    }
-};
-
-class Solution {
-public:
-    int countComponents(int n, vector<pair<int, int>> &edges) {
-        if (n == 0 || edges.empty()) {
-            return n;
-        }
-        
-        UnionFind *unionFind = new UnionFind(n);
-        for (pair<int, int> e : edges) {
-            unionFind->connect(e.first, e.second);
-        }
-        
-        return unionFind->getCount();
-    }
-};
-
 // LintCode 431 - Connected Component in Undirected Graph, 
 // Topological Sort, Breadth-first Search, 20181219.
 /**
@@ -1001,7 +1132,7 @@ public:
 class Solution {
 public:
     vector<vector<int>> connectedSet(
-                vector<UndirectedGraphNode *> nodes) {
+                        vector<UndirectedGraphNode *> nodes) {
         vector<vector<int>> results;
         if (nodes.empty()) {
             return results;
@@ -1027,25 +1158,81 @@ private:
         queue<UndirectedGraphNode *> q;
         q.push(node);
         visited.insert(node);
+        result.push_back(node->label);
         while (!q.empty()) {
             node = q.front();
             q.pop();
-            result.push_back(node->label);
             for (UndirectedGraphNode *nb : node->neighbors) {
                 if (visited.count(nb)) {
                     continue;
                 }
                 visited.insert(nb);
+                result.push_back(nb->label);
                 q.push(nb);
             }
         }
+        
         sort(result.begin(), result.end());
         results.push_back(result);
     }
 };
 
+// LeetCode 323 - Number of Connected Components in an Undirected Graph, 
+// Topological Sort, Union Find, 20181219.
+class Solution {
+public:
+    int countComponents(int n, vector<pair<int, int>> &edges) {
+        if (n == 0 || edges.empty()) {
+            return n;
+        }
+        
+        UnionFind *unionFind = new UnionFind(n);
+        for (pair<int, int> e : edges) {
+            unionFind->connect(e.first, e.second);
+        }
+        
+        return unionFind->getCount();
+    }
+    
+private:
+    struct UnionFind {
+        UnionFind(int n) {
+            count = n;
+            father = vector<int>(n);
+            for (int i = 0; i < n; i++) {
+                father[i] = i;
+            }
+        }
+        
+        int getCount() {
+            return count;
+        }
+        
+        void connect(int a, int b) {
+            int rootA = _find(a);
+            int rootB = _find(b);
+            if (rootA != rootB) {
+                father[rootA] = rootB;
+                count--;
+            }
+        }
+        
+    private:
+        vector<int> father;
+        int count = 0;
+        
+        int _find(int x) {
+            if (father[x] == x) {
+                return x;
+            }
+            
+            return father[x] = _find(father[x]);
+        }
+    };
+};
+
 // LintCode 431 - Connected Component in Undirected Graph, 
-// Union Find, 20181220.
+// Topological Sort, Union Find, 20181220.
 /**
  * Definition for Undirected graph.
  * struct UndirectedGraphNode {
@@ -1054,68 +1241,70 @@ private:
  *     UndirectedGraphNode(int x) : label(x) {};
  * };
  */
-class UnionFind {
-private:
-    unordered_map<int, int> father;
-
-public:
-    UnionFind(unordered_set<int> &nodes) {
-        for (int node : nodes) {
-            father.insert({node, node});
-        }
-    }
-    
-    int find(int x) {
-        if (father[x] == x) {
-            return x;
-        }
-        return father[x] = find(father[x]);
-    }
-    
-    void connect(int a, int b) {
-        int rootA = find(a);
-        int rootB = find(b);
-        if (rootA != rootB) {
-            father[rootA] = rootB;
-        }
-    }
-};
 class Solution {
 public:
     vector<vector<int>> connectedSet(
-                    vector<UndirectedGraphNode *> nodes) {
-        vector<vector<int>> result;
+                        vector<UndirectedGraphNode *> nodes) {
+        vector<vector<int>> results;
         if (nodes.empty()) {
-            return result;
+            return results;
         }
         
-        unordered_set<int> nodeSet;
+        unordered_set<int> nodesSet;
         for (UndirectedGraphNode *node : nodes) {
-            nodeSet.insert(node->label);
+            nodesSet.insert(node->label);
             for (UndirectedGraphNode *nb : node->neighbors) {
-                nodeSet.insert(nb->label);
+                nodesSet.insert(nb->label);
             }
         }
         
-        UnionFind *unionFind = new UnionFind(nodeSet);
+        UnionFind *unionFind = new UnionFind(nodesSet);
         for (UndirectedGraphNode *node : nodes) {
             for (UndirectedGraphNode *nb : node->neighbors) {
                 unionFind->connect(node->label, nb->label);
             }
         }
         
-        unordered_map<int, vector<int>> hashMap;
-        for (int node : nodeSet) {
+        unordered_map<int, vector<int>> hashmap;
+        for (int node : nodesSet) {
             int root = unionFind->find(node);
-            hashMap[root].push_back(node);
+            hashmap[root].push_back(node);
         }
-        for (pair<const int, vector<int>> &p : hashMap) {
+        for (pair<const int, vector<int>> &p : hashmap) {
             sort(p.second.begin(), p.second.end());
-            result.push_back(p.second);
+            results.push_back(p.second);
         }
         
-        return result;
+        return results;
     }
+    
+private:
+    struct UnionFind {
+        UnionFind(unordered_set<int> &nodes) {
+            for (int node : nodes) {
+                father[node] = node;
+            }
+        }
+        
+        int find(int x) {
+            if (father[x] == x) {
+                return x;
+            }
+            
+            return father[x] = find(father[x]);
+        }
+        
+        void connect(int a, int b) {
+            int rootA = find(a);
+            int rootB = find(b);
+            if (rootA != rootB) {
+                father[rootA] = rootB;
+            }
+        }
+        
+    private:
+        unordered_map<int, int> father;
+    };
 };
 
 // LeetCode 444 - Sequence Reconstruction, 
@@ -1124,50 +1313,49 @@ class Solution {
 public:
     bool sequenceReconstruction(vector<int> &org, 
                                 vector<vector<int>> &seqs) {
-        if (org.empty() && seqs.empty()) {
-            return true;
+        if (org.empty()) {
+            return seqs.empty();
         }
-        if (org.empty() || seqs.empty()) {
+        int m = org.size(), n = 0;
+        for (vector<int> &seq : seqs) {
+            n += seq.size();
+        }
+        if (n < m) {
             return false;
         }
         
         unordered_map<int, unordered_set<int>> graph;
-        unordered_map<int, int> degree;
-        for (int e : org) {
-            graph[e] = unordered_set<int>();
-            degree[e] = 0;
+        unordered_map<int, int> indegree;
+        for (int o : org) {
+            graph[o] = unordered_set<int>();
+            indegree[o] = 0;
         }
         
-        int n = org.size();
-        int count = 0;
         for (vector<int> &seq : seqs) {
-            count += seq.size();
-            if (seq.size() > 0 && (seq[0] <= 0 || seq[0] > n)) {
+            if (seq.empty()) {
+                continue;
+            }
+            if (seq[0] <= 0 || seq[0] > m) {
                 return false;
             }
             for (int i = 1; i < seq.size(); i++) {
-                if (seq[i] <= 0 || seq[i] > n) {
+                if (seq[i] <= 0 || seq[i] > m) {
                     return false;
                 }
                 if (!graph[seq[i - 1]].count(seq[i])) {
                     graph[seq[i - 1]].insert(seq[i]);
-                    degree[seq[i]]++;
+                    indegree[seq[i]]++;
                 }
             }
         }
         
-        if (count < n) {
-            return false;
-        }
-        
         queue<int> q;
-        for (pair<const int, int> &p : degree) {
+        for (pair<const int, int> p : indegree) {
             if (p.second == 0) {
                 q.push(p.first);
             }
         }
-        
-        count = 0;
+        int count = 0;
         while (q.size() == 1) {
             int curr = q.front();
             q.pop();
@@ -1176,14 +1364,14 @@ public:
             }
             count++;
             for (int next : graph[curr]) {
-                degree[next]--;
-                if (degree[next] == 0) {
+                indegree[next]--;
+                if (indegree[next] == 0) {
                     q.push(next);
                 }
             }
         }
         
-        return count == org.size();
+        return count == m;
     }
 };
 
@@ -1206,7 +1394,7 @@ public:
             }
         }
         
-        int dist = 0;
+        int dist = -1;
         vector<int> dx{1, 0, -1, 0};
         vector<int> dy{0, 1, 0, -1};
         while (!curr.empty()) {
@@ -1215,11 +1403,11 @@ public:
                 int y = curr.front() % n;
                 curr.pop();
                 for (int i = 0; i < 4; i++) {
-                    int nx = x + dx[i];
-                    int ny = y + dy[i];
-                    if (nx < 0 || nx >= m || 
-                        ny < 0 || ny >= n || 
-                        grid[nx][ny] != 0) {
+                    int nx = x + dx[i], ny = y + dy[i];
+                    if (nx < 0 || nx >= m || ny < 0 || ny >= n) {
+                        continue;
+                    }
+                    if (grid[nx][ny] != 0) {
                         continue;
                     }
                     grid[nx][ny] = 1;
@@ -1229,7 +1417,6 @@ public:
             dist++;
             swap(curr, next);
         }
-        dist--;
         
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
@@ -1303,8 +1490,10 @@ private:
                 curr.pop();
                 for (int i = 0; i < 4; i++) {
                     int nx = x + dx[i], ny = y + dy[i];
-                    if (nx < 0 || nx >= m || ny < 0 || ny >= n || 
-                        grid[nx][ny] != 0 || visited[nx][ny]) {
+                    if (nx < 0 || nx >= m || ny < 0 || ny >= n) {
+                        continue;
+                    }
+                    if (grid[nx][ny] != 0 || visited[nx][ny]) {
                         continue;
                     }
                     next.push(nx * n + ny);
@@ -1381,8 +1570,10 @@ private:
                 curr.pop();
                 for (int i = 0; i < 4; i++) {
                     int nx = x + dx[i], ny = y + dy[i];
-                    if (nx < 0 || nx >= m || ny < 0 || ny >= n || 
-                        grid[nx][ny] != 0 || visited[nx][ny]) {
+                    if (nx < 0 || nx >= m || ny < 0 || ny >= n) {
+                        continue;
+                    } 
+                    if (grid[nx][ny] != 0 || visited[nx][ny]) {
                         continue;
                     }
                     next.push(nx * n + ny);

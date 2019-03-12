@@ -8,7 +8,7 @@ public:
             return -1;
         }
         
-        int start = 0, end = nums.size();
+        int start = 0, end = nums.size() - 1;
         while (start + 1 < end) {
             int mid = start + (end - start) / 2;
             if (nums[mid] < target) {
@@ -269,8 +269,9 @@ class Solution {
 public:
     vector<int> findClosestElements(vector<int> &arr, 
                                     int k, int x) {
+        vector<int> results;
         if (arr.empty()) {
-            return vector<int>();
+            return results;
         }
         
         int left = _findLowerClosest(arr, x);
@@ -283,9 +284,10 @@ public:
             }
         }
         
-        vector<int> result(arr.begin() + left + 1, 
-                           arr.begin() + right);
-        return result;
+        results.insert(results.end(), 
+                       arr.begin() + left + 1, 
+                       arr.begin() + right);
+        return results;
     }
     
 private:
@@ -404,6 +406,31 @@ public:
             return nums[start];
         }
         return nums[end];
+    }
+};
+
+// LeetCode 162 - Find Peak Element, Binary Search, 20181205
+class Solution {
+public:
+    int findPeakElement(vector<int> &nums) {
+        if (nums.empty()) {
+            return -1;
+        }
+        
+        int start = 0, end = nums.size() - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] < nums[mid + 1]) {
+                start = mid;
+            } else {
+                end = mid;
+            }
+        }
+        
+        if (nums[start] >= nums[end]) {
+            return start;
+        }
+        return end;
     }
 };
 
@@ -620,31 +647,6 @@ private:
     }
 };
 
-// LeetCode 162 - Find Peak Element, Binary Search, 20181205
-class Solution {
-public:
-    int findPeakElement(vector<int> &nums) {
-        if (nums.empty()) {
-            return -1;
-        }
-        
-        int start = 0, end = nums.size() - 1;
-        while (start + 1 < end) {
-            int mid = start + (end - start) / 2;
-            if (nums[mid] < nums[mid + 1]) {
-                start = mid;
-            } else {
-                end = mid;
-            }
-        }
-        
-        if (nums[start] >= nums[end]) {
-            return start;
-        }
-        return end;
-    }
-};
-
 // LeetCode 33 - Search in Rotated Sorted Array, Binary Search, 20181205
 class Solution {
 public:
@@ -815,10 +817,56 @@ private:
                 n++;
                 left = limit;
             }
+
             left -= page;
         }
         
         return n <= k;
+    }
+};
+
+// LintCode 437 - Copy Book, Dynamic Programming, 20190219
+class Solution {
+public:
+    int copyBooks(vector<int> &pages, int k) {
+        if (pages.empty() || k <= 0) {
+            return 0;
+        }
+        
+        int n = pages.size();
+        if (k > n) {
+            k = n;
+        }
+        
+        vector<int> sum(n);
+        sum[0] = pages[0];
+        for (int i = 1; i < n; i++) {
+            sum[i] = sum[i - 1] + pages[i];
+        }
+        
+        vector<vector<int>> f(n, vector<int>(k));
+        for (int i = 0; i < n; i++) {
+            f[i][0] = sum[i];
+        }
+        for (int j = 1; j < k; j++) {
+            int p = 0;
+            f[0][j] = pages[0];
+            for (int i = 1; i < j; i++) {
+                f[i][j] = max(f[i - 1][j], pages[i]);
+            }
+            for (int i = j; i < n; i++) {
+                while (p < i && f[p][j - 1] < sum[i] - sum[p]) {
+                    p++;
+                }
+                f[i][j] = max(f[p][j - 1], sum[i] - sum[p]);
+                if (p > 0) {
+                    p--;
+                }
+                f[i][j] = min(f[i][j], max(f[p][j - 1], sum[i] - sum[p]));
+            }
+        }
+        
+        return f[n - 1][k - 1];
     }
 };
 
@@ -837,28 +885,28 @@ public:
         
         while (start + 1 < end) {
             int mid = start + (end - start) / 2;
-            if (_count(L, mid) >= k) {
+            if (_check(L, mid, k)) {
                 start = mid;
             } else {
                 end = mid;
             }
         }
         
-        if (_count(L, end) >= k) {
+        if (_check(L, end, k)) {
             return end;
         }
-        if (_count(L, start) >= k) {
+        if (_check(L, start, k)) {
             return start;
         }
         return 0;
     }
 
 private:
-    int _count(vector<int> &L, int length) {
+    bool _check(vector<int> &L, int length, int k) {
         int sum = 0;
         for (int i = 0; i < L.size(); i++) {
             sum += L[i] / length;
         }
-        return sum;
+        return sum >= k;
     }
 };

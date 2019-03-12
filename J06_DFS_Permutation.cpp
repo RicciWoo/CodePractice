@@ -124,6 +124,20 @@ private:
     }
 };
 
+// LintCode 211 - String Permutation, Sort, 20190301
+class Solution {
+public:
+    bool Permutation(string &A, string &B) {
+        if (A.size() != B.size()) {
+            return false;
+        }
+        
+        sort(A.begin(), A.end());
+        sort(B.begin(), B.end());
+        return A == B;
+    }
+};
+
 // LeetCode 51 - N-Queens, Depth-first Search, 20190123
 class Solution {
 public:
@@ -236,6 +250,36 @@ private:
     }
 };
 
+// LeetCode 31 - Next Permutation, Depth-first Search, 20190123
+class Solution {
+public:
+    void nextPermutation(vector<int> &nums) {
+        if (nums.size() <= 1) {
+            return;
+        }
+        if (nums.size() == 2) {
+            swap(nums[0], nums[1]);
+            return;
+        }
+        
+        int pivot = nums.size() - 2;
+        while (pivot >= 0 && nums[pivot] >= nums[pivot + 1]) {
+            pivot--;
+        }
+        if (pivot == -1) {
+            reverse(nums.begin(), nums.end());
+            return;
+        }
+        
+        int index = nums.size() - 1;
+        while (index > pivot && nums[index] <= nums[pivot]) {
+            index--;
+        }
+        swap(nums[pivot], nums[index]);
+        reverse(nums.begin() + pivot + 1, nums.end());
+    }
+};
+
 // LintCode 52 - Next Permutation, Depth-first Search, 20190123
 class Solution {
 public:
@@ -266,41 +310,6 @@ public:
         return nums;
     }
 };
-
-// LeetCode 31 - Next Permutation，
-// LintCode 190 - Next Permutation II, Depth-first Search, 20190123
-class Solution {
-public:
-    void nextPermutation(vector<int> &nums) {
-        if (nums.size() <= 1) {
-            return;
-        }
-        if (nums.size() == 2) {
-            swap(nums[0], nums[1]);
-            return;
-        }
-        
-        int pivot = nums.size() - 2;
-        while (pivot >= 0 && nums[pivot] >= nums[pivot + 1]) {
-            pivot--;
-        }
-        if (pivot == -1) {
-            reverse(nums.begin(), nums.end());
-            return;
-        }
-        
-        int index = nums.size() - 1;
-        while (index > pivot && nums[index] <= nums[pivot]) {
-            index--;
-        }
-        swap(nums[pivot], nums[index]);
-        reverse(nums.begin() + pivot + 1, nums.end());
-    }
-};
-
-// LintCode 197 - Permutation Index
-
-// LintCode 198 - Permutation Index II
 
 // LeetCode 17 - Letter Combinations of a Phone Number, 
 // Depth-first Search, 20190125
@@ -359,7 +368,7 @@ private:
         if (i == pattern.size() && j == str.size()) {
             return true;
         }
-        if (i == pattern.size() || j == str.size()) {
+        if (i >= pattern.size() || j >= str.size()) {
             return false;
         }
         
@@ -392,60 +401,44 @@ private:
     }
 };
 
-// LintCode 829 - Word Pattern II, Depth-first Search, 20190125
+// LeetCode 290 - Word Pattern, Hash Table, 20190301
 class Solution {
 public:
-    /**
-     * @param pattern: a string,denote pattern string
-     * @param str: a string, denote matching string
-     * @return: a boolean
-     */
-    bool wordPatternMatch(string &pattern, string &str) {
-        if (pattern.empty()) {
-            return str.empty();
+    bool wordPattern(string pattern, string str) {
+        vector<string> words;
+        _split(str, words);
+        if (pattern.size() != words.size()) {
+            return false;
         }
         
-        unordered_map<char, string> hashmap;
-        unordered_set<string> hashset;
-        return _match(pattern, str, hashmap, hashset);
+        unordered_map<char, string> hashmap1;
+        unordered_map<string, char> hashmap2;
+        for (int i = 0; i < pattern.size(); i++) {
+            char a = pattern[i];
+            string b = words[i];
+            if (hashmap1.count(a) && hashmap1[a] != b) {
+                return false;
+            }
+            hashmap1[a] = b;
+
+            if (hashmap2.count(b) && hashmap2[b] != a) {
+                return false;
+            }
+            hashmap2[b] = a;
+        }
+        
+        return true;
     }
     
 private:
-    bool _match(string &pattern, string &str, 
-                unordered_map<char, string> &hashmap, 
-                unordered_set<string> &hashset) {
-        if (pattern.empty()) {
-            return str.empty();
-        }
-        
-        char c = pattern[0];
-        if (hashmap.count(c)) {
-            string word = hashmap[c];
-            if (str.compare(0, word.size(), word)) {
-                return false;
+    void _split(string &s, vector<string> &words) {
+        for (int i = 0, j = 0; i <= s.size(); i++) {
+            if (i == s.size() || s[i] == ' ') {
+                string word = s.substr(j, i - j);
+                words.push_back(word);
+                j = i + 1;
             }
-            string subPat = pattern.substr(1);
-            string subStr = str.substr(word.size());
-            return _match(subPat, subStr, hashmap, hashset);
         }
-        
-        for (int i = 0; i < str.size(); i++) {
-            string sub = str.substr(0, i + 1);
-            if (hashset.count(sub)) {
-                continue;
-            }
-            hashmap[c] = sub;
-            hashset.insert(sub);
-            string subPat = pattern.substr(1);
-            string subStr = str.substr(i + 1);
-            if (_match(subPat, subStr, hashmap, hashset)) {
-                return true;
-            }
-            hashmap.erase(c);
-            hashset.erase(sub);
-        }
-        
-        return false;
     }
 };
 
@@ -521,11 +514,69 @@ private:
                 continue;
             }
             used[nx][ny] = true;
-            string nWord = word + board[nx][ny];
-            _wordSearch(board, used, nx, ny, nWord, 
+            word.push_back(board[nx][ny]);
+            _wordSearch(board, used, nx, ny, word, 
                         prefix, wordSet);
             used[nx][ny] = false;
+            word.pop_back();
         }
+    }
+};
+
+// LeetCode 79 - Word Search, Depth-first Search, 20190301
+class Solution {
+public:
+    bool exist(vector<vector<char>> &board, string word) {
+        if (board.empty() || board[0].empty()) {
+            return word.empty();
+        }
+        if (word.empty()) {
+            return true;
+        }
+        
+        int m = board.size(), n = board[0].size();
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board[0].size(); j++) {
+                if (_exist(board, i, j, word, 0, visited)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+private:
+    bool _exist(vector<vector<char>> &board, int x, int y,
+                string &word, int index, 
+                vector<vector<bool>> &visited) {
+        if (index == word.size()) {
+            return true;
+        }
+        int m = board.size(), n = board[0].size();
+        if (x < 0 || x >= m || y < 0 || y >= n) {
+            return false;
+        }
+        if (visited[x][y]) {
+            return false;
+        }
+        if (board[x][y] != word[index]) {
+            return false;
+        }
+        
+        vector<int> dx{1, 0, -1, 0};
+        vector<int> dy{0, 1, 0, -1};
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i], ny = y + dy[i];
+            visited[x][y] = true;
+            if (_exist(board, nx, ny, word, index + 1, visited)) {
+                return true;
+            }
+            visited[x][y] = false;
+        }
+        
+        return false;
     }
 };
 
@@ -572,6 +623,9 @@ private:
             vector<string> prevWords;
             _getPrevWords(dict, curr, prevWords);
             for (string &prev : prevWords) {
+                if (!nextWords.count(prev)) {
+                    nextWords[prev] = vector<string>();
+                }
                 nextWords[prev].push_back(curr);
                 if (!distances.count(prev)) {
                     distances[prev] = distances[curr] + 1;
@@ -657,6 +711,9 @@ private:
             vector<string> prevWords;
             _getPrevWords(dict, curr, prevWords);
             for (string &prev : prevWords) {
+                if (!nextWords.count(prev)) {
+                    nextWords[prev] = vector<string>();
+                }
                 nextWords[prev].push_back(curr);
                 if (!distances.count(prev)) {
                     distances[prev] = distances[curr] + 1;
@@ -701,5 +758,105 @@ private:
             _dfs(nextWords, distances, next, end, path, ladders);
             path.pop_back();
         }
+    }
+};
+
+// LeetCode 127 - Word Ladder, Breadth-first Search, 20190302
+class Solution {
+public:
+    int ladderLength(string beginWord, string endWord, 
+                     vector<string> &wordList) {
+        if (wordList.empty()) {
+            return 0;
+        }
+        
+        unordered_set<string> dict(wordList.begin(), 
+                                      wordList.end());
+        if (!dict.count(endWord)) {
+            return 0;
+        }
+        if (beginWord == endWord) {
+            return 1;
+        }
+        
+        queue<string> curr, next;
+        curr.push(beginWord);
+        dict.erase(beginWord);
+        int length = 2;
+        
+        while (!curr.empty()) {
+            while (!curr.empty()) {
+                string word = curr.front();
+                curr.pop();
+                for (int i = 0; i < word.size(); i++) {
+                    char oldChar = word[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == oldChar) {
+                            continue;
+                        }
+                        word[i] = c;
+                        if (word == endWord) {
+                            return length;
+                        }
+                        if (dict.count(word)) {
+                            next.push(word);
+                            dict.erase(word);
+                        }
+                    }
+                    word[i] = oldChar;
+                }
+            }
+            length++;
+            swap(curr, next);
+        }
+        
+        return 0;
+    }
+};
+
+// LintCode 120 - Word Ladder, Breadth-first Search, 20190302
+class Solution {
+public:
+    int ladderLength(string &start, string &end, 
+                     unordered_set<string> &dict) {
+        if (dict.empty()) {
+            return 0;
+        }
+        if (start == end) {
+            return 1;
+        }
+        
+        queue<string> curr, next;
+        curr.push(start);
+        dict.erase(start);
+        int length = 2;
+        
+        while (!curr.empty()) {
+            while (!curr.empty()) {
+                string word = curr.front();
+                curr.pop();
+                for (int i = 0; i < word.size(); i++) {
+                    char oldChar = word[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c == oldChar) {
+                            continue;
+                        }
+                        word[i] = c;
+                        if (word == end) {
+                            return length;
+                        }
+                        if (dict.count(word)) {
+                            next.push(word);
+                            dict.erase(word);
+                        }
+                    }
+                    word[i] = oldChar;
+                }
+            }
+            length++;
+            swap(curr, next);
+        }
+        
+        return 0;
     }
 };

@@ -148,7 +148,7 @@ private:
         
         for (int i = index; i < candidates.size(); i++) {
             if (target < candidates[i]) {
-                continue;  // unsorted, need to check following
+                continue;  // unsorted, need to check the next
             }
             
             combination.push_back(candidates[i]);
@@ -324,7 +324,7 @@ private:
 };
 
 // LeetCode 131 - Palindrome Partitioning, 
-// Depth-first Search and precheck palindromes, 20190119
+// Depth-first Search and preprocess, 20190119
 class Solution {
 public:
     vector<vector<string>> partition(string s) {
@@ -378,6 +378,50 @@ private:
             partition.push_back(sub);
             _partition(s, i + 1, isPalindrome, partition, results);
             partition.pop_back();
+        }
+    }
+};
+
+// LeetCode 132 - Palindrome Partitioning II, 
+// Dynamic Programming and preprocess, 20190119
+class Solution {
+public:
+    int minCut(string s) {
+        if (s.size() <= 1) {
+            return 0;
+        }
+        
+        int n = s.size();
+        vector<vector<bool>> isPalindr(n, vector<bool>(n, false));
+        _getIsPalindr(s, isPalindr);
+        
+        vector<int> segs(n + 1, INT_MAX);
+        segs[0] = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (isPalindr[j][i - 1]) {
+                    segs[i] = min(segs[i], segs[j] + 1);
+                }
+            }
+        }
+        
+        return segs[n] - 1;
+    }
+    
+private:
+    void _getIsPalindr(string &s, vector<vector<bool>> &isPalindr) {
+        int n = s.size();
+        for (int i = 0; i < n; i++) {
+            isPalindr[i][i] = true;
+        }
+        for (int i = 0; i < n - 1; i++) {
+            isPalindr[i][i + 1] = s[i] == s[i + 1];
+        }
+        for (int i = n - 3; i >= 0; i--) {
+            for (int j = i + 2; j < n; j++) {
+                isPalindr[i][j] = s[i] == s[j] && 
+                                  isPalindr[i + 1][j - 1];
+            }
         }
     }
 };
@@ -699,7 +743,7 @@ private:
             results.push_back(s);
         }
         
-        for (int len = 1; len < s.size(); len++) {
+        for (int len = 1; len <= s.size(); len++) {
             string sub = s.substr(0, len);
             if (!dict.count(sub)) {
                 continue;
@@ -747,7 +791,7 @@ private:
             results.push_back(s);
         }
         
-        for (int len = 1; len < s.size(); len++) {
+        for (int len = 1; len <= s.size(); len++) {
             string sub = s.substr(0, len);
             if (!dict.count(sub)) {
                 continue;
@@ -765,60 +809,60 @@ private:
     }
 };
 
-// LeetCode 140 - Word Break II, 
-// Dynamic Programming and Backtracing, 20190123
+// LeetCode 139 - Word Break, Dynamic Programming, 20190228
 class Solution {
 public:
-    vector<string> wordBreak(string s, 
-                             vector<string> &wordDict) {
-        vector<string> results;
-        if (s.empty() || wordDict.empty()) {
-            return results;
+    bool wordBreak(string s, vector<string> &wordDict) {
+        if (s.empty()) {
+            return true;
+        }
+        if (wordDict.empty()) {
+            return false;
         }
         
-        unordered_set<string> dict(wordDict.begin(), 
-                                   wordDict.end());
+        unordered_set<string> dict(wordDict.begin(),
+                                      wordDict.end());
         int n = s.size();
-        vector<bool> opt(n + 1, false);
-        vector<vector<bool>> prev(n + 1, 
-                                  vector<bool>(n, false));
+        vector<bool> opt(n + 1);
         opt[0] = true;
-        for (int i = 0; i < n; i++) {
-            prev[i][i] = true;
-        }
         for (int i = 1; i <= n; i++) {
             for (int j = 0; j < i; j++) {
-                string sub = s.substr(j, i - j);
-                if (opt[j] && dict.count(sub)) {
+                if (opt[j] && 
+                        dict.count(s.substr(j, i - j))) {
                     opt[i] = true;
-                    prev[i][j] = true;
+                    break;
                 }
             }
         }
-        vector<string> path;
-        _getPath(s, prev, n, path, results);
-        return results;
+        
+        return opt[n];
     }
-    
-private:
-    void _getPath(string &s, vector<vector<bool>> &prev, 
-                  int curr, vector<string> &path, 
-                  vector<string> &results) {
-        if (curr == 0) {
-            string temp;
-            for (auto iter = path.rbegin(); 
-                 iter != path.rend(); iter++) {
-                temp += *iter + " ";
-            }
-            temp.erase(temp.end() - 1);
-            results.push_back(temp);
+};
+
+// LintCode 107 - Word Break, Dynamic Programming, 20190228
+class Solution {
+public:
+    bool wordBreak(string &s, unordered_set<string> &dict) {
+        if (s.empty()) {
+            return true;
         }
-        for (int i = curr - 1; i >= 0; i--) {
-            if (prev[curr][i]) {
-                path.push_back(s.substr(i, curr - i));
-                _getPath(s, prev, i, path, results);
-                path.pop_back();
+        if (dict.empty()) {
+            return false;
+        }
+        
+        int n = s.size();
+        vector<bool> opt(n + 1);
+        opt[0] = true;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (opt[j] && 
+                        dict.count(s.substr(j, i - j))) {
+                    opt[i] = true;
+                    break;
+                }
             }
         }
+        
+        return opt[n];
     }
 };
