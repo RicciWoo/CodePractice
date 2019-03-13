@@ -31,6 +31,7 @@ int main(int argc, char **argv) {
     time_t curr = time(nullptr);
     cout << curr << endl;
 
+    cout << endl;
     cout << "Use gettimeofday() in second" << endl;
     struct timeval tp;
     gettimeofday(&tp, nullptr);
