@@ -26,6 +26,17 @@ private:
 };
 
 int main(int argc, char **argv) {
+    cout << "Use time_t time() in second" << endl;
+    time_t curr = time(nullptr);
+    cout << curr << endl;
+
+    cout << "Use gettimeofday() in second" << endl;
+    struct timeval tp;
+    gettimeofday(&tp, nullptr);
+    long long ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
+    cout << ms << endl;
+
+    cout << endl;
     int n = 3;
     vector<int> result;
     Solution *solution = new Solution;
@@ -33,7 +44,4 @@ int main(int argc, char **argv) {
     for (int x : result) {
         cout << x << endl;
     }
-    cout << endl;
-    time_t curr = time(nullptr);
-    cout << curr << endl;
 }
