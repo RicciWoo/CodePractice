@@ -34,5 +34,5 @@ int main(int argc, char **argv) {
         cout << x << endl;
     }
     cout << endl;
-    cout << time(null) << endl;
+    cout << time(nullptr) << endl;
 }
