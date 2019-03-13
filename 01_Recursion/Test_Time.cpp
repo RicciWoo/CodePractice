@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
     cout << curr << endl;
 
     cout << endl;
-    cout << "Use gettimeofday() in second" << endl;
+    cout << "Use gettimeofday() in millisecond" << endl;
     struct timeval tp;
     gettimeofday(&tp, nullptr);
     long long ms = tp.tv_sec * 1000 + tp.tv_usec / 1000;
