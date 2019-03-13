@@ -608,4 +608,199 @@ public:
     }
 };
 
+// LeetCode 205 - Isomorphic Strings, Hash Table, 20190312
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        if (s.size() != t.size()) {
+            return false;
+        }
+        
+        unordered_map<char, char> st;
+        for (int i = 0; i < s.size(); i++) {
+            if (!st.count(s[i])) {
+                st[s[i]] = t[i];
+            } else {
+                if (st[s[i]] != t[i]) {
+                    return false;
+                }
+            }
+        }
+        
+        unordered_map<char, char> ts;
+        for (int i = 0; i < t.size(); i++) {
+            if (!ts.count(t[i])) {
+                ts[t[i]] = s[i];
+            } else {
+                if (ts[t[i]] != s[i]) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+};
+
+// LeetCode 890 - Find and Replace Pattern, Hash Table, 20190312
+class Solution {
+public:
+    vector<string> findAndReplacePattern(vector<string> &words, 
+                                         string pattern) {
+        vector<string> results;
+        if (words.empty() || pattern.empty()) {
+            return results;
+        }
+        
+        for (string &word : words) {
+            if (_isIsomorphic(word, pattern)) {
+                results.push_back(word);
+            }
+        }
+        
+        return results;
+    }
+    
+private:
+    bool _isIsomorphic(string s, string t) {
+        if (s.size() != t.size()) {
+            return false;
+        }
+        
+        unordered_map<char, char> st;
+        for (int i = 0; i < s.size(); i++) {
+            if (!st.count(s[i])) {
+                st[s[i]] = t[i];
+            } else {
+                if (st[s[i]] != t[i]) {
+                    return false;
+                }
+            }
+        }
+        
+        unordered_map<char, char> ts;
+        for (int i = 0; i < t.size(); i++) {
+            if (!ts.count(t[i])) {
+                ts[t[i]] = s[i];
+            } else {
+                if (ts[t[i]] != s[i]) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+};
+
+// LeetCode 489 - Robot Room Cleaner, Depth-first Search, 20190313
+class Solution {
+public:
+    void cleanRoom(Robot &robot) {
+        unordered_set<string> visited;
+        _dfs(visited, 0, 0, 0, robot);
+    }
+    
+private:
+    void _dfs(unordered_set<string> &visited, 
+              int i, int j, int currDir, Robot &r) {
+        string index = to_string(i) + "," + to_string(j);
+        if (visited.count(index)) {
+            return;
+        }
+        visited.insert(index);
+        r.clean();
+        for (int k = 0; k < 4; k++) {
+            if (r.move()) {
+                int x = i, y = j;
+                switch(currDir) {
+                    case 0: 
+                        x -= 1;  // up
+                        break;
+                    case 1: 
+                        y += 1;  // right
+                        break;
+                    case 2: 
+                        x += 1;  // down
+                        break;
+                    case 3: 
+                        y -= 1;  // left
+                        break;
+                    default:
+                        break;
+                }
+                _dfs(visited, x, y, currDir, r);
+                r.turnRight();
+                r.turnRight();
+                r.move();
+                r.turnRight();
+                r.turnRight();
+            }
+            r.turnRight();
+            currDir += 1;
+            currDir %= 4;
+        }
+    }
+};
+
+// LeetCode 855 - Exam Room, Tree Set and Hash Table, 20190313
+class ExamRoom {
+private:
+    struct myComp {
+        int N;
+        myComp(int N) {this->N = N;}
+        bool operator() (const pair<int, int> &lhs, 
+                         const pair<int, int> &rhs) const {
+            int a = lhs.first, b = lhs.second;
+            int c = rhs.first, d = rhs.second;
+            int dist1 = (a == -1 || b == N) ? 
+                        (b - a) - 1 : (b - a) / 2;
+            int dist2 = (c == -1 || d == N) ? 
+                        (d - c) - 1 : (d - c) / 2;
+            return dist1 < dist2 || (dist1 == dist2 && a > c);
+        }
+    };
+    
+    set<pair<int, int>, myComp> s;
+    unordered_map<int, int> left;
+    unordered_map<int, int> right;
+    int N;
+public:
+    ExamRoom(int N) : s(myComp(N)) {
+        this->N = N;
+        s.insert({-1, N});
+    }
+    
+    int seat() {
+        pair<int, int> p = *prev(s.end());
+        s.erase(prev(s.end()));
+        int pos = (p.first == -1) ?
+                0 : (p.second == N) ?
+                N - 1 : p.first + (p.second - p.first) / 2;
+        
+        right[p.first] = pos;
+        left[p.second] = pos;
+        left[pos] = p.first;
+        right[pos] = p.second;
+        
+        s.insert({p.first, pos});
+        s.insert({pos, p.second});
+
+        return pos;
+    }
+    
+    void leave(int p) {
+        s.erase({left[p], p});
+        s.erase({p, right[p]});
+        
+        right[left[p]] = right[p];
+        left[right[p]] = left[p];
+        
+        s.insert({left[p], right[p]});
+        left.erase(p);
+        right.erase(p);
+    }
+};
+
+
 
